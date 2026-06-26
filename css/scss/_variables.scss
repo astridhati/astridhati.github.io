@@ -1,0 +1,46 @@
+@use "sass:color";
+
+$pink: #df6486;
+$mint: #95c0c0;
+$yellow: #eece49;
+$teal: #3f6968;
+
+:root {
+  /* main colors */
+  --color-pink: #{$pink};
+  --color-mint: #{$mint};
+  --color-yellow: #{$yellow};
+  --color-teal: #{$teal};
+
+  /* fonts */
+  --font-display: "Myfont", cursive;
+  --font-body: "Montserrat", system-ui, sans-serif;
+
+  /* spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 6rem;
+
+  /* layout */
+  --max-width: 72rem;
+  --header-height: 4rem;
+  --radius: 0.75rem;
+  --transition: 0.2s ease;
+
+  /* colors */
+  --color-bg: #faf8f5;
+  --color-bg-alt: #f0ebe3;
+  --color-text: var(--color-teal);
+  --color-text-muted: #5f8584;
+  --color-accent: #8b6914;
+  --color-accent-hover: #6d5210;
+  --color-border: #e0d8ce;
+
+  /* accent colors — paler tints of main colors */
+  --color-accent-pink: #{color.mix(white, $pink, 40%)};
+  --color-accent-mint: #{color.mix(white, $mint, 40%)};
+  --color-accent-yellow: #{color.mix(white, $yellow, 40%)};
+  --color-accent-teal: #{color.mix(white, $teal, 40%)};
+}

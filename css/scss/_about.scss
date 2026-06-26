@@ -1,0 +1,16 @@
+@use "breakpoints" as *;
+
+.about {
+  background: var(--color-bg);
+}
+
+.about-bio {
+  max-width: 42rem;
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  margin: 0;
+
+  @include from-xl {
+    font-size: 1rem;
+  }
+}

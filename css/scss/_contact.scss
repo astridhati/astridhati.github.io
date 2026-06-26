@@ -1,0 +1,27 @@
+.contact {
+  text-align: center;
+}
+
+.contact-intro {
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-md);
+}
+
+.contact-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--color-bg);
+  background: var(--color-pink);
+  border-radius: var(--radius);
+  transition: background var(--transition), color var(--transition);
+
+  &:hover {
+    color: var(--color-bg);
+    background: var(--color-accent-pink);
+  }
+}

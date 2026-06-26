@@ -1,15 +1,22 @@
 # Portfolio disegni — Sito Ale
 
-Sito single-page statico per mostrare disegni e illustrazioni. Nessun framework, nessun build step.
+Sito single-page statico per mostrare disegni e illustrazioni. Nessun framework JavaScript; gli stili sono scritti in Sass e compilati in CSS.
 
 ## Struttura del progetto
 
 ```
 ├── index.html              # Layout della pagina
-├── package.json            # Script dev server e sync
+├── package.json            # Script dev server, sync e build CSS
 ├── scripts/
 │   └── sync-content.js     # Aggiorna JSON da cartelle/immagini
-├── css/styles.css          # Stili
+├── css/
+│   ├── styles.css          # CSS compilato (non modificare a mano)
+│   ├── fonts/              # Font locali
+│   └── scss/               # Sorgenti Sass — modifica questi file
+│       ├── styles.scss     # Entry point
+│       ├── _breakpoints.scss  # Mixins responsive (sm, md, lg, xl)
+│       ├── _variables.scss
+│       └── _*.scss         # Componenti (header, gallery, …)
 ├── js/main.js              # Carica JSON e renderizza galleria
 ├── content/
 │   ├── site.json           # Nome, bio, email, social
@@ -30,7 +37,7 @@ I file JSON non si caricano aprendo `index.html` direttamente nel browser. Usa i
 npm install
 # oppure: pnpm install
 
-# Avvia il server su http://localhost:8000
+# Avvia il server su http://localhost:8000 (compila anche il CSS)
 npm run dev
 # oppure: pnpm dev
 ```
@@ -41,6 +48,50 @@ Su Windows con PowerShell, dalla cartella del progetto:
 npm install
 npm run dev
 ```
+
+### Modificare gli stili (Sass)
+
+Gli stili si modificano in `css/scss/`, non direttamente in `css/styles.css`.
+
+```powershell
+# Compila una volta
+npm run build:css
+
+# Compila automaticamente ad ogni salvataggio
+npm run watch:css
+```
+
+Breakpoint disponibili in `_breakpoints.scss`:
+
+| Mixin | Significato |
+|-------|-------------|
+| `@include below-sm` | sotto 650px |
+| `@include from-sm` | da 650px |
+| `@include sm-only` | 650px – 767px |
+| `@include below-md` | sotto 768px |
+| `@include from-md` | da 768px |
+| `@include from-lg` | da 1024px |
+| `@include from-xl` | da 1200px |
+
+Esempio in un partial:
+
+```scss
+@use "breakpoints" as *;
+
+.gallery-grid {
+  grid-template-columns: 1fr;
+
+  @include from-sm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include from-lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+```
+
+Dopo aver modificato gli SCSS, esegui `npm run build:css` prima di fare push su GitHub (il CSS compilato va committato).
 
 ## Come aggiungere disegni e progetti
 

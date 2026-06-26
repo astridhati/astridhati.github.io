@@ -2,11 +2,14 @@
   "name": "sito-ale-portfolio",
   "private": true,
   "scripts": {
-    "dev": "serve -p 8000",
-    "start": "serve -p 8000",
+    "build:css": "sass css/scss/styles.scss css/styles.css --style=expanded --no-source-map",
+    "watch:css": "sass css/scss/styles.scss css/styles.css --watch --style=expanded --no-source-map",
+    "dev": "npm run build:css && serve -p 8000",
+    "start": "npm run build:css && serve -p 8000",
     "sync": "node scripts/sync-content.js"
   },
   "devDependencies": {
+    "sass": "^1.89.2",
     "serve": "^14.2.4"
   }
 }

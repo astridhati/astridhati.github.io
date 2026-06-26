@@ -1,0 +1,48 @@
+// Breakpoints: SM 650 | MD 768 | LG 1024 | XL 1200
+
+$bp-sm: 650px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1200px;
+
+@mixin below-sm {
+  @media (max-width: #{$bp-sm - 1}) {
+    @content;
+  }
+}
+
+@mixin from-sm {
+  @media (min-width: $bp-sm) {
+    @content;
+  }
+}
+
+@mixin sm-only {
+  @media (min-width: $bp-sm) and (max-width: #{$bp-md - 1}) {
+    @content;
+  }
+}
+
+@mixin below-md {
+  @media (max-width: #{$bp-md - 1}) {
+    @content;
+  }
+}
+
+@mixin from-md {
+  @media (min-width: $bp-md) {
+    @content;
+  }
+}
+
+@mixin from-lg {
+  @media (min-width: $bp-lg) {
+    @content;
+  }
+}
+
+@mixin from-xl {
+  @media (min-width: $bp-xl) {
+    @content;
+  }
+}

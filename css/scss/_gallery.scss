@@ -1,0 +1,115 @@
+@use "breakpoints" as *;
+
+.gallery {
+  background: var(--color-bg-alt);
+}
+
+.gallery-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: var(--space-md);
+}
+
+.filter-chip {
+  padding: 0.5rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--color-teal);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+
+  &:hover {
+    border-color: var(--color-teal);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  @include below-sm {
+    font-size: 0.8125rem;
+    padding: 0.4375rem 0.875rem;
+  }
+
+  &--active {
+    color: var(--color-teal);
+    background: var(--color-yellow);
+    border-color: var(--color-yellow);
+  }
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+
+  @include from-sm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include from-lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.gallery-item {
+  position: relative;
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius);
+  overflow: hidden;
+  text-align: left;
+  transition: transform var(--transition), box-shadow var(--transition);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(44, 40, 37, 0.12);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+.gallery-item-image {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: var(--color-border);
+}
+
+.gallery-item-info {
+  padding: var(--space-sm) 10px;
+}
+
+.gallery-item-title {
+  font-size: 1.25rem;
+  margin: 0 0 var(--space-xs);
+
+  @include from-xl {
+    font-size: 1.375rem;
+  }
+}
+
+.gallery-item-year {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.gallery-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: var(--space-lg);
+}

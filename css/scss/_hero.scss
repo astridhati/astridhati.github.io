@@ -8,17 +8,21 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  margin-bottom: var(--space-md);
 
-  @include sm-only {
-    min-height: clamp(11rem, 28vh, 14rem);
+  @include from-sm {
+    min-height: clamp(20rem, 64vh, 32rem);
+    margin-bottom: var(--space-lg);
   }
 
   @include from-lg {
-    min-height: clamp(12rem, 30vh, 17rem);
+    min-height: clamp(24rem, 60vh, 34rem);
+    margin-bottom: var(--space-xl);
   }
 
   @include from-xl {
-    min-height: clamp(13rem, 28vh, 18rem);
+    min-height: clamp(26rem, 56vh, 36rem);
+    margin-bottom: var(--space-xl);
   }
 }
 

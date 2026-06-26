@@ -438,20 +438,24 @@ h3 {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  margin-bottom: var(--space-md);
 }
-@media (min-width: 650px) and (max-width: 767px) {
+@media (min-width: 650px) {
   .hero {
-    min-height: clamp(11rem, 28vh, 14rem);
+    min-height: clamp(20rem, 64vh, 32rem);
+    margin-bottom: var(--space-lg);
   }
 }
 @media (min-width: 1024px) {
   .hero {
-    min-height: clamp(12rem, 30vh, 17rem);
+    min-height: clamp(24rem, 60vh, 34rem);
+    margin-bottom: var(--space-xl);
   }
 }
 @media (min-width: 1200px) {
   .hero {
-    min-height: clamp(13rem, 28vh, 18rem);
+    min-height: clamp(26rem, 56vh, 36rem);
+    margin-bottom: var(--space-xl);
   }
 }
 

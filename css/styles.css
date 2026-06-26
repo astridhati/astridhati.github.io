@@ -12,8 +12,8 @@
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 2rem;
-  --space-lg: 4rem;
-  --space-xl: 6rem;
+  --space-lg: 3rem;
+  --space-xl: 4rem;
   /* layout */
   --max-width: 72rem;
   --header-height: 4rem;
@@ -139,16 +139,36 @@ h3 {
 }
 
 .section {
-  padding-block: var(--space-lg);
+  padding-bottom: var(--space-lg);
 }
 @media (max-width: 649px) {
   .section {
-    padding-block: var(--space-md);
+    padding-bottom: var(--space-md);
   }
 }
 @media (min-width: 1024px) {
   .section {
-    padding-block: var(--space-lg);
+    padding-bottom: var(--space-lg);
+  }
+}
+
+.section-divider {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-block: var(--space-sm);
+  pointer-events: none;
+}
+.section-divider::after {
+  content: "";
+  display: block;
+  width: min(1200px, 100%);
+  aspect-ratio: 1200/80;
+  background: url("static/section-cutter.png") no-repeat center/contain;
+}
+@media (min-width: 1024px) {
+  .section-divider {
+    padding-block: var(--space-md);
   }
 }
 
@@ -217,7 +237,7 @@ h3 {
 
 .nav-logo-image {
   width: auto;
-  height: 2rem;
+  height: 3rem;
 }
 @media (min-width: 650px) and (max-width: 767px) {
   .nav-logo-image {
@@ -226,7 +246,7 @@ h3 {
 }
 @media (min-width: 1024px) {
   .nav-logo-image {
-    height: 2.25rem;
+    height: 3rem;
   }
 }
 
@@ -448,6 +468,17 @@ h3 {
 
 .about {
   background: var(--color-bg);
+  padding-top: var(--space-lg);
+}
+@media (max-width: 649px) {
+  .about {
+    padding-top: var(--space-md);
+  }
+}
+@media (min-width: 1024px) {
+  .about {
+    padding-top: var(--space-lg);
+  }
 }
 
 .about-bio {

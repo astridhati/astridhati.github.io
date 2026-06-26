@@ -60,14 +60,14 @@
 
 .nav-logo-image {
   width: auto;
-  height: 2rem;
+  height: 3rem;
 
   @include sm-only {
     height: 1.875rem;
   }
 
   @include from-lg {
-    height: 2.25rem;
+    height: 3rem;
   }
 }
 

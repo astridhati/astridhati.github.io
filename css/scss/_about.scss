@@ -2,6 +2,15 @@
 
 .about {
   background: var(--color-bg);
+  padding-top: var(--space-lg);
+
+  @include below-sm {
+    padding-top: var(--space-md);
+  }
+
+  @include from-lg {
+    padding-top: var(--space-lg);
+  }
 }
 
 .about-bio {

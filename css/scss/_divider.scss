@@ -1,0 +1,24 @@
+@use "breakpoints" as *;
+
+$divider-width: 1200;
+$divider-height: 80;
+
+.section-divider {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-block: var(--space-sm);
+  pointer-events: none;
+
+  &::after {
+    content: "";
+    display: block;
+    width: min(#{$divider-width}px, 100%);
+    aspect-ratio: #{$divider-width} / #{$divider-height};
+    background: url("static/section-cutter.png") no-repeat center / contain;
+  }
+
+  @include from-lg {
+    padding-block: var(--space-md);
+  }
+}

@@ -57,7 +57,20 @@
     <section id="projects" class="projects section" aria-labelledby="projects-title">
       <div class="container">
         <h2 id="projects-title" class="section-title">Progetti</h2>
-        <div id="projects-grid" class="projects-grid" role="list"></div>
+        <div class="projects-carousel" id="projects-carousel" aria-roledescription="carousel" aria-label="Progetti" tabindex="0">
+          <div class="projects-carousel__viewport">
+            <div id="projects-grid" class="projects-carousel__track" role="list"></div>
+          </div>
+          <div class="projects-carousel__controls" hidden>
+            <button type="button" class="projects-carousel__arrow projects-carousel__arrow--prev" aria-label="Progetto precedente">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="projects-carousel__dots" role="tablist" aria-label="Seleziona progetto"></div>
+            <button type="button" class="projects-carousel__arrow projects-carousel__arrow--next" aria-label="Progetto successivo">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 

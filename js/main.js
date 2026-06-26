@@ -221,21 +221,95 @@ function createProjectCard(project) {
   return button;
 }
 
+function initProjectsCarousel(projects) {
+  const carousel = document.getElementById("projects-carousel");
+  const track = document.getElementById("projects-grid");
+  const controls = carousel.querySelector(".projects-carousel__controls");
+  const dotsContainer = carousel.querySelector(".projects-carousel__dots");
+  const prevBtn = carousel.querySelector(".projects-carousel__arrow--prev");
+  const nextBtn = carousel.querySelector(".projects-carousel__arrow--next");
+  const slides = [...track.querySelectorAll(".project-card")];
+
+  if (slides.length <= 1) {
+    controls.hidden = true;
+    return;
+  }
+
+  controls.hidden = false;
+  dotsContainer.innerHTML = "";
+
+  let currentIndex = 0;
+
+  function goToSlide(index) {
+    currentIndex = ((index % slides.length) + slides.length) % slides.length;
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+    slides.forEach((slide, i) => {
+      slide.setAttribute("aria-hidden", i !== currentIndex ? "true" : "false");
+    });
+
+    dotsContainer.querySelectorAll(".projects-carousel__dot").forEach((dot, i) => {
+      const isActive = i === currentIndex;
+      dot.classList.toggle("projects-carousel__dot--active", isActive);
+      dot.setAttribute("aria-selected", isActive ? "true" : "false");
+      dot.tabIndex = isActive ? 0 : -1;
+    });
+  }
+
+  projects.forEach((project, i) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "projects-carousel__dot";
+    dot.setAttribute("role", "tab");
+    dot.setAttribute("aria-label", project.name);
+    dot.setAttribute("aria-selected", i === 0 ? "true" : "false");
+    dot.tabIndex = i === 0 ? 0 : -1;
+    if (i === 0) dot.classList.add("projects-carousel__dot--active");
+    dot.addEventListener("click", () => goToSlide(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  prevBtn.onclick = () => goToSlide(currentIndex - 1);
+  nextBtn.onclick = () => goToSlide(currentIndex + 1);
+
+  carousel.onkeydown = (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      goToSlide(currentIndex - 1);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      goToSlide(currentIndex + 1);
+    }
+  };
+
+  goToSlide(0);
+}
+
 function renderProjects(projects) {
-  const grid = document.getElementById("projects-grid");
-  grid.innerHTML = "";
+  const carousel = document.getElementById("projects-carousel");
+  const track = document.getElementById("projects-grid");
+  const controls = carousel.querySelector(".projects-carousel__controls");
+  const dotsContainer = carousel.querySelector(".projects-carousel__dots");
+
+  track.innerHTML = "";
+  track.style.transform = "";
+  dotsContainer.innerHTML = "";
+  controls.hidden = true;
+  carousel.onkeydown = null;
 
   if (!projects.length) {
     const empty = document.createElement("p");
     empty.className = "gallery-empty";
     empty.textContent = "Nessun progetto al momento.";
-    grid.appendChild(empty);
+    track.appendChild(empty);
     return;
   }
 
   projects.forEach((project) => {
-    grid.appendChild(createProjectCard(project));
+    track.appendChild(createProjectCard(project));
   });
+
+  initProjectsCarousel(projects);
 }
 
 function renderGalleryFilters(projects) {

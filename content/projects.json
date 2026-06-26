@@ -2,28 +2,28 @@
   {
     "id": "schizzi-urbani",
     "name": "Schizzi urbani",
-    "cover": "images/drawings/project-urban-1.svg",
+    "cover": "images/drawings/schizzi-urbani/project-urban-1.svg",
     "year": "2025",
     "description": "Studi di città e architettura."
   },
   {
     "id": "ritratti",
     "name": "Ritratti",
-    "cover": "images/drawings/project-portrait-1.svg",
+    "cover": "images/drawings/ritratti/project-portrait-1.svg",
     "year": "2024",
     "description": "Ritratti a matita e inchiostro."
   },
   {
     "id": "flora-natura",
     "name": "Flora e natura",
-    "cover": "images/drawings/project-flora-1.svg",
+    "cover": "images/drawings/flora-natura/project-flora-1.svg",
     "year": "2024",
     "description": "Illustrazioni botaniche e paesaggi naturali."
   },
   {
     "id": "illustrazioni-editoriali",
     "name": "Illustrazioni editoriali",
-    "cover": "images/drawings/project-editorial-1.svg",
+    "cover": "images/drawings/illustrazioni-editoriali/project-editorial-1.svg",
     "year": "2023",
     "description": "Illustrazioni per riviste e pubblicazioni."
   }

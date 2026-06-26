@@ -25,84 +25,84 @@
   },
   {
     "title": "Vicolo al mattino",
-    "image": "images/drawings/project-urban-1.svg",
+    "image": "images/drawings/schizzi-urbani/project-urban-1.svg",
     "year": "2025",
     "description": "Schizzo a matita di un vicolo al mattino.",
     "project": "schizzi-urbani"
   },
   {
     "title": "Piazza al tramonto",
-    "image": "images/drawings/project-urban-2.svg",
+    "image": "images/drawings/schizzi-urbani/project-urban-2.svg",
     "year": "2025",
     "description": "Piazza cittadina illuminata dal tramonto.",
     "project": "schizzi-urbani"
   },
   {
     "title": "Portici",
-    "image": "images/drawings/project-urban-3.svg",
+    "image": "images/drawings/schizzi-urbani/project-urban-3.svg",
     "year": "2024",
     "description": "Studio dei portici e delle prospettive urbane.",
     "project": "schizzi-urbani"
   },
   {
     "title": "Ritratto I",
-    "image": "images/drawings/project-portrait-1.svg",
+    "image": "images/drawings/ritratti/project-portrait-1.svg",
     "year": "2024",
     "description": "Primo ritratto della serie.",
     "project": "ritratti"
   },
   {
     "title": "Ritratto II",
-    "image": "images/drawings/project-portrait-2.svg",
+    "image": "images/drawings/ritratti/project-portrait-2.svg",
     "year": "2024",
     "description": "Ritratto frontale a matita.",
     "project": "ritratti"
   },
   {
     "title": "Ritratto III",
-    "image": "images/drawings/project-portrait-3.svg",
+    "image": "images/drawings/ritratti/project-portrait-3.svg",
     "year": "2023",
     "description": "Ritratto di profilo con ombre morbide.",
     "project": "ritratti"
   },
   {
     "title": "Felce",
-    "image": "images/drawings/project-flora-1.svg",
+    "image": "images/drawings/flora-natura/project-flora-1.svg",
     "year": "2024",
     "description": "Studio botanico di una felce.",
     "project": "flora-natura"
   },
   {
     "title": "Margherita",
-    "image": "images/drawings/project-flora-2.svg",
+    "image": "images/drawings/flora-natura/project-flora-2.svg",
     "year": "2024",
     "description": "Illustrazione botanica di una margherita.",
     "project": "flora-natura"
   },
   {
     "title": "Bosco",
-    "image": "images/drawings/project-flora-3.svg",
+    "image": "images/drawings/flora-natura/project-flora-3.svg",
     "year": "2023",
     "description": "Paesaggio boschivo con acquerello.",
     "project": "flora-natura"
   },
   {
     "title": "Copertina rivista",
-    "image": "images/drawings/project-editorial-1.svg",
+    "image": "images/drawings/illustrazioni-editoriali/project-editorial-1.svg",
     "year": "2023",
     "description": "Illustrazione per copertina di rivista.",
     "project": "illustrazioni-editoriali"
   },
   {
     "title": "Articolo illustrato",
-    "image": "images/drawings/project-editorial-2.svg",
+    "image": "images/drawings/illustrazioni-editoriali/project-editorial-2.svg",
     "year": "2023",
     "description": "Illustrazione per articolo editoriale.",
     "project": "illustrazioni-editoriali"
   },
   {
     "title": "Doppia pagina",
-    "image": "images/drawings/project-editorial-3.svg",
+    "image": "images/drawings/illustrazioni-editoriali/project-editorial-3.svg",
     "year": "2022",
     "description": "Layout illustrato su doppia pagina.",
     "project": "illustrazioni-editoriali"

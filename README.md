@@ -6,14 +6,19 @@ Sito single-page statico per mostrare disegni e illustrazioni. Nessun framework,
 
 ```
 ├── index.html              # Layout della pagina
-├── package.json            # Script dev server (npm run dev)
+├── package.json            # Script dev server e sync
+├── scripts/
+│   └── sync-content.js     # Aggiorna JSON da cartelle/immagini
 ├── css/styles.css          # Stili
 ├── js/main.js              # Carica JSON e renderizza galleria
 ├── content/
 │   ├── site.json           # Nome, bio, email, social
 │   ├── projects.json       # Elenco progetti
 │   └── drawings.json       # Elenco disegni in galleria
-└── images/drawings/        # File immagine dei disegni
+└── images/drawings/        # Immagini dei disegni
+    ├── mio-disegno.webp    # Disegni singoli (senza progetto)
+    └── schizzi-urbani/     # Una cartella per progetto (nome = id)
+        └── vicolo.webp
 ```
 
 ## Anteprima locale
@@ -37,66 +42,78 @@ npm install
 npm run dev
 ```
 
-## Come aggiungere un nuovo disegno
+## Come aggiungere disegni e progetti
 
-1. **Salva l'immagine** in `images/drawings/`
+Usa lo script di sync per aggiornare automaticamente i file JSON dopo aver aggiunto immagini o cartelle.
+
+### Disegni singoli (senza progetto)
+
+1. **Salva l'immagine** direttamente in `images/drawings/`
    - Formato consigliato: WebP o JPG
    - Larghezza consigliata: max 1600px (per prestazioni)
    - Usa un nome file semplice, es. `mio-disegno.webp`
 
-2. **Aggiungi una voce** in `content/drawings.json`:
+2. **Esegui lo script di sync:**
 
-```json
-{
-  "title": "Titolo del disegno",
-  "image": "images/drawings/mio-disegno.webp",
-  "year": "2025",
-  "description": "Breve descrizione opzionale"
-}
+```powershell
+npm run sync
 ```
 
-3. **Salva e ricarica** la pagina nel browser.
+3. **Rispondi alle domande** (titolo, anno, descrizione). Premi Invio per accettare i valori suggeriti.
 
-> **Attenzione alla virgola:** ogni oggetto nel JSON deve essere separato da una virgola, tranne l'ultimo. Se il sito non carica, controlla che il JSON sia valido (puoi usare [jsonlint.com](https://jsonlint.com)).
+4. **Anteprima:** `npm run dev` e ricarica la pagina.
 
-### Disegni singoli vs disegni di progetto
+### Progetti
 
-- **Senza `"project"`** → compare nella galleria con il filtro **Altri lavori** (vista predefinita).
-- **Con `"project": "id-progetto"`** → compare solo quando quel progetto è selezionato (chip o click su una card progetto).
+Ogni progetto ha una **cartella** dentro `images/drawings/`. Il **nome della cartella** diventa l'`id` del progetto (es. `schizzi-urbani`).
 
-Esempio di disegno assegnato a un progetto:
+**Per aggiungere un nuovo progetto:**
+
+1. Crea la cartella `images/drawings/id-progetto/` (es. `images/drawings/ritratti/`)
+2. Aggiungi le immagini del progetto dentro quella cartella
+3. Esegui `npm run sync` e rispondi alle domande per il progetto e per ogni nuova immagine
+
+**Per aggiungere un disegno a un progetto esistente:**
+
+1. Salva l'immagine nella cartella del progetto
+2. Esegui `npm run sync`
+
+Lo script rileva solo **novità** (cartelle o immagini non ancora presenti nei JSON). Non rimuove voci esistenti: se cancelli un file, aggiorna manualmente i JSON.
+
+### Come funziona in galleria
+
+- **Immagini nella root** di `images/drawings/` → compaiono con il filtro **Altri lavori** (vista predefinita).
+- **Immagini in una sottocartella** → compaiono solo quando quel progetto è selezionato (chip o click su una card progetto).
+
+Cliccando una card nella sezione **Progetti**, la pagina scorre alla galleria e filtra i disegni di quel progetto. I chip sotto il titolo Galleria permettono di cambiare filtro; cliccare di nuovo il chip attivo torna alla vista **Altri lavori**.
+
+### Modifica manuale dei JSON (opzionale)
+
+I file `content/drawings.json` e `content/projects.json` possono essere modificati a mano per correggere titoli, descrizioni o anni. Esempio di disegno in un progetto:
 
 ```json
 {
   "title": "Vicolo al mattino",
-  "image": "images/drawings/project-urban-1.svg",
+  "image": "images/drawings/schizzi-urbani/vicolo.webp",
   "year": "2025",
   "description": "Schizzo a matita di un vicolo al mattino.",
   "project": "schizzi-urbani"
 }
 ```
 
-## Progetti
-
-I progetti si gestiscono in `content/projects.json`. Ogni progetto ha un `id` univoco usato anche in `drawings.json`:
+Esempio di progetto:
 
 ```json
 {
   "id": "schizzi-urbani",
   "name": "Schizzi urbani",
-  "cover": "images/drawings/project-urban-1.svg",
+  "cover": "images/drawings/schizzi-urbani/vicolo.webp",
   "year": "2025",
   "description": "Studi di città e architettura."
 }
 ```
 
-**Per aggiungere un nuovo progetto:**
-
-1. Aggiungi una voce in `content/projects.json` con un `id` univoco (es. `"ritratti"`).
-2. Aggiungi i disegni collegati in `drawings.json` con `"project": "ritratti"`.
-3. Scegli un'immagine di copertina nel campo `cover`.
-
-Cliccando una card nella sezione **Progetti**, la pagina scorre alla galleria e filtra i disegni di quel progetto. I chip sotto il titolo Galleria permettono di cambiare filtro; cliccare di nuovo il chip attivo torna alla vista **Altri lavori**.
+> **Attenzione alla virgola:** ogni oggetto nel JSON deve essere separato da una virgola, tranne l'ultimo. Se il sito non carica, controlla che il JSON sia valido (puoi usare [jsonlint.com](https://jsonlint.com)).
 
 ## Modificare bio, contatti e social
 
@@ -150,4 +167,4 @@ Dopo la pubblicazione, puoi collegare un dominio personalizzato dalle impostazio
 
 ## Sostituire le immagini di esempio
 
-Le immagini attuali in `images/drawings/` sono placeholder SVG. Sostituiscile con i veri disegni e aggiorna i percorsi in `drawings.json`.
+Le immagini attuali in `images/drawings/` sono placeholder SVG. Sostituiscile con i veri disegni e usa `npm run sync` per aggiornare i JSON, oppure modifica i percorsi manualmente.

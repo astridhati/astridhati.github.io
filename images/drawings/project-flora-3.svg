@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#e8f0e4"/>
+  <path d="M0 700 Q200 650 400 680 T800 700 L800 1000 L0 1000 Z" fill="#6b8f5e" opacity="0.3"/>
+  <path d="M250 500 Q300 350 350 500 Q320 650 250 600 Z" fill="#4a6b42" opacity="0.45"/>
+  <path d="M500 480 Q550 320 600 480 Q570 640 500 590 Z" fill="#4a6b42" opacity="0.4"/>
+  <text x="400" y="950" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#6b6560">Bosco</text>
+</svg>

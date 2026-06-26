@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#f0ebe3"/>
+  <ellipse cx="400" cy="380" rx="160" ry="200" fill="#d0c8bc" opacity="0.5"/>
+  <ellipse cx="400" cy="360" rx="100" ry="130" fill="#b8b0a4" opacity="0.4"/>
+  <path d="M300 520 Q400 480 500 520" stroke="#6b6560" stroke-width="2" fill="none" opacity="0.5"/>
+  <text x="400" y="950" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#6b6560">Ritratto I</text>
+</svg>

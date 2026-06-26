@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#f5f0e8"/>
+  <path d="M400 200 Q320 350 350 500 Q400 600 450 500 Q480 350 400 200" fill="#a89888" opacity="0.35"/>
+  <ellipse cx="400" cy="650" rx="120" ry="80" fill="#d0c8bc" opacity="0.4"/>
+  <text x="400" y="950" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#6b6560">Ritratto III</text>
+</svg>

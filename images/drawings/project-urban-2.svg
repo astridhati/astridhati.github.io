@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#dce0e4"/>
+  <polygon points="400,150 150,550 650,550" fill="#8898a8" opacity="0.4"/>
+  <rect x="200" y="550" width="400" height="300" fill="#6b6560" opacity="0.3"/>
+  <circle cx="400" cy="120" r="60" fill="#f4c896" opacity="0.6"/>
+  <text x="400" y="950" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#6b6560">Piazza al tramonto</text>
+</svg>

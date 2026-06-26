@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#f5f0e8"/>
+  <path d="M400 150 Q350 300 380 450 Q420 550 400 700 Q380 550 420 450 Q450 300 400 150" fill="#6b8f5e" opacity="0.6"/>
+  <path d="M400 200 Q300 350 320 500 Q350 600 400 750 Q450 600 480 500 Q500 350 400 200" fill="#4a6b42" opacity="0.4"/>
+  <text x="400" y="950" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#6b6560">Felce</text>
+</svg>

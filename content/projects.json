@@ -1,30 +1,23 @@
 [
   {
-    "id": "schizzi-urbani",
-    "name": "Schizzi urbani",
-    "cover": "images/drawings/schizzi-urbani/project-urban-1.svg",
-    "year": "2025",
-    "description": "Studi di città e architettura."
+    "id": "attivismo",
+    "name": "Attivismo",
+    "cover": "images/drawings/attivismo/Donna vacca.png",
+    "year": "2026",
+    "description": "Progetti di attivismo"
   },
   {
-    "id": "ritratti",
-    "name": "Ritratti",
-    "cover": "images/drawings/ritratti/project-portrait-1.svg",
-    "year": "2024",
-    "description": "Ritratti a matita e inchiostro."
+    "id": "fumetti",
+    "name": "Fumetti Brevi",
+    "cover": "images/drawings/fumetti/Cani1.jpg",
+    "year": "2026",
+    "description": "Progetti di fumetti belli"
   },
   {
-    "id": "flora-natura",
-    "name": "Flora e natura",
-    "cover": "images/drawings/flora-natura/project-flora-1.svg",
-    "year": "2024",
-    "description": "Illustrazioni botaniche e paesaggi naturali."
-  },
-  {
-    "id": "illustrazioni-editoriali",
-    "name": "Illustrazioni editoriali",
-    "cover": "images/drawings/illustrazioni-editoriali/project-editorial-1.svg",
-    "year": "2023",
-    "description": "Illustrazioni per riviste e pubblicazioni."
+    "id": "libri",
+    "name": "Proposte Cover",
+    "cover": "images/drawings/libri/Pippi Calzelunghe.png",
+    "year": "2026",
+    "description": "Proposte Cover libri"
   }
 ]

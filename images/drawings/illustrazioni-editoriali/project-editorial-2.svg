@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
-  <rect width="800" height="1000" fill="#f0ebe3"/>
-  <rect x="100" y="150" width="600" height="700" fill="#fff" stroke="#c5dede" stroke-width="2"/>
-  <circle cx="400" cy="400" r="100" fill="#df6486" opacity="0.2"/>
-  <rect x="180" y="550" width="440" height="40" fill="#3f6968" opacity="0.15"/>
-  <rect x="180" y="620" width="350" height="30" fill="#3f6968" opacity="0.1"/>
-  <text x="400" y="950" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#6b6560">Articolo illustrato</text>
-</svg>

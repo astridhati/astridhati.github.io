@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
-  <rect width="800" height="1000" fill="#e8eef2"/>
-  <rect x="0" y="600" width="800" height="400" fill="#c8d4dc"/>
-  <polygon points="400,200 200,550 600,550" fill="#a8b8c8" opacity="0.5"/>
-  <circle cx="150" cy="250" r="40" fill="#d0dce8" opacity="0.6"/>
-  <circle cx="650" cy="300" r="30" fill="#d0dce8" opacity="0.5"/>
-  <rect x="350" y="550" width="100" height="200" fill="#8898a8" opacity="0.4"/>
-  <text x="400" y="950" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#6b6560">Sogno d'inverno</text>
-</svg>

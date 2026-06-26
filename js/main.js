@@ -191,11 +191,16 @@ function createProjectCard(project) {
   button.setAttribute("role", "listitem");
   button.setAttribute("aria-label", `Apri progetto ${project.name}`);
 
+  const imageWrap = document.createElement("div");
+  imageWrap.className = "project-card-image-wrap";
+
   const img = document.createElement("img");
   img.className = "project-card-image";
   img.src = project.cover;
   img.alt = project.name;
   img.loading = "lazy";
+
+  imageWrap.appendChild(img);
 
   const body = document.createElement("div");
   body.className = "project-card-body";
@@ -213,7 +218,7 @@ function createProjectCard(project) {
   description.textContent = project.description || "";
 
   body.append(title, year, description);
-  button.append(img, body);
+  button.append(imageWrap, body);
   button.addEventListener("click", () =>
     setActiveProject(project.id, { scrollToGallery: true })
   );

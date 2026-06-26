@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
-  <rect width="800" height="1000" fill="#faf8f5"/>
-  <rect x="150" y="200" width="500" height="600" fill="#fff" stroke="#e0d8ce" stroke-width="2"/>
-  <rect x="200" y="280" width="400" height="120" fill="#d4a574" opacity="0.3"/>
-  <rect x="200" y="450" width="400" height="80" fill="#6b6560" opacity="0.15"/>
-  <rect x="200" y="560" width="300" height="80" fill="#6b6560" opacity="0.1"/>
-  <text x="400" y="950" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#6b6560">Copertina rivista</text>
-</svg>

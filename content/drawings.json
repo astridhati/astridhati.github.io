@@ -4,27 +4,28 @@
     "image": "images/drawings/attivismo/Donna vacca.png",
     "year": "2026",
     "description": "Progetto per l'8 marzo",
-    "project": "attivismo"
+    "project": "attivismo",
+    "grouped": "single"
   },
   {
     "title": "Siamo Moltitudine",
     "image": "images/drawings/attivismo/Siamo Moltitudine.png",
     "year": "2026",
     "description": "Progetto per manifestazione No Kings",
-    "project": "attivismo"
+    "project": "attivismo",
+    "grouped": "single"
   },
   {
-    "title": "Cani Parte 1",
-    "image": "images/drawings/fumetti/Cani1.jpg",
+    "title": "Cani",
+    "group": "cani",
+    "grouped": "multiple",
+    "cover": "images/drawings/fumetti/cani/Cani2.jpg",
+    "images": [
+      "images/drawings/fumetti/cani/Cani2.jpg",
+      "images/drawings/fumetti/cani/Cani1.jpg"
+    ],
     "year": "2026",
     "description": "Cani belli belli",
-    "project": "fumetti"
-  },
-  {
-    "title": "Cani parte 2",
-    "image": "images/drawings/fumetti/Cani2.jpg",
-    "year": "2026",
-    "description": "Cani belli bellissimi",
     "project": "fumetti"
   },
   {
@@ -32,25 +33,27 @@
     "image": "images/drawings/libri/Pippi Calzelunghe.png",
     "year": "2026",
     "description": "Cover Pippi",
-    "project": "libri"
+    "project": "libri",
+    "grouped": "single"
   },
   {
     "title": "Signore delle Mosche",
     "image": "images/drawings/libri/Signore delle mosche.png",
     "year": "2026",
     "description": "Signore delle mosce",
-    "project": "libri"
+    "project": "libri",
+    "grouped": "single"
   },
   {
-    "title": "Birra Bella",
-    "image": "images/drawings/Birra1.jpg",
+    "title": "Progetto Birra",
+    "group": "progetto-birra",
+    "grouped": "multiple",
+    "cover": "images/drawings/[other_images]/progetto-birra/Birra2.jpg",
+    "images": [
+      "images/drawings/[other_images]/progetto-birra/Birra2.jpg",
+      "images/drawings/[other_images]/progetto-birra/Birra1.jpg"
+    ],
     "year": "2026",
-    "description": "Bella"
-  },
-  {
-    "title": "Birra Brutta",
-    "image": "images/drawings/Birra2.jpg",
-    "year": "2026",
-    "description": "birra buona"
+    "description": "asjdb"
   }
 ]

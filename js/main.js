@@ -22,6 +22,8 @@ const SOCIAL_ICONS = {
 
 const EMAIL_ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`;
 
+const GROUP_BADGE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 8.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v8.25A2.25 2.25 0 0 0 6 16.5h2.25m8.25-8.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-7.5A2.25 2.25 0 0 1 8.25 18v-1.5m8.25-8.25h-6a2.25 2.25 0 0 0-2.25 2.25v6" /></svg>`;
+
 let allDrawings = [];
 let allProjects = [];
 let activeProjectFilter = null;
@@ -119,18 +121,40 @@ function renderSite(site) {
   document.getElementById("footer-year").textContent = new Date().getFullYear();
 }
 
-function createCardItem({ image, title, year, ariaLabel, onClick, alt, lazy = true }) {
+function createCardItem({
+  image,
+  title,
+  year,
+  ariaLabel,
+  onClick,
+  alt,
+  lazy = true,
+  isGroup = false,
+}) {
   const button = document.createElement("button");
   button.className = "gallery-item";
   button.type = "button";
   button.setAttribute("role", "listitem");
   button.setAttribute("aria-label", ariaLabel);
 
+  const media = document.createElement("div");
+  media.className = "gallery-item-media";
+
   const img = document.createElement("img");
   img.className = "gallery-item-image";
   img.src = image;
   img.alt = alt || title;
   if (lazy) img.loading = "lazy";
+
+  media.appendChild(img);
+
+  if (isGroup) {
+    const badge = document.createElement("span");
+    badge.className = "gallery-item-group-badge";
+    badge.setAttribute("aria-hidden", "true");
+    badge.innerHTML = GROUP_BADGE_ICON;
+    media.appendChild(badge);
+  }
 
   const info = document.createElement("div");
   info.className = "gallery-item-info";
@@ -144,10 +168,26 @@ function createCardItem({ image, title, year, ariaLabel, onClick, alt, lazy = tr
   yearEl.textContent = year || "";
 
   info.append(titleEl, yearEl);
-  button.append(img, info);
+  button.append(media, info);
   button.addEventListener("click", onClick);
 
   return button;
+}
+
+function getEntryThumbnail(entry) {
+  if (entry.grouped === "multiple" && Array.isArray(entry.images) && entry.images.length) {
+    return entry.images[0];
+  }
+
+  return entry.image;
+}
+
+function getEntryImages(entry) {
+  if (entry.grouped === "multiple" && Array.isArray(entry.images)) {
+    return entry.images;
+  }
+
+  return [entry.image];
 }
 
 function isUnassignedDrawing(drawing) {
@@ -351,13 +391,16 @@ function renderGalleryFilters(projects) {
 }
 
 function createGalleryItem(drawing, index) {
+  const isGroup = drawing.grouped === "multiple";
+
   return createCardItem({
-    image: drawing.image,
+    image: getEntryThumbnail(drawing),
     title: drawing.title,
     year: drawing.year,
     alt: drawing.description || drawing.title,
-    ariaLabel: `Apri ${drawing.title}`,
+    ariaLabel: isGroup ? `Apri gruppo ${drawing.title}` : `Apri ${drawing.title}`,
     lazy: index >= 3,
+    isGroup,
     onClick: () => openLightbox(drawing),
   });
 }
@@ -372,7 +415,7 @@ function renderGallery() {
     empty.className = "gallery-empty";
     empty.textContent = activeProjectFilter
       ? "Nessun disegno in questo progetto."
-      : "Nessun lavoro singolo al momento.";
+      : "Nessun lavoro al momento.";
     grid.appendChild(empty);
     return;
   }
@@ -382,29 +425,85 @@ function renderGallery() {
   });
 }
 
-function openLightbox(drawing) {
-  const dialog = document.getElementById("lightbox");
+let lightboxImages = [];
+let lightboxIndex = 0;
+let lightboxEntry = null;
+
+function renderLightboxDots() {
+  const dotsContainer = document.getElementById("lightbox-dots");
+  dotsContainer.innerHTML = "";
+
+  lightboxImages.forEach((_, index) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "lightbox-dot";
+    dot.setAttribute("role", "tab");
+    dot.setAttribute("aria-label", `Immagine ${index + 1} di ${lightboxImages.length}`);
+    dot.addEventListener("click", () => showLightboxSlide(index));
+    dotsContainer.appendChild(dot);
+  });
+}
+
+function updateLightboxDots() {
+  document.querySelectorAll(".lightbox-dot").forEach((dot, index) => {
+    const isActive = index === lightboxIndex;
+    dot.classList.toggle("lightbox-dot--active", isActive);
+    dot.setAttribute("aria-selected", isActive ? "true" : "false");
+  });
+}
+
+function showLightboxSlide(index) {
   const image = document.getElementById("lightbox-image");
+  const dotsContainer = document.getElementById("lightbox-dots");
+  const prevBtn = document.querySelector(".lightbox-nav--prev");
+  const nextBtn = document.querySelector(".lightbox-nav--next");
+
+  lightboxIndex =
+    ((index % lightboxImages.length) + lightboxImages.length) % lightboxImages.length;
+
+  image.src = lightboxImages[lightboxIndex];
+  image.alt = lightboxEntry.description || lightboxEntry.title;
+
+  const hasMultiple = lightboxImages.length > 1;
+  prevBtn.hidden = !hasMultiple;
+  nextBtn.hidden = !hasMultiple;
+  dotsContainer.hidden = !hasMultiple;
+
+  if (hasMultiple) {
+    updateLightboxDots();
+  }
+}
+
+function openLightbox(entry) {
+  const dialog = document.getElementById("lightbox");
   const title = document.getElementById("lightbox-title");
   const description = document.getElementById("lightbox-description");
   const year = document.getElementById("lightbox-year");
 
-  image.src = drawing.image;
-  image.alt = drawing.description || drawing.title;
-  title.textContent = drawing.title;
-  description.textContent = drawing.description || "";
-  description.hidden = !drawing.description;
-  year.textContent = drawing.year || "";
-  year.hidden = !drawing.year;
+  lightboxEntry = entry;
+  lightboxImages = getEntryImages(entry);
+  renderLightboxDots();
 
+  title.textContent = entry.title;
+  description.textContent = entry.description || "";
+  description.hidden = !entry.description;
+  year.textContent = entry.year || "";
+  year.hidden = !entry.year;
+
+  showLightboxSlide(0);
   dialog.showModal();
 }
 
 function setupLightbox() {
   const dialog = document.getElementById("lightbox");
   const closeBtn = dialog.querySelector(".lightbox-close");
+  const prevBtn = dialog.querySelector(".lightbox-nav--prev");
+  const nextBtn = dialog.querySelector(".lightbox-nav--next");
 
   closeBtn.addEventListener("click", () => dialog.close());
+
+  prevBtn.addEventListener("click", () => showLightboxSlide(lightboxIndex - 1));
+  nextBtn.addEventListener("click", () => showLightboxSlide(lightboxIndex + 1));
 
   dialog.addEventListener("click", (event) => {
     const rect = dialog.getBoundingClientRect();
@@ -416,6 +515,18 @@ function setupLightbox() {
 
     if (clickedOutside) {
       dialog.close();
+    }
+  });
+
+  dialog.addEventListener("keydown", (event) => {
+    if (lightboxImages.length > 1) {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        showLightboxSlide(lightboxIndex - 1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        showLightboxSlide(lightboxIndex + 1);
+      }
     }
   });
 

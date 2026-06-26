@@ -22,10 +22,17 @@ Sito single-page statico per mostrare disegni e illustrazioni. Nessun framework 
 │   ├── site.json           # Nome, bio, email, social
 │   ├── projects.json       # Elenco progetti
 │   └── drawings.json       # Elenco disegni in galleria
-└── images/drawings/        # Immagini dei disegni
-    ├── mio-disegno.webp    # Disegni singoli (senza progetto)
-    └── schizzi-urbani/     # Una cartella per progetto (nome = id)
-        └── vicolo.webp
+└── images/drawings/        # Solo cartelle — nessun file immagine in root
+    ├── [other_images]/     # Riservata: lavori non assegnati (Altri lavori)
+    │   ├── mio-disegno.webp    # Singolo non assegnato (file in root)
+    │   └── birra-series/       # Gruppo non assegnato (sottocartella)
+    │       ├── slide-1.jpg
+    │       └── slide-2.jpg
+    └── attivismo/          # Cartella progetto (nome = id)
+        ├── Donna vacca.png     # Singolo nel progetto
+        └── manifesto-2026/     # Gruppo nel progetto (carousel in lightbox)
+            ├── slide-1.jpg
+            └── slide-2.jpg
 ```
 
 ## Anteprima locale
@@ -97,62 +104,105 @@ Dopo aver modificato gli SCSS, esegui `npm run build:css` prima di fare push su 
 
 Usa lo script di sync per aggiornare automaticamente i file JSON dopo aver aggiunto immagini o cartelle.
 
-### Disegni singoli (senza progetto)
+### Regole cartelle
 
-1. **Salva l'immagine** direttamente in `images/drawings/`
-   - Formato consigliato: WebP o JPG
-   - Larghezza consigliata: max 1600px (per prestazioni)
-   - Usa un nome file semplice, es. `mio-disegno.webp`
+- **Nessuna immagine** direttamente in `images/drawings/` — solo cartelle. Lo script avvisa se trova file sparsi in root.
+- **`[other_images]/`** — cartella riservata per i lavori non assegnati a un progetto (filtro **Altri lavori**):
+  - **File** in `[other_images]/` → voce singola (`grouped: "single"`, senza `project`)
+  - **Sottocartella** `[other_images]/{gruppo}/` → voce multipla (`grouped: "multiple"`, carousel in lightbox)
+- **Cartella progetto** `{id-progetto}/` — stessa logica:
+  - **File** nella root del progetto → singolo con `"project": "{id}"`
+  - **Sottocartella** `{id-progetto}/{gruppo}/` → multipla con `project` + `group`
 
-2. **Esegui lo script di sync:**
+### Disegni singoli (Altri lavori)
 
-```powershell
-npm run sync
-```
+1. **Salva l'immagine** in `images/drawings/[other_images]/`
+2. **Esegui** `npm run sync` e rispondi alle domande (titolo, anno, descrizione)
 
-3. **Rispondi alle domande** (titolo, anno, descrizione). Premi Invio per accettare i valori suggeriti.
+### Gruppi di immagini (carousel)
 
-4. **Anteprima:** `npm run dev` e ricarica la pagina.
+1. Crea una **sottocartella** con le immagini del gruppo, ad es.:
+   - `images/drawings/[other_images]/birra-series/` (non assegnato)
+   - `images/drawings/fumetti/cani/` (dentro un progetto)
+2. **Esegui** `npm run sync`
+3. Lo script elenca le immagini numerate e chiede l'ordine:
+   - `Ordine immagini (es. 2,1,3 oppure Invio per ordine mostrato):`
+   - Invio = ordine alfabetico dei file; oppure indica la sequenza desiderata (es. `2,1,3`)
+4. La **prima immagine** dell'ordine diventa la copertina in galleria; in lightbox si scorrono tutte con frecce e contatore
+
+Se aggiungi immagini a un gruppo esistente, lo script propone di **aggiungerle in fondo** o **riordinare tutto**.
 
 ### Progetti
 
-Ogni progetto ha una **cartella** dentro `images/drawings/`. Il **nome della cartella** diventa l'`id` del progetto (es. `schizzi-urbani`).
+Ogni progetto ha una **cartella** dentro `images/drawings/` (es. `attivismo`, `fumetti`). Il **nome della cartella** diventa l'`id` del progetto.
 
 **Per aggiungere un nuovo progetto:**
 
-1. Crea la cartella `images/drawings/id-progetto/` (es. `images/drawings/ritratti/`)
-2. Aggiungi le immagini del progetto dentro quella cartella
-3. Esegui `npm run sync` e rispondi alle domande per il progetto e per ogni nuova immagine
+1. Crea `images/drawings/id-progetto/`
+2. Aggiungi singoli (file) e/o gruppi (sottocartelle)
+3. Esegui `npm run sync`
 
-**Per aggiungere un disegno a un progetto esistente:**
+**Per aggiungere contenuto a un progetto esistente:**
 
-1. Salva l'immagine nella cartella del progetto
+1. Salva file o sottocartelle nella cartella del progetto
 2. Esegui `npm run sync`
 
-Lo script rileva solo **novità** (cartelle o immagini non ancora presenti nei JSON). Non rimuove voci esistenti: se cancelli un file, aggiorna manualmente i JSON.
+Lo script rileva **novità** (cartelle, file o gruppi non ancora presenti nei JSON) e **rimuove** voci il cui file, gruppo o cartella progetto non esiste più su disco. Per i gruppi, se elimini singole immagini, restano le altre e `cover` viene aggiornato a `images[0]`.
 
 ### Come funziona in galleria
 
-- **Immagini nella root** di `images/drawings/` → compaiono con il filtro **Altri lavori** (vista predefinita).
-- **Immagini in una sottocartella** → compaiono solo quando quel progetto è selezionato (chip o click su una card progetto).
+- **Altri lavori** (vista predefinita): tutte le voci **senza** `project` — singoli e gruppi da `[other_images]/`.
+- **Filtro progetto**: voci con `"project": "id-progetto"`.
+- **Una card per voce JSON**; i gruppi usano `cover` come anteprima.
+- **Lightbox**: singoli = una immagine; gruppi = carousel con frecce, contatore e caption fissa; tasti ← → per navigare.
 
 Cliccando una card nella sezione **Progetti**, la pagina scorre alla galleria e filtra i disegni di quel progetto. I chip sotto il titolo Galleria permettono di cambiare filtro; cliccare di nuovo il chip attivo torna alla vista **Altri lavori**.
 
 ### Modifica manuale dei JSON (opzionale)
 
-I file `content/drawings.json` e `content/projects.json` possono essere modificati a mano per correggere titoli, descrizioni o anni. Esempio di disegno in un progetto:
+I file `content/drawings.json` e `content/projects.json` possono essere modificati a mano. Esempi:
 
+**Singolo (Altri lavori):**
 ```json
 {
-  "title": "Vicolo al mattino",
-  "image": "images/drawings/schizzi-urbani/vicolo.webp",
-  "year": "2025",
-  "description": "Schizzo a matita di un vicolo al mattino.",
-  "project": "schizzi-urbani"
+  "title": "Birra Bella",
+  "image": "images/drawings/[other_images]/Birra1.jpg",
+  "year": "2026",
+  "description": "Bella",
+  "grouped": "single"
 }
 ```
 
-Esempio di progetto:
+**Singolo in progetto:**
+```json
+{
+  "title": "Angry Females",
+  "image": "images/drawings/attivismo/Donna vacca.png",
+  "year": "2026",
+  "description": "Progetto per l'8 marzo",
+  "project": "attivismo",
+  "grouped": "single"
+}
+```
+
+**Gruppo (carousel):**
+```json
+{
+  "title": "Cani",
+  "group": "cani",
+  "grouped": "multiple",
+  "cover": "images/drawings/fumetti/cani/Cani1.jpg",
+  "images": [
+    "images/drawings/fumetti/cani/Cani1.jpg",
+    "images/drawings/fumetti/cani/Cani2.jpg"
+  ],
+  "year": "2026",
+  "description": "Cani belli belli",
+  "project": "fumetti"
+}
+```
+
+**Progetto:**
 
 ```json
 {
@@ -218,4 +268,4 @@ Dopo la pubblicazione, puoi collegare un dominio personalizzato dalle impostazio
 
 ## Sostituire le immagini di esempio
 
-Le immagini attuali in `images/drawings/` sono placeholder SVG. Sostituiscile con i veri disegni e usa `npm run sync` per aggiornare i JSON, oppure modifica i percorsi manualmente.
+Sostituisci i file in `images/drawings/[other_images]/` e nelle cartelle progetto con i veri disegni, poi usa `npm run sync` per aggiornare i JSON, oppure modifica i percorsi manualmente.

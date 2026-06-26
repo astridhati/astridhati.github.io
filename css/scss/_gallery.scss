@@ -89,6 +89,31 @@
   background: var(--color-border);
 }
 
+.gallery-item-media {
+  position: relative;
+}
+
+.gallery-item-group-badge {
+  position: absolute;
+  top: var(--space-xs);
+  right: var(--space-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.50rem;
+  height: 2.50rem;
+  border-radius: 999px;
+  background: rgba(250, 248, 245, 0.92);
+  color: var(--color-teal);
+  box-shadow: 0 2px 8px rgba(44, 40, 37, 0.12);
+  pointer-events: none;
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
 .gallery-item-info {
   padding: var(--space-sm) 10px;
 }

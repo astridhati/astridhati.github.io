@@ -4,11 +4,14 @@
   background: var(--color-bg-alt);
 }
 
+.gallery-intro {
+  color: var(--color-text-muted);
+}
+
 .gallery-filters {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: var(--space-md);
 }
 
 .filter-chip {
@@ -115,12 +118,15 @@
 }
 
 .gallery-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
   padding: var(--space-sm) 10px;
 }
 
 .gallery-item-title {
   font-size: 1.25rem;
-  margin: 0 0 var(--space-xs);
+  margin: 0;
 
   @include from-xl {
     font-size: 1.375rem;

@@ -8,6 +8,10 @@ export interface SiteConfig {
   heroBackground: string;
   logo: string;
   social: Record<string, string>;
+  homepage?: {
+    featuredProjects?: string[];
+    featuredDrawings?: string[];
+  };
 }
 
 export interface Project {
@@ -25,6 +29,7 @@ export interface Project {
 }
 
 export interface Drawing {
+  id: string;
   title: string;
   title_en?: string;
   year: string;

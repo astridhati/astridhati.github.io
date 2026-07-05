@@ -49,11 +49,19 @@ const jsonLd = {
   jsonLd={jsonLd}
 >
   <section class="projects section" aria-labelledby="project-title">
-    <div class="container">
+    <div class="container stack stack--lg stack--pad-top">
       <nav class="breadcrumb" aria-label="Breadcrumb">
+        <img
+          src="/images/star.png"
+          alt=""
+          class="breadcrumb__star"
+          width="18"
+          height="18"
+          aria-hidden="true"
+        />
         <a href={localizedPath("/progetti/", locale)}>{strings.projects.breadcrumb}</a>
-        <span aria-hidden="true"> / </span>
-        <span>{projectName(project, locale)}</span>
+        <span class="breadcrumb__sep" aria-hidden="true"> / </span>
+        <span class="breadcrumb__current" aria-current="page">{projectName(project, locale)}</span>
       </nav>
 
       <header class="project-header">
@@ -66,7 +74,7 @@ const jsonLd = {
             loading="eager"
           />
         </div>
-        <div class="project-header-body">
+        <div class="project-header-body stack stack--sm">
           <h1 id="project-title" class="section-title">{projectName(project, locale)}</h1>
           {project.year && <p class="project-card-year">{project.year}</p>}
           {projectDescription(project, locale) && (
@@ -89,24 +97,43 @@ const jsonLd = {
   @use "../styles/breakpoints" as *;
 
   .breadcrumb {
-    margin-bottom: var(--space-md);
-    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.02em;
     color: var(--color-text-muted);
 
+    &__star {
+      flex-shrink: 0;
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+
     a {
-      color: var(--color-text);
+      color: var(--color-teal);
       text-decoration: none;
 
       &:hover {
-        text-decoration: underline;
+        color: var(--color-pink);
       }
+    }
+
+    &__sep {
+      opacity: 0.5;
+      user-select: none;
+    }
+
+    &__current {
+      color: var(--color-pink);
     }
   }
 
   .project-header {
     display: grid;
     gap: var(--space-md);
-    margin-bottom: var(--space-lg);
 
     @include from-md {
       grid-template-columns: 1fr 1fr;
@@ -122,12 +149,10 @@ const jsonLd = {
   }
 
   .project-header-description {
-    margin-top: var(--space-sm);
     line-height: 1.6;
   }
 
   .section-title--sub {
     font-size: 1.5rem;
-    margin-bottom: var(--space-md);
   }
 </style>

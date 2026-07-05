@@ -55,6 +55,7 @@ export const ui = {
     home: {
       projects: "Progetti",
       seeAllProjects: "Vedi tutti i progetti",
+      seeAllGallery: "Vedi tutta la galleria",
       featured: "In evidenza",
       commissions: "Commissioni",
       commissionsIntro: "Per commissioni o collaborazioni, scrivimi.",
@@ -71,6 +72,7 @@ export const ui = {
         `Contatta ${name} per commissioni, collaborazioni e progetti illustrativi.`,
       intro: "Per commissioni o collaborazioni, scrivimi.",
       email: "Scrivimi un'email",
+      emailAtPrefix: "Puoi contattarmi a questo indirizzo email:",
       social: "Social",
     },
     projects: {
@@ -87,18 +89,12 @@ export const ui = {
       title: "Galleria",
       pageTitle: (name: string) => `Galleria — ${name}`,
       pageDescription: (name: string) =>
-        `Galleria di illustrazioni e disegni di ${name}. Altri lavori e opere non assegnate a un progetto.`,
-      intro: "Altri lavori — opere singole e collezioni non assegnate a un progetto.",
+        `Galleria completa di illustrazioni e disegni di ${name}, dai progetti e altri lavori.`,
+      intro: "Tutte le opere — altri lavori e disegni dai progetti.",
       empty: "Nessun lavoro al momento.",
       emptyProject: "Nessun disegno in questo progetto.",
       openItem: (title: string) => `Apri ${title}`,
       openGroup: (title: string) => `Apri gruppo ${title}`,
-    },
-    carousel: {
-      label: "Progetti",
-      prev: "Progetto precedente",
-      next: "Progetto successivo",
-      select: "Seleziona progetto",
     },
     lightbox: {
       close: "Chiudi",
@@ -129,6 +125,7 @@ export const ui = {
     home: {
       projects: "Projects",
       seeAllProjects: "View all projects",
+      seeAllGallery: "View full gallery",
       featured: "Featured",
       commissions: "Commissions",
       commissionsIntro: "For commissions or collaborations, get in touch.",
@@ -145,6 +142,7 @@ export const ui = {
         `Contact ${name} for commissions, collaborations, and illustration projects.`,
       intro: "For commissions or collaborations, get in touch.",
       email: "Send me an email",
+      emailAtPrefix: "You can contact me at this email address:",
       social: "Social",
     },
     projects: {
@@ -161,18 +159,12 @@ export const ui = {
       title: "Gallery",
       pageTitle: (name: string) => `Gallery — ${name}`,
       pageDescription: (name: string) =>
-        `Gallery of illustrations and drawings by ${name}. Other works not assigned to a project.`,
-      intro: "Other works — single pieces and collections not assigned to a project.",
+        `Full gallery of illustrations and drawings by ${name}, from projects and standalone works.`,
+      intro: "All works — standalone pieces and illustrations from projects.",
       empty: "No works yet.",
       emptyProject: "No drawings in this project.",
       openItem: (title: string) => `Open ${title}`,
       openGroup: (title: string) => `Open group ${title}`,
-    },
-    carousel: {
-      label: "Projects",
-      prev: "Previous project",
-      next: "Next project",
-      select: "Select project",
     },
     lightbox: {
       close: "Close",

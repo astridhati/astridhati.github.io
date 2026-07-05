@@ -1,7 +1,7 @@
 ---
 import type { Project } from "../lib/types";
 import type { Locale } from "../lib/types";
-import { assetPath, projectDescription, projectName } from "../lib/types";
+import { assetPath, projectName } from "../lib/types";
 import { getUi, localizedPath } from "../lib/i18n";
 
 interface Props {
@@ -20,34 +20,18 @@ const name = projectName(project, locale);
   role="listitem"
   aria-label={strings.projects.openProject(name)}
 >
-  <div class="project-card-image-wrap">
+  <div class="project-card-media">
     <img
       class="project-card-image"
       src={assetPath(project.cover)}
       alt={name}
       loading="lazy"
-      width="600"
-      height="400"
+      width="400"
+      height="500"
     />
   </div>
-  <div class="project-card-body">
+  <div class="project-card-info">
     <h3 class="project-card-title">{name}</h3>
     {project.year && <p class="project-card-year">{project.year}</p>}
-    {projectDescription(project, locale) && (
-      <p class="project-card-description">{projectDescription(project, locale)}</p>
-    )}
   </div>
 </a>
-
-<style>
-  a.project-card {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    transition: transform var(--transition);
-  }
-
-  a.project-card:hover {
-    transform: translateY(-2px);
-  }
-</style>

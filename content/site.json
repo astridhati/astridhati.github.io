@@ -11,5 +11,9 @@
     "instagram": "https://instagram.com/",
     "behance": "",
     "pinterest": ""
+  },
+  "homepage": {
+    "featuredProjects": ["attivismo", "fumetti", "libri"],
+    "featuredDrawings": ["angry-females", "cani", "pippi"]
   }
 }

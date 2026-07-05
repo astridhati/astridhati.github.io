@@ -1,15 +1,37 @@
+@use "breakpoints" as *;
+
 .contact {
   text-align: center;
 }
 
 .contact-intro {
   color: var(--color-text-muted);
-  margin: 0 0 var(--space-md);
+  margin: 0;
+}
+
+.contact-email {
+  align-items: center;
+}
+
+.contact-email-desktop {
+  display: none;
+  margin: 0;
+  max-width: 36rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+
+  @include from-md {
+    display: block;
+  }
 }
 
 .contact-button {
   display: inline-flex;
   align-items: center;
+  align-self: center;
+  width: fit-content;
+  max-width: 100%;
   gap: var(--space-xs);
   padding: 0.75rem 1.5rem;
   font-size: 0.9375rem;
@@ -24,4 +46,24 @@
     color: var(--color-bg);
     background: var(--color-accent-pink-bg);
   }
+}
+
+.contact-button.contact-email-mobile {
+  @include from-md {
+    display: none;
+  }
+}
+
+.contact-email-desktop strong {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.contact-social-title {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}
+
+.contact-social .nav-actions {
+  justify-content: center;
 }

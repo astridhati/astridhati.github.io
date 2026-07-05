@@ -20,7 +20,7 @@ const description = siteBio(site, locale).slice(0, 160);
 
 <Layout locale={locale} title={title} description={description} canonical={canonical}>
   <section class="about section" aria-labelledby="about-title">
-    <div class="container">
+    <div class="container stack stack--md stack--pad-top">
       <h1 id="about-title" class="section-title">{strings.about.title}</h1>
       <p class="about-bio">{siteBio(site, locale)}</p>
       {siteTagline(site, locale) && (
@@ -29,11 +29,3 @@ const description = siteBio(site, locale).slice(0, 160);
     </div>
   </section>
 </Layout>
-
-<style>
-  .about-tagline {
-    margin-top: var(--space-md);
-    font-size: 1.125rem;
-    color: var(--color-text-muted);
-  }
-</style>

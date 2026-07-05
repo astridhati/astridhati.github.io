@@ -42,6 +42,39 @@ collections:
               - { label: Facebook, name: facebook, widget: string, required: false }
               - { label: LinkedIn, name: linkedin, widget: string, required: false }
               - { label: YouTube, name: youtube, widget: string, required: false }
+          - label: Homepage
+            name: homepage
+            widget: object
+            required: false
+            fields:
+              - label: Progetti in homepage
+                name: featuredProjects
+                widget: list
+                max: 6
+                required: false
+                hint: "Progetti mostrati nella sezione Progetti (max 6)"
+                field:
+                  label: Progetto
+                  name: project
+                  widget: relation
+                  collection: projects
+                  value_field: id
+                  search_fields: [name, id]
+                  display_fields: [name]
+              - label: Disegni in evidenza
+                name: featuredDrawings
+                widget: list
+                max: 3
+                required: false
+                hint: "Opere mostrate in In evidenza, collegate alla galleria (max 3)"
+                field:
+                  label: Disegno
+                  name: drawing
+                  widget: relation
+                  collection: drawings
+                  value_field: id
+                  search_fields: [title, id]
+                  display_fields: [title]
 
   - name: projects
     label: Progetti
@@ -71,11 +104,13 @@ collections:
     label_singular: Disegno
     folder: content/drawings
     create: true
-    slug: "{{title}}"
+    slug: "{{id}}"
+    identifier_field: id
     summary: "{{title}}"
     extension: json
     format: json
     fields:
+      - { label: ID (slug file), name: id, widget: string, hint: "Es. angry-females — usato per homepage e nome file" }
       - { label: Titolo (IT), name: title, widget: string }
       - { label: Title (EN), name: title_en, widget: string, required: false }
       - { label: Anno, name: year, widget: string }
@@ -96,7 +131,7 @@ collections:
         display_fields: [name]
         search_fields: [name, id]
         required: false
-        hint: "Lascia vuoto per Altri lavori (galleria senza progetto)"
+        hint: "Opzionale — lascia vuoto per altri lavori (mostrati per primi in galleria)"
       - label: Immagine
         name: image
         widget: image

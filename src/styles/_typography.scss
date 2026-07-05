@@ -6,7 +6,7 @@
   font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 400;
-  margin: 0 0 var(--space-md);
+  margin: 0;
   letter-spacing: 0.02em;
 
   &::before {

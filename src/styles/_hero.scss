@@ -4,24 +4,20 @@
   position: relative;
   background-color: var(--color-bg-alt);
   background-image: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
-  margin-bottom: var(--space-md);
 
   &:not(.hero--has-background) {
     min-height: clamp(10rem, 32vh, 16rem);
 
     @include from-sm {
       min-height: clamp(20rem, 64vh, 32rem);
-      margin-bottom: var(--space-lg);
     }
 
     @include from-lg {
       min-height: clamp(24rem, 60vh, 34rem);
-      margin-bottom: var(--space-xl);
     }
 
     @include from-xl {
       min-height: clamp(26rem, 56vh, 36rem);
-      margin-bottom: var(--space-xl);
     }
   }
 }
@@ -38,11 +34,6 @@
 
   @include from-sm {
     height: 576px;
-    margin-bottom: var(--space-lg);
-  }
-
-  @include from-lg {
-    margin-bottom: var(--space-xl);
   }
 }
 

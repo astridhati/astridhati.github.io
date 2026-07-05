@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import GalleryGrid from "../components/GalleryGrid.astro";
-import { getSite, getUnassignedDrawings } from "../lib/content";
+import { getGalleryDrawings, getSite } from "../lib/content";
 import { getUi, localizedPath } from "../lib/i18n";
 import type { Locale } from "../lib/types";
 
@@ -11,7 +11,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const site = getSite();
-const drawings = getUnassignedDrawings();
+const drawings = getGalleryDrawings();
 const strings = getUi(locale);
 const siteUrl = "https://astridhati.github.io";
 const canonical = `${siteUrl}${localizedPath("/galleria/", locale)}`;
@@ -22,7 +22,7 @@ const description = strings.gallery.pageDescription(site.name);
 
 <Layout locale={locale} title={title} description={description} canonical={canonical}>
   <section class="gallery section" aria-labelledby="gallery-title">
-    <div class="container">
+    <div class="container stack stack--md stack--pad-top">
       <h1 id="gallery-title" class="section-title">{strings.gallery.title}</h1>
       <p class="gallery-intro">{strings.gallery.intro}</p>
       <GalleryGrid
@@ -33,10 +33,3 @@ const description = strings.gallery.pageDescription(site.name);
     </div>
   </section>
 </Layout>
-
-<style>
-  .gallery-intro {
-    margin-bottom: var(--space-md);
-    color: var(--color-text-muted);
-  }
-</style>

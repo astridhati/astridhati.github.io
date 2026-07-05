@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import SocialIcon from "../components/SocialIcon.astro";
 import { getSite } from "../lib/content";
+import { mailtoLink } from "../lib/email";
 import { getUi, localizedPath } from "../lib/i18n";
 import type { Locale } from "../lib/types";
 
@@ -21,19 +22,25 @@ const description = strings.contact.pageDescription(site.name);
 
 <Layout locale={locale} title={title} description={description} canonical={canonical}>
   <section class="contact section" aria-labelledby="contact-title">
-    <div class="container">
+    <div class="container stack stack--lg stack--pad-top">
       <h1 id="contact-title" class="section-title">{strings.contact.title}</h1>
       <p class="contact-intro">{strings.contact.intro}</p>
       {
         site.email && (
-          <a class="contact-button" href={`mailto:${site.email}`}>
-            {strings.contact.email}
-          </a>
+          <div class="contact-email stack stack--sm">
+            <p class="contact-email-desktop">
+              {strings.contact.emailAtPrefix}{" "}
+              <strong>{site.email}</strong>
+            </p>
+            <a class="contact-button contact-email-mobile" href={mailtoLink(site.email)}>
+              {strings.contact.email}
+            </a>
+          </div>
         )
       }
       {
         site.social && Object.keys(site.social).length > 0 && (
-          <div class="contact-social">
+          <div class="contact-social stack stack--sm">
             <h2 class="contact-social-title">{strings.contact.social}</h2>
             <div class="nav-actions">
               {
@@ -48,19 +55,3 @@ const description = strings.contact.pageDescription(site.name);
     </div>
   </section>
 </Layout>
-
-<style>
-  .contact-social {
-    margin-top: var(--space-lg);
-  }
-
-  .contact-social-title {
-    font-size: 1rem;
-    margin-bottom: var(--space-sm);
-    color: var(--color-text-muted);
-  }
-
-  .contact-social .nav-actions {
-    justify-content: flex-start;
-  }
-</style>

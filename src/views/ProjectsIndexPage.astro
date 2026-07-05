@@ -22,7 +22,7 @@ const description = strings.projects.pageDescription(site.name);
 
 <Layout locale={locale} title={title} description={description} canonical={canonical}>
   <section class="projects section" aria-labelledby="projects-title">
-    <div class="container">
+    <div class="container stack stack--md stack--pad-top">
       <h1 id="projects-title" class="section-title">{strings.projects.title}</h1>
       <div class="projects-grid" role="list">
         {
@@ -36,21 +36,3 @@ const description = strings.projects.pageDescription(site.name);
     </div>
   </section>
 </Layout>
-
-<style lang="scss">
-  @use "../styles/breakpoints" as *;
-
-  .projects-grid {
-    display: grid;
-    gap: var(--space-md);
-    grid-template-columns: 1fr;
-
-    @include from-sm {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    @include from-lg {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-</style>

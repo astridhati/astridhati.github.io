@@ -7,6 +7,7 @@ export interface SiteConfig {
   email: string;
   heroBackground: string;
   logo: string;
+  instagramIcon?: string;
   social: Record<string, string>;
   homepage?: {
     featuredProjects?: string[];

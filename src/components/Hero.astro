@@ -2,7 +2,7 @@
 import type { SiteConfig } from "../lib/types";
 import { assetPath } from "../lib/types";
 import type { Locale } from "../lib/types";
-import { siteTagline, getUi } from "../lib/i18n";
+import { getUi } from "../lib/i18n";
 
 interface Props {
   site: SiteConfig;
@@ -11,42 +11,25 @@ interface Props {
 
 const { site, locale } = Astro.props;
 const strings = getUi(locale);
-const heroStyle = site.heroBackground
-  ? `background-image: url("${assetPath(site.heroBackground)}")`
-  : undefined;
-const tagline = siteTagline(site, locale);
+const heroBackground = site.heroBackground?.trim();
 ---
 
 <section
   id="hero"
-  class:list={["hero", { "hero--has-background": !!site.heroBackground }]}
+  class:list={["hero", { "hero--has-background": !!heroBackground }]}
   aria-label={strings.hero.aria}
-  style={heroStyle}
 >
-  <div class="hero-overlay" aria-hidden="true"></div>
-  <div class="hero-content container">
-    <h1 class="hero-title">{site.name}</h1>
-    {tagline && <p class="hero-tagline">{tagline}</p>}
-  </div>
+  {
+    heroBackground && (
+      <img
+        src={assetPath(heroBackground)}
+        alt=""
+        class="hero-image"
+        width="1024"
+        height="576"
+        loading="eager"
+        decoding="async"
+      />
+    )
+  }
 </section>
-
-<style>
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding-block: var(--space-xl);
-  }
-
-  .hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    color: var(--color-text);
-    margin-bottom: var(--space-sm);
-  }
-
-  .hero-tagline {
-    font-size: 1.125rem;
-    color: var(--color-text-muted);
-  }
-</style>

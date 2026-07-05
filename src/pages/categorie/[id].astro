@@ -1,0 +1,18 @@
+---
+import CategoryDetailPage from "../../views/CategoryDetailPage.astro";
+import { getCategory, getCategoryIds } from "../../lib/content";
+
+export function getStaticPaths() {
+  return getCategoryIds().map((id) => ({ params: { id } }));
+}
+
+const { id } = Astro.params;
+const category = getCategory(id!);
+
+if (!category) {
+  return Astro.redirect("/galleria/");
+}
+
+---
+
+<CategoryDetailPage locale="it" category={category} />

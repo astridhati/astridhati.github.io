@@ -1,0 +1,18 @@
+---
+import DrawingGroupPage from "../../../views/DrawingGroupPage.astro";
+import { getDrawing, getGroupDrawingIds } from "../../../lib/content";
+
+export function getStaticPaths() {
+  return getGroupDrawingIds().map((id) => ({ params: { id } }));
+}
+
+const { id } = Astro.params;
+const drawing = getDrawing(id!);
+
+if (!drawing || drawing.grouped !== "multiple") {
+  return Astro.redirect("/en/galleria/");
+}
+
+---
+
+<DrawingGroupPage locale="en" drawing={drawing} />

@@ -16,7 +16,6 @@
 
 .filter-chip {
   padding: 0.5rem 1rem;
-  font-family: var(--font-body);
   font-size: 0.875rem;
   font-weight: 400;
   letter-spacing: 0.04em;
@@ -51,7 +50,7 @@
 .gallery-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-md);
+  gap: 8px;
 
   @include from-sm {
     grid-template-columns: repeat(2, 1fr);
@@ -64,6 +63,7 @@
 
 .gallery-item {
   position: relative;
+  display: block;
   border: none;
   padding: 0;
   background: none;
@@ -71,6 +71,8 @@
   border-radius: var(--radius);
   overflow: hidden;
   text-align: left;
+  text-decoration: none;
+  color: inherit;
   transition: transform var(--transition), box-shadow var(--transition);
   border: 1px solid var(--color-border);
 
@@ -85,58 +87,17 @@
   }
 }
 
-.gallery-item-image {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  background: var(--color-border);
-}
-
 .gallery-item-media {
   position: relative;
+  height: var(--card-image-height);
 }
 
-.gallery-item-group-badge {
-  position: absolute;
-  top: var(--space-xs);
-  right: var(--space-xs);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.50rem;
-  height: 2.50rem;
-  border-radius: 999px;
-  background: rgba(250, 248, 245, 0.92);
-  color: var(--color-teal);
-  box-shadow: 0 2px 8px rgba(44, 40, 37, 0.12);
-  pointer-events: none;
-
-  svg {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-}
-
-.gallery-item-info {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-sm) 10px;
-}
-
-.gallery-item-title {
-  font-size: 1.25rem;
-  margin: 0;
-
-  @include from-xl {
-    font-size: 1.375rem;
-  }
-}
-
-.gallery-item-year {
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
-  margin: 0;
+.gallery-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background: var(--color-border);
 }
 
 .gallery-empty {

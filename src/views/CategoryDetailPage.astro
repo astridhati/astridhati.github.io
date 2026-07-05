@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+import GalleryGrid from "../components/GalleryGrid.astro";
+import { getDrawingsByCategory, getSite } from "../lib/content";
+import {
+  categoryDescription,
+  categoryName,
+  categorySeoDescription,
+  categorySeoTitle,
+} from "../lib/types";
+import type { Category, Locale } from "../lib/types";
+import { getUi, localizedPath } from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  category: Category;
+}
+
+const { locale, category } = Astro.props;
+const site = getSite();
+const drawings = getDrawingsByCategory(category.id);
+const strings = getUi(locale);
+const siteUrl = "https://astridhati.github.io";
+const canonical = `${siteUrl}${localizedPath(`/categorie/${category.id}/`, locale)}`;
+
+const title = categorySeoTitle(category, site.name, locale);
+const description = categorySeoDescription(category, site.name, locale);
+const name = categoryName(category, locale);
+const intro = categoryDescription(category, locale);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name,
+  description: intro || description,
+  url: canonical,
+};
+---
+
+<Layout
+  locale={locale}
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+>
+  <section class="category section" aria-labelledby="category-title">
+    <div class="container stack stack--lg stack--pad-top">
+      <header class="category-header stack stack--sm">
+        <h1 id="category-title" class="section-title">{name}</h1>
+        {category.year && <p class="category-year">{category.year}</p>}
+        {intro && <p class="category-description">{intro}</p>}
+      </header>
+
+      <div class="stack stack--md">
+        <h2 class="category-works-title">{strings.categories.works}</h2>
+        <GalleryGrid
+          drawings={drawings}
+          locale={locale}
+          emptyMessage={strings.categories.empty}
+        />
+      </div>
+    </div>
+  </section>
+</Layout>

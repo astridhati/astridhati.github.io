@@ -23,6 +23,14 @@ export function localizedPath(path: string, locale: Locale): string {
   return withSlash;
 }
 
+export function categoryPath(categoryId: string, locale: Locale): string {
+  return localizedPath(`/categorie/${categoryId}/`, locale);
+}
+
+export function drawingGroupPath(drawingId: string, locale: Locale): string {
+  return localizedPath(`/galleria/${drawingId}/`, locale);
+}
+
 export function switchLocalePath(pathname: string): string {
   const locale = getLocaleFromPath(pathname);
   const path = stripLocalePrefix(pathname);
@@ -31,7 +39,7 @@ export function switchLocalePath(pathname: string): string {
 
 export const navRoutes = {
   about: "/chi-sono/",
-  projects: "/progetti/",
+  categories: "/categorie/",
   gallery: "/galleria/",
   contact: "/contatti/",
 } as const;
@@ -42,7 +50,8 @@ export const ui = {
   it: {
     nav: {
       about: "Chi sono",
-      projects: "Progetti",
+      categories: "Categorie",
+      categoriesMenu: "Categorie opere",
       gallery: "Galleria",
       contact: "Contatti",
       aria: "Navigazione principale",
@@ -53,12 +62,6 @@ export const ui = {
     },
     hero: { aria: "Introduzione" },
     home: {
-      projects: "Progetti",
-      seeAllProjects: "Vedi tutti i progetti",
-      seeAllGallery: "Vedi tutta la galleria",
-      featured: "In evidenza",
-      commissions: "Commissioni",
-      commissionsIntro: "Per commissioni o collaborazioni, scrivimi.",
       contactMe: "Contattami",
     },
     about: {
@@ -75,26 +78,21 @@ export const ui = {
       emailAtPrefix: "Puoi contattarmi a questo indirizzo email:",
       social: "Social",
     },
-    projects: {
-      title: "Progetti",
-      pageTitle: (name: string) => `Progetti — ${name}`,
-      pageDescription: (name: string) =>
-        `Scopri i progetti illustrativi di ${name}: fumetti, cover, attivismo e altro.`,
-      empty: "Nessun progetto al momento.",
+    categories: {
       works: "Opere",
-      breadcrumb: "Progetti",
-      openProject: (name: string) => `Apri progetto ${name}`,
+      empty: "Nessun disegno in questa categoria.",
     },
     gallery: {
       title: "Galleria",
       pageTitle: (name: string) => `Galleria — ${name}`,
       pageDescription: (name: string) =>
-        `Galleria completa di illustrazioni e disegni di ${name}, dai progetti e altri lavori.`,
-      intro: "Tutte le opere — altri lavori e disegni dai progetti.",
+        `Galleria completa di illustrazioni e disegni di ${name}, per categoria e altri lavori.`,
+      intro: "Tutte le opere — altri lavori e disegni per categoria.",
       empty: "Nessun lavoro al momento.",
-      emptyProject: "Nessun disegno in questo progetto.",
+      emptyCategory: "Nessun disegno in questa categoria.",
       openItem: (title: string) => `Apri ${title}`,
-      openGroup: (title: string) => `Apri gruppo ${title}`,
+      openGroup: (title: string) => `Vedi gruppo ${title}`,
+      viewGroup: (title: string) => `Vedi gruppo ${title}`,
     },
     lightbox: {
       close: "Chiudi",
@@ -112,7 +110,8 @@ export const ui = {
   en: {
     nav: {
       about: "About",
-      projects: "Projects",
+      categories: "Categories",
+      categoriesMenu: "Work categories",
       gallery: "Gallery",
       contact: "Contact",
       aria: "Main navigation",
@@ -123,12 +122,6 @@ export const ui = {
     },
     hero: { aria: "Introduction" },
     home: {
-      projects: "Projects",
-      seeAllProjects: "View all projects",
-      seeAllGallery: "View full gallery",
-      featured: "Featured",
-      commissions: "Commissions",
-      commissionsIntro: "For commissions or collaborations, get in touch.",
       contactMe: "Contact me",
     },
     about: {
@@ -145,26 +138,21 @@ export const ui = {
       emailAtPrefix: "You can contact me at this email address:",
       social: "Social",
     },
-    projects: {
-      title: "Projects",
-      pageTitle: (name: string) => `Projects — ${name}`,
-      pageDescription: (name: string) =>
-        `Explore illustration projects by ${name}: comics, book covers, activism, and more.`,
-      empty: "No projects yet.",
+    categories: {
       works: "Works",
-      breadcrumb: "Projects",
-      openProject: (name: string) => `Open project ${name}`,
+      empty: "No drawings in this category.",
     },
     gallery: {
       title: "Gallery",
       pageTitle: (name: string) => `Gallery — ${name}`,
       pageDescription: (name: string) =>
-        `Full gallery of illustrations and drawings by ${name}, from projects and standalone works.`,
-      intro: "All works — standalone pieces and illustrations from projects.",
+        `Full gallery of illustrations and drawings by ${name}, by category and standalone works.`,
+      intro: "All works — standalone pieces and drawings by category.",
       empty: "No works yet.",
-      emptyProject: "No drawings in this project.",
+      emptyCategory: "No drawings in this category.",
       openItem: (title: string) => `Open ${title}`,
       openGroup: (title: string) => `Open group ${title}`,
+      viewGroup: (title: string) => `View group ${title}`,
     },
     lightbox: {
       close: "Close",
@@ -193,6 +181,10 @@ export function siteTagline(site: SiteConfig, locale: Locale): string {
 
 export function siteBio(site: SiteConfig, locale: Locale): string {
   return t(site.bio, site.bio_en, locale);
+}
+
+export function siteWelcome(site: SiteConfig, locale: Locale): string {
+  return t(site.welcome, site.welcome_en, locale);
 }
 
 export function homeTitle(site: SiteConfig, locale: Locale): string {

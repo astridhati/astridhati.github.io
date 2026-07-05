@@ -4,6 +4,8 @@
   "tagline_en": "",
   "bio": "Creo disegni e illustrazioni che raccontano storie attraverso linee, colori e dettagli. Ogni opera nasce da osservazione, immaginazione e molta pazienza. Benvenuti nel mio mondo.",
   "bio_en": "",
+  "welcome": "Benvenuti nel mio mondo di illustrazioni e disegni. Sfoglia la galleria per scoprire i miei lavori.",
+  "welcome_en": "",
   "email": "test@test.com",
   "heroBackground": "images/Volpe.png",
   "logo": "images/Volpelogo.png",
@@ -12,9 +14,5 @@
     "instagram": "https://instagram.com/",
     "behance": "",
     "pinterest": ""
-  },
-  "homepage": {
-    "featuredProjects": ["attivismo", "fumetti", "libri"],
-    "featuredDrawings": ["angry-females", "cani", "pippi"]
   }
 }

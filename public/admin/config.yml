@@ -26,6 +26,8 @@ collections:
           - { label: Tagline (EN), name: tagline_en, widget: string, required: false }
           - { label: Bio (IT), name: bio, widget: text }
           - { label: Bio (EN), name: bio_en, widget: text, required: false }
+          - { label: Testo benvenuto homepage (IT), name: welcome, widget: text, hint: "Testo sotto l'hero, senza titolo" }
+          - { label: Welcome text homepage (EN), name: welcome_en, widget: text, required: false }
           - { label: Email, name: email, widget: string, required: false }
           - { label: Sfondo hero, name: heroBackground, widget: image, required: false }
           - { label: Logo, name: logo, widget: image, required: false }
@@ -43,44 +45,11 @@ collections:
               - { label: Facebook, name: facebook, widget: string, required: false }
               - { label: LinkedIn, name: linkedin, widget: string, required: false }
               - { label: YouTube, name: youtube, widget: string, required: false }
-          - label: Homepage
-            name: homepage
-            widget: object
-            required: false
-            fields:
-              - label: Progetti in homepage
-                name: featuredProjects
-                widget: list
-                max: 6
-                required: false
-                hint: "Progetti mostrati nella sezione Progetti (max 6)"
-                field:
-                  label: Progetto
-                  name: project
-                  widget: relation
-                  collection: projects
-                  value_field: id
-                  search_fields: [name, id]
-                  display_fields: [name]
-              - label: Disegni in evidenza
-                name: featuredDrawings
-                widget: list
-                max: 3
-                required: false
-                hint: "Opere mostrate in In evidenza, collegate alla galleria (max 3)"
-                field:
-                  label: Disegno
-                  name: drawing
-                  widget: relation
-                  collection: drawings
-                  value_field: id
-                  search_fields: [title, id]
-                  display_fields: [title]
 
-  - name: projects
-    label: Progetti
-    label_singular: Progetto
-    folder: content/projects
+  - name: categories
+    label: Categorie
+    label_singular: Categoria
+    folder: content/categories
     create: true
     slug: "{{id}}"
     identifier_field: id
@@ -126,10 +95,10 @@ collections:
         options:
           - { label: Singolo — una immagine, value: single }
           - { label: Gruppo — carousel in galleria, value: multiple }
-      - label: Progetto
-        name: project
+      - label: Categoria
+        name: category
         widget: relation
-        collection: projects
+        collection: categories
         value_field: id
         display_fields: [name]
         search_fields: [name, id]

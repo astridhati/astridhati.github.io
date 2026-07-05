@@ -1,0 +1,88 @@
+---
+import type { SiteConfig } from "../lib/types";
+import { assetPath } from "../lib/types";
+import SocialIcon from "./SocialIcon.astro";
+
+interface Props {
+  site: SiteConfig;
+  currentPath?: string;
+}
+
+const { site, currentPath = "" } = Astro.props;
+
+const navLinks = [
+  { href: "/chi-sono/", label: "Chi sono" },
+  { href: "/progetti/", label: "Progetti" },
+  { href: "/galleria/", label: "Galleria" },
+  { href: "/contatti/", label: "Contatti" },
+];
+
+function isActive(href: string): boolean {
+  if (href === "/") return currentPath === "/";
+  return currentPath.startsWith(href);
+}
+---
+
+<header class="site-header">
+  <nav class="nav" aria-label="Navigazione principale">
+    <div id="nav-menu" class="nav-menu">
+      <div class="nav-links">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class:list={["nav-link", { "nav-link--active": isActive(link.href) }]}
+              aria-current={isActive(link.href) ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+    {
+      site.logo && (
+        <a href="/" class="nav-logo" aria-label={`${site.name} — torna all'inizio`}>
+          <img
+            class="nav-logo-image"
+            src={assetPath(site.logo)}
+            alt={site.name}
+            width="120"
+            height="40"
+          />
+        </a>
+      )
+    }
+    <div class="nav-controls">
+      <div class="nav-actions" aria-label="Social e contatti">
+        {
+          site.social &&
+            Object.entries(site.social).map(([platform, url]) =>
+              url ? <SocialIcon platform={platform} url={url} /> : null,
+            )
+        }
+        {
+          site.email && (
+            <SocialIcon platform="email" url={`mailto:${site.email}`} external={false} />
+          )
+        }
+      </div>
+      <button
+        type="button"
+        id="nav-toggle"
+        class="nav-toggle"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+        aria-label="Apri menu"
+      >
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<script>
+  import "../scripts/mobile-nav.ts";
+</script>

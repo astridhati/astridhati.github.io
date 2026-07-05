@@ -1,0 +1,71 @@
+---
+import type { Project } from "../lib/types";
+import ProjectCard from "./ProjectCard.astro";
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+const showControls = projects.length > 1;
+---
+
+<div
+  class="projects-carousel"
+  id="projects-carousel"
+  aria-roledescription="carousel"
+  aria-label="Progetti"
+  tabindex="0"
+  data-project-count={projects.length}
+>
+  <div class="projects-carousel__viewport">
+    <div class="projects-carousel__track" role="list">
+      {
+        projects.length === 0 ? (
+          <p class="gallery-empty">Nessun progetto al momento.</p>
+        ) : (
+          projects.map((project) => <ProjectCard project={project} />)
+        )
+      }
+    </div>
+  </div>
+  {
+    showControls && (
+      <div class="projects-carousel__controls">
+        <button
+          type="button"
+          class="projects-carousel__arrow projects-carousel__arrow--prev"
+          aria-label="Progetto precedente"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="projects-carousel__dots" role="tablist" aria-label="Seleziona progetto">
+          {
+            projects.map((project, i) => (
+              <button
+                type="button"
+                class:list={["projects-carousel__dot", { "projects-carousel__dot--active": i === 0 }]}
+                role="tab"
+                aria-label={project.name}
+                aria-selected={i === 0 ? "true" : "false"}
+                tabindex={i === 0 ? 0 : -1}
+                data-index={i}
+              />
+            ))
+          }
+        </div>
+        <button
+          type="button"
+          class="projects-carousel__arrow projects-carousel__arrow--next"
+          aria-label="Progetto successivo"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    )
+  }
+</div>
+
+<script>
+  import "../scripts/projects-carousel.ts";
+</script>

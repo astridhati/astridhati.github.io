@@ -1,0 +1,101 @@
+# Replace YOUR-CLOUDFLARE-WORKER after deploy (see docs/ADMIN_SETUP.md)
+backend:
+  name: github
+  repo: astridhati/astridhati.github.io
+  branch: feature/rework_into_astro # TEMP: switch back to main after merge
+  base_url: https://sveltia-cms-auth.astridhati-92.workers.dev
+  auth_methods:
+    - oauth
+
+media_folder: public/images/drawings
+public_folder: /images/drawings
+
+locale: it
+
+collections:
+  - name: site
+    label: Impostazioni sito
+    files:
+      - name: site
+        label: Sito
+        file: content/site.json
+        fields:
+          - { label: Nome, name: name, widget: string }
+          - { label: Tagline, name: tagline, widget: string }
+          - { label: Bio, name: bio, widget: text }
+          - { label: Email, name: email, widget: string, required: false }
+          - { label: Sfondo hero, name: heroBackground, widget: image, required: false, media_folder: public/images, public_folder: /images }
+          - { label: Logo, name: logo, widget: image, required: false, media_folder: public/images, public_folder: /images }
+          - label: Social
+            name: social
+            widget: object
+            required: false
+            fields:
+              - { label: Instagram, name: instagram, widget: string, required: false }
+              - { label: Behance, name: behance, widget: string, required: false }
+              - { label: Pinterest, name: pinterest, widget: string, required: false }
+              - { label: TikTok, name: tiktok, widget: string, required: false }
+              - { label: Twitter / X, name: twitter, widget: string, required: false }
+              - { label: Facebook, name: facebook, widget: string, required: false }
+              - { label: LinkedIn, name: linkedin, widget: string, required: false }
+              - { label: YouTube, name: youtube, widget: string, required: false }
+
+  - name: projects
+    label: Progetti
+    folder: content/projects
+    create: true
+    slug: "{{id}}"
+    identifier_field: id
+    extension: json
+    format: json
+    fields:
+      - { label: ID (slug cartella), name: id, widget: string, hint: "Es. attivismo — deve corrispondere alla cartella in images/drawings/" }
+      - { label: Nome, name: name, widget: string }
+      - { label: Copertina, name: cover, widget: image }
+      - { label: Anno, name: year, widget: string }
+      - { label: Descrizione, name: description, widget: text }
+      - { label: Titolo SEO, name: seoTitle, widget: string, required: false }
+      - { label: Descrizione SEO, name: seoDescription, widget: text, required: false }
+
+  - name: drawings
+    label: Disegni
+    folder: content/drawings
+    create: true
+    slug: "{{title}}"
+    extension: json
+    format: json
+    fields:
+      - { label: Titolo, name: title, widget: string }
+      - { label: Anno, name: year, widget: string }
+      - { label: Descrizione, name: description, widget: text, required: false }
+      - label: Tipo
+        name: grouped
+        widget: select
+        options:
+          - { label: Singolo, value: single }
+          - { label: Gruppo (carousel), value: multiple }
+        default: single
+      - { label: Progetto (ID), name: project, widget: string, required: false, hint: "Lascia vuoto per Altri lavori" }
+      - label: Immagine
+        name: image
+        widget: image
+        required: false
+        condition:
+          field: grouped
+          value: single
+      - { label: Slug gruppo, name: group, widget: string, required: false, condition: { field: grouped, value: multiple } }
+      - label: Copertina
+        name: cover
+        widget: image
+        required: false
+        condition:
+          field: grouped
+          value: multiple
+      - label: Immagini del gruppo
+        name: images
+        widget: list
+        required: false
+        condition:
+          field: grouped
+          value: multiple
+        field: { label: Immagine, name: image, widget: image }

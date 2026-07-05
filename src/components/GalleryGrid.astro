@@ -1,0 +1,27 @@
+---
+import type { Drawing } from "../lib/types";
+import GalleryItem from "./GalleryItem.astro";
+
+interface Props {
+  drawings: Drawing[];
+  emptyMessage?: string;
+}
+
+const { drawings, emptyMessage = "Nessun lavoro al momento." } = Astro.props;
+---
+
+<div class="gallery-grid" role="list">
+  {
+    drawings.length === 0 ? (
+      <p class="gallery-empty">{emptyMessage}</p>
+    ) : (
+      drawings.map((drawing, index) => (
+        <GalleryItem drawing={drawing} index={index} />
+      ))
+    )
+  }
+</div>
+
+<script>
+  import "../scripts/lightbox.ts";
+</script>

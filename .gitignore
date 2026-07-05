@@ -1,24 +1,17 @@
-# Dependencies
+# dependencies
 node_modules/
 
-# Environment
-.env
-.env.*
-!.env.example
+# build
+dist/
+.astro/
 
-# Logs
-logs/
-*.log
+# logs
 npm-debug.log*
+
+# env
+.env
+.env.production
 
 # OS
 .DS_Store
 Thumbs.db
-Desktop.ini
-
-# Editor
-.vscode/
-.idea/
-*.swp
-*.swo
-*~

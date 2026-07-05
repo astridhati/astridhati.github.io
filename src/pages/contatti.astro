@@ -1,0 +1,55 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SocialIcon from "../components/SocialIcon.astro";
+import { getSite } from "../lib/content";
+
+const site = getSite();
+const title = `Contatti — ${site.name}`;
+const description = `Contatta ${site.name} per commissioni, collaborazioni e progetti illustrativi.`;
+---
+
+<Layout title={title} description={description}>
+  <section class="contact section" aria-labelledby="contact-title">
+    <div class="container">
+      <h1 id="contact-title" class="section-title">Contatti</h1>
+      <p class="contact-intro">Per commissioni o collaborazioni, scrivimi.</p>
+      {
+        site.email && (
+          <a class="contact-button" href={`mailto:${site.email}`}>
+            Scrivimi un'email
+          </a>
+        )
+      }
+      {
+        site.social && Object.keys(site.social).length > 0 && (
+          <div class="contact-social">
+            <h2 class="contact-social-title">Social</h2>
+            <div class="nav-actions">
+              {
+                Object.entries(site.social).map(([platform, url]) =>
+                  url ? <SocialIcon platform={platform} url={url} /> : null,
+                )
+              }
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .contact-social {
+    margin-top: var(--space-lg);
+  }
+
+  .contact-social-title {
+    font-size: 1rem;
+    margin-bottom: var(--space-sm);
+    color: var(--color-text-muted);
+  }
+
+  .contact-social .nav-actions {
+    justify-content: flex-start;
+  }
+</style>

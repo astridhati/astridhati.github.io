@@ -1,0 +1,13 @@
+{
+  "title": "Cani",
+  "group": "cani",
+  "grouped": "multiple",
+  "cover": "images/drawings/fumetti/cani/Cani2.jpg",
+  "images": [
+    "images/drawings/fumetti/cani/Cani2.jpg",
+    "images/drawings/fumetti/cani/Cani1.jpg"
+  ],
+  "year": "2026",
+  "description": "Cani belli belli",
+  "project": "fumetti"
+}

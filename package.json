@@ -1,15 +1,17 @@
 {
   "name": "sito-ale-portfolio",
+  "type": "module",
   "private": true,
   "scripts": {
-    "build:css": "sass css/scss/styles.scss css/styles.css --style=expanded --no-source-map",
-    "watch:css": "sass css/scss/styles.scss css/styles.css --watch --style=expanded --no-source-map",
-    "dev": "npm run build:css && serve -p 8000",
-    "start": "npm run build:css && serve -p 8000",
-    "sync": "node scripts/sync-content.js"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.7.10"
   },
   "devDependencies": {
-    "sass": "^1.89.2",
-    "serve": "^14.2.4"
+    "@astrojs/sitemap": "^3.4.0",
+    "sass": "^1.89.2"
   }
 }

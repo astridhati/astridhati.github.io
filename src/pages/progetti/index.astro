@@ -1,0 +1,46 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { getSite, getProjects } from "../../lib/content";
+
+const site = getSite();
+const projects = getProjects();
+
+const title = `Progetti — ${site.name}`;
+const description = `Scopri i progetti illustrativi di ${site.name}: fumetti, cover, attivismo e altro.`;
+---
+
+<Layout title={title} description={description}>
+  <section class="projects section" aria-labelledby="projects-title">
+    <div class="container">
+      <h1 id="projects-title" class="section-title">Progetti</h1>
+      <div class="projects-grid" role="list">
+        {
+          projects.length === 0 ? (
+            <p class="gallery-empty">Nessun progetto al momento.</p>
+          ) : (
+            projects.map((project) => <ProjectCard project={project} />)
+          )
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style lang="scss">
+  @use "../../styles/breakpoints" as *;
+
+  .projects-grid {
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: 1fr;
+
+    @include from-sm {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include from-lg {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

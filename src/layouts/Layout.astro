@@ -1,0 +1,49 @@
+---
+import "../styles/styles.scss";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Lightbox from "../components/Lightbox.astro";
+import SEO from "../components/SEO.astro";
+import { getSite } from "../lib/content";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonical?: string;
+  type?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { title, description, image, canonical, type, jsonLd } = Astro.props;
+const site = getSite();
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <SEO title={title} description={description} image={image} canonical={canonical} type={type} />
+    {
+      jsonLd && (
+        <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+      )
+    }
+  </head>
+  <body>
+    <Header site={site} currentPath={currentPath} />
+    <main>
+      <slot />
+    </main>
+    <Footer name={site.name} />
+    <Lightbox />
+  </body>
+</html>

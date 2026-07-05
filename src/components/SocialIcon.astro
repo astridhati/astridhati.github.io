@@ -1,0 +1,57 @@
+---
+interface Props {
+  platform: string;
+  url: string;
+  external?: boolean;
+}
+
+const { platform, url, external = true } = Astro.props;
+
+const labels: Record<string, string> = {
+  instagram: "Instagram",
+  behance: "Behance",
+  twitter: "Twitter",
+  facebook: "Facebook",
+  pinterest: "Pinterest",
+  tiktok: "TikTok",
+  linkedin: "LinkedIn",
+  youtube: "YouTube",
+  email: "Invia un'email",
+};
+
+const label = labels[platform] ?? platform;
+---
+
+<a
+  href={url}
+  class="nav-icon"
+  aria-label={label}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
+>
+  {
+    platform === "instagram" && (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    )
+  }
+  {
+    platform === "email" && (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    )
+  }
+  {
+    platform === "behance" && (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.5 7h5.1c1.5 0 2.7 1.2 2.7 2.7 0 1.1-.7 2.1-1.7 2.5 1.3.4 2.2 1.6 2.2 3 0 1.8-1.5 3.3-3.3 3.3H6.5V7zm2.5 4.3h2.3c.6 0 1-.4 1-1s-.4-1-1-1H9v2zm0 4.4h2.6c.7 0 1.2-.5 1.2-1.2s-.5-1.2-1.2-1.2H9v2.4zM17 9.5h-4.5V8H17v1.5zm-.3 6.2c0 2-1.5 3.5-3.5 3.5S9.7 17.7 9.7 15.7s1.5-3.5 3.5-3.5 3.5 1.5 3.5 3.5z"/></svg>
+    )
+  }
+  {
+    platform === "twitter" && (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    )
+  }
+  {
+    platform === "pinterest" && (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+    )
+  }
+</a>

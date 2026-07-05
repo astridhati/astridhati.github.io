@@ -8,8 +8,8 @@ backend:
     - oauth
   skip_ci: true # saves commit without rebuilding; use Publish Changes when done
 
-media_folder: public/images/drawings
-public_folder: /images/drawings
+media_folder: public/images
+public_folder: /images
 
 locale: it
 
@@ -27,9 +27,9 @@ collections:
           - { label: Bio (IT), name: bio, widget: text }
           - { label: Bio (EN), name: bio_en, widget: text, required: false }
           - { label: Email, name: email, widget: string, required: false }
-          - { label: Sfondo hero, name: heroBackground, widget: image, required: false, media_folder: public/images, public_folder: /images }
-          - { label: Logo, name: logo, widget: image, required: false, media_folder: public/images, public_folder: /images }
-          - { label: Icona Instagram, name: instagramIcon, widget: image, required: false, media_folder: public/images, public_folder: /images, hint: "Icona nel menu e in Contatti (consigliato 32×32 px, sfondo trasparente)" }
+          - { label: Sfondo hero, name: heroBackground, widget: image, required: false }
+          - { label: Logo, name: logo, widget: image, required: false }
+          - { label: Icona Instagram, name: instagramIcon, widget: image, required: false, hint: "Icona nel menu e in Contatti (consigliato 32×32 px, sfondo trasparente)" }
           - label: Social
             name: social
             widget: object
@@ -91,7 +91,7 @@ collections:
       - { label: ID (slug cartella), name: id, widget: string, hint: "Es. attivismo — nome cartella in images/drawings/" }
       - { label: Nome (IT), name: name, widget: string }
       - { label: Name (EN), name: name_en, widget: string, required: false }
-      - { label: Copertina, name: cover, widget: image }
+      - { label: Copertina, name: cover, widget: image, media_folder: /public/images/drawings, public_folder: /images/drawings }
       - { label: Anno, name: year, widget: string }
       - { label: Descrizione (IT), name: description, widget: text }
       - { label: Description (EN), name: description_en, widget: text, required: false }
@@ -104,6 +104,8 @@ collections:
     label: Disegni
     label_singular: Disegno
     folder: content/drawings
+    media_folder: /public/images/drawings
+    public_folder: /images/drawings
     create: true
     slug: "{{id}}"
     identifier_field: id

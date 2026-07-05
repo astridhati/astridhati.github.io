@@ -10,7 +10,9 @@ interface Props {
 
 const { platform, url, external = true } = Astro.props;
 const site = getSite();
-const instagramIconSrc = site.instagramIcon ? assetPath(site.instagramIcon) : "";
+const instagramIconSrc = site.footer.instagramIcon
+  ? assetPath(site.footer.instagramIcon)
+  : "";
 
 const labels: Record<string, string> = {
   instagram: "Instagram",

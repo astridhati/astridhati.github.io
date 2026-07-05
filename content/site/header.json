@@ -1,0 +1,15 @@
+{
+  "logo": "images/Volpelogo.png",
+  "contactButton": "Contattami",
+  "contactButton_en": "Contact me",
+  "nav": {
+    "about": "Chi sono",
+    "about_en": "About",
+    "categories": "Categorie",
+    "categories_en": "Categories",
+    "gallery": "Galleria",
+    "gallery_en": "Gallery",
+    "contact": "Contatti",
+    "contact_en": "Contact"
+  }
+}

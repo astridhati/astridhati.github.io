@@ -1,0 +1,107 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getSite } from "../lib/content";
+import {
+  assetPath,
+  drawingDescription,
+  drawingSeoDescription,
+  drawingSeoTitle,
+  drawingTitle,
+} from "../lib/types";
+import type { Drawing, Locale } from "../lib/types";
+import {
+  getUi,
+  localizedPath,
+  siteCategoriesEmpty,
+  siteCategoriesWorksLabel,
+  siteName,
+} from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  drawing: Drawing;
+}
+
+const { locale, drawing } = Astro.props;
+const site = getSite();
+const strings = getUi(locale);
+const siteUrl = "https://astridhati.github.io";
+const canonical = `${siteUrl}${localizedPath(`/galleria/${drawing.id}/`, locale)}`;
+
+const title = drawingSeoTitle(drawing, siteName(site), locale);
+const description = drawingSeoDescription(drawing, siteName(site), locale);
+const name = drawingTitle(drawing, locale);
+const intro = drawingDescription(drawing, locale);
+const images = drawing.images ?? [];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ImageGallery",
+  name,
+  description: intro || description,
+  url: canonical,
+};
+---
+
+<Layout
+  locale={locale}
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+>
+  <section class="category section" aria-labelledby="drawing-group-title">
+    <div class="container stack stack--lg stack--pad-top">
+      <header class="category-header stack stack--sm">
+        <h1 id="drawing-group-title" class="section-title">{name}</h1>
+        {drawing.year && <p class="category-year">{drawing.year}</p>}
+        {intro && <p class="category-description">{intro}</p>}
+      </header>
+
+      <div class="stack stack--md">
+        <h2 class="category-works-title">{siteCategoriesWorksLabel(site, locale)}</h2>
+        {
+          images.length > 0 ? (
+            <div class="drawing-group-grid" role="list">
+              {
+                images.map((image, index) => {
+                  const lightboxData = JSON.stringify({
+                    title: name,
+                    description: intro,
+                    year: drawing.year ?? "",
+                    images: [assetPath(image)],
+                  });
+
+                  return (
+                    <button
+                      type="button"
+                      class="drawing-group-item"
+                      role="listitem"
+                      aria-label={strings.gallery.openItem(`${name} — ${index + 1}`)}
+                      data-lightbox={lightboxData}
+                    >
+                      <img
+                        class="drawing-group-image"
+                        src={assetPath(image)}
+                        alt={`${name} — ${index + 1}`}
+                        loading={index >= 2 ? "lazy" : "eager"}
+                        width="800"
+                        height="1000"
+                      />
+                    </button>
+                  );
+                })
+              }
+            </div>
+          ) : (
+            <p class="gallery-empty">{siteCategoriesEmpty(site, locale)}</p>
+          )
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import "../scripts/lightbox.ts";
+</script>

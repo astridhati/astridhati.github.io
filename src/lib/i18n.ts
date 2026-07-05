@@ -23,6 +23,14 @@ export function localizedPath(path: string, locale: Locale): string {
   return withSlash;
 }
 
+export function categoryPath(categoryId: string, locale: Locale): string {
+  return localizedPath(`/categorie/${categoryId}/`, locale);
+}
+
+export function drawingGroupPath(drawingId: string, locale: Locale): string {
+  return localizedPath(`/galleria/${drawingId}/`, locale);
+}
+
 export function switchLocalePath(pathname: string): string {
   const locale = getLocaleFromPath(pathname);
   const path = stripLocalePrefix(pathname);
@@ -31,70 +39,38 @@ export function switchLocalePath(pathname: string): string {
 
 export const navRoutes = {
   about: "/chi-sono/",
-  projects: "/progetti/",
+  categories: "/categorie/",
   gallery: "/galleria/",
   contact: "/contatti/",
 } as const;
 
 export type NavKey = keyof typeof navRoutes;
 
+/** UI strings that stay in code (accessibility, templates). */
 export const ui = {
   it: {
     nav: {
-      about: "Chi sono",
-      projects: "Progetti",
-      gallery: "Galleria",
-      contact: "Contatti",
       aria: "Navigazione principale",
-      social: "Social e contatti",
+      categoriesMenu: "Categorie opere",
     },
     lang: {
       label: "Cambia lingua",
     },
     hero: { aria: "Introduzione" },
-    home: {
-      projects: "Progetti",
-      seeAllProjects: "Vedi tutti i progetti",
-      seeAllGallery: "Vedi tutta la galleria",
-      featured: "In evidenza",
-      commissions: "Commissioni",
-      commissionsIntro: "Per commissioni o collaborazioni, scrivimi.",
-      contactMe: "Contattami",
+    gallery: {
+      openItem: (title: string) => `Apri ${title}`,
+      viewGroup: (title: string) => `Vedi gruppo ${title}`,
+      pageTitle: (name: string, pageTitle: string) => `${pageTitle} — ${name}`,
+      pageDescription: (name: string) =>
+        `Galleria completa di illustrazioni e disegni di ${name}, per categoria e altri lavori.`,
     },
     about: {
-      title: "Chi sono",
-      pageTitle: (name: string) => `Chi sono — ${name}`,
+      pageTitle: (name: string, pageTitle: string) => `${pageTitle} — ${name}`,
     },
     contact: {
-      title: "Contatti",
-      pageTitle: (name: string) => `Contatti — ${name}`,
+      pageTitle: (name: string, pageTitle: string) => `${pageTitle} — ${name}`,
       pageDescription: (name: string) =>
         `Contatta ${name} per commissioni, collaborazioni e progetti illustrativi.`,
-      intro: "Per commissioni o collaborazioni, scrivimi.",
-      email: "Scrivimi un'email",
-      emailAtPrefix: "Puoi contattarmi a questo indirizzo email:",
-      social: "Social",
-    },
-    projects: {
-      title: "Progetti",
-      pageTitle: (name: string) => `Progetti — ${name}`,
-      pageDescription: (name: string) =>
-        `Scopri i progetti illustrativi di ${name}: fumetti, cover, attivismo e altro.`,
-      empty: "Nessun progetto al momento.",
-      works: "Opere",
-      breadcrumb: "Progetti",
-      openProject: (name: string) => `Apri progetto ${name}`,
-    },
-    gallery: {
-      title: "Galleria",
-      pageTitle: (name: string) => `Galleria — ${name}`,
-      pageDescription: (name: string) =>
-        `Galleria completa di illustrazioni e disegni di ${name}, dai progetti e altri lavori.`,
-      intro: "Tutte le opere — altri lavori e disegni dai progetti.",
-      empty: "Nessun lavoro al momento.",
-      emptyProject: "Nessun disegno in questo progetto.",
-      openItem: (title: string) => `Apri ${title}`,
-      openGroup: (title: string) => `Apri gruppo ${title}`,
     },
     lightbox: {
       close: "Chiudi",
@@ -111,60 +87,27 @@ export const ui = {
   },
   en: {
     nav: {
-      about: "About",
-      projects: "Projects",
-      gallery: "Gallery",
-      contact: "Contact",
       aria: "Main navigation",
-      social: "Social and contact",
+      categoriesMenu: "Work categories",
     },
     lang: {
       label: "Change language",
     },
     hero: { aria: "Introduction" },
-    home: {
-      projects: "Projects",
-      seeAllProjects: "View all projects",
-      seeAllGallery: "View full gallery",
-      featured: "Featured",
-      commissions: "Commissions",
-      commissionsIntro: "For commissions or collaborations, get in touch.",
-      contactMe: "Contact me",
+    gallery: {
+      openItem: (title: string) => `Open ${title}`,
+      viewGroup: (title: string) => `View group ${title}`,
+      pageTitle: (name: string, pageTitle: string) => `${pageTitle} — ${name}`,
+      pageDescription: (name: string) =>
+        `Full gallery of illustrations and drawings by ${name}, by category and standalone works.`,
     },
     about: {
-      title: "About",
-      pageTitle: (name: string) => `About — ${name}`,
+      pageTitle: (name: string, pageTitle: string) => `${pageTitle} — ${name}`,
     },
     contact: {
-      title: "Contact",
-      pageTitle: (name: string) => `Contact — ${name}`,
+      pageTitle: (name: string, pageTitle: string) => `${pageTitle} — ${name}`,
       pageDescription: (name: string) =>
         `Contact ${name} for commissions, collaborations, and illustration projects.`,
-      intro: "For commissions or collaborations, get in touch.",
-      email: "Send me an email",
-      emailAtPrefix: "You can contact me at this email address:",
-      social: "Social",
-    },
-    projects: {
-      title: "Projects",
-      pageTitle: (name: string) => `Projects — ${name}`,
-      pageDescription: (name: string) =>
-        `Explore illustration projects by ${name}: comics, book covers, activism, and more.`,
-      empty: "No projects yet.",
-      works: "Works",
-      breadcrumb: "Projects",
-      openProject: (name: string) => `Open project ${name}`,
-    },
-    gallery: {
-      title: "Gallery",
-      pageTitle: (name: string) => `Gallery — ${name}`,
-      pageDescription: (name: string) =>
-        `Full gallery of illustrations and drawings by ${name}, from projects and standalone works.`,
-      intro: "All works — standalone pieces and illustrations from projects.",
-      empty: "No works yet.",
-      emptyProject: "No drawings in this project.",
-      openItem: (title: string) => `Open ${title}`,
-      openGroup: (title: string) => `Open group ${title}`,
     },
     lightbox: {
       close: "Close",
@@ -187,14 +130,84 @@ export function getUi(locale: Locale): UiStrings {
   return ui[locale];
 }
 
+export function siteName(site: SiteConfig): string {
+  return site.identity.name;
+}
+
 export function siteTagline(site: SiteConfig, locale: Locale): string {
-  return t(site.tagline, site.tagline_en, locale);
+  return t(site.identity.tagline, site.identity.tagline_en, locale);
 }
 
 export function siteBio(site: SiteConfig, locale: Locale): string {
-  return t(site.bio, site.bio_en, locale);
+  return t(site.identity.bio, site.identity.bio_en, locale);
+}
+
+export function siteWelcome(site: SiteConfig, locale: Locale): string {
+  return t(site.home.welcome, site.home.welcome_en, locale);
+}
+
+export function siteContactButton(site: SiteConfig, locale: Locale): string {
+  return t(site.header.contactButton, site.header.contactButton_en, locale);
+}
+
+export function siteNavLabel(
+  site: SiteConfig,
+  key: NavKey,
+  locale: Locale,
+): string {
+  const labels = {
+    about: t(site.header.nav.about, site.header.nav.about_en, locale),
+    categories: t(site.header.nav.categories, site.header.nav.categories_en, locale),
+    gallery: t(site.header.nav.gallery, site.header.nav.gallery_en, locale),
+    contact: t(site.header.nav.contact, site.header.nav.contact_en, locale),
+  };
+  return labels[key];
+}
+
+export function siteAboutTitle(site: SiteConfig, locale: Locale): string {
+  return t(site.identity.title, site.identity.title_en, locale);
+}
+
+export function siteGalleryTitle(site: SiteConfig, locale: Locale): string {
+  return t(site.pages.gallery.title, site.pages.gallery.title_en, locale);
+}
+
+export function siteGalleryIntro(site: SiteConfig, locale: Locale): string {
+  return t(site.pages.gallery.intro, site.pages.gallery.intro_en, locale);
+}
+
+export function siteGalleryEmpty(site: SiteConfig, locale: Locale): string {
+  return t(site.pages.gallery.empty, site.pages.gallery.empty_en, locale);
+}
+
+export function siteContactTitle(site: SiteConfig, locale: Locale): string {
+  return t(site.pages.contact.title, site.pages.contact.title_en, locale);
+}
+
+export function siteContactIntro(site: SiteConfig, locale: Locale): string {
+  return t(site.pages.contact.intro, site.pages.contact.intro_en, locale);
+}
+
+export function siteContactEmailPrefix(site: SiteConfig, locale: Locale): string {
+  return t(site.pages.contact.emailPrefix, site.pages.contact.emailPrefix_en, locale);
+}
+
+export function siteContactEmailButton(site: SiteConfig, locale: Locale): string {
+  return t(site.pages.contact.emailButton, site.pages.contact.emailButton_en, locale);
+}
+
+export function siteContactSocialHeading(site: SiteConfig, locale: Locale): string {
+  return t(site.pages.contact.socialHeading, site.pages.contact.socialHeading_en, locale);
+}
+
+export function siteCategoriesWorksLabel(site: SiteConfig, locale: Locale): string {
+  return t(site.pages.categories.worksLabel, site.pages.categories.worksLabel_en, locale);
+}
+
+export function siteCategoriesEmpty(site: SiteConfig, locale: Locale): string {
+  return t(site.pages.categories.empty, site.pages.categories.empty_en, locale);
 }
 
 export function homeTitle(site: SiteConfig, locale: Locale): string {
-  return `${site.name} — ${siteTagline(site, locale)}`;
+  return `${siteName(site)} — ${siteTagline(site, locale)}`;
 }

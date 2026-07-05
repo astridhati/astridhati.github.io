@@ -151,7 +151,7 @@ The CMS is configured with `skip_ci: true`. That means:
 
 ### Recommended workflow for Ale
 
-1. Add or edit as many progetti and disegni as you want — click **Save** on each one.
+1. Add or edit as many categorie and disegni as you want — click **Save** on each one.
 2. When you are finished with the batch, click **Publish Changes** in the top bar of the admin.
 3. Wait 1–2 minutes for GitHub Actions to rebuild the site once.
 
@@ -163,25 +163,26 @@ While editing, Sveltia also keeps a **local draft backup** in the browser if you
 
 | Section | What it edits |
 |---------|----------------|
-| **Impostazioni sito** | Name, bio, email, logo, hero, social links |
-| **Progetti** | One file per project (`content/projects/{id}.json`) |
+| **Impostazioni sito** | Name, bio, welcome text, email, logo, hero, social links |
+| **Categorie** | One file per category (`content/categories/{id}.json`) |
 | **Disegni** | One file per drawing (`content/drawings/{title}.json`) |
 
 ### Images
 
 - Upload via the media library in admin.
-- **Asset Library** shows **Global Assets** (logo, hero, icons in `public/images/`) and **Disegni** (gallery artwork in `public/images/drawings/`). Progetti does not have its own asset folder — project covers upload into Disegni.
+- **Asset Library** shows **Global Assets** (logo, hero, icons in `public/images/`) and **Disegni** (gallery artwork in `public/images/drawings/`).
 - For **single** drawings: type “Singolo” + one image.
 - For **groups** (carousel): type “Gruppo”, cover + ordered image list.
-- **Progetto** — dropdown list (not manual ID); leave empty for Altri lavori.
+- **Categoria** — dropdown list (not manual ID); leave empty for altri lavori.
 - **Singolo / Gruppo** — only relevant fields are shown for each type.
 - **(EN) fields** — optional English copy for SEO and the English block on Chi sono.
 
-### New project workflow
+### New category workflow
 
-1. Create **Progetto** in admin with an `id` matching the folder name (e.g. `attivismo`).
+1. Create **Categoria** in admin with an `id` matching the folder name (e.g. `attivismo`).
 2. Upload images into `public/images/drawings/attivismo/` via the media library.
-3. Create **Disegni** entries linked to that project id.
+3. Create **Disegni** entries linked to that category id.
+4. Categories appear in the site navbar dropdown and filter the gallery (`/galleria/?c={id}`).
 
 ---
 

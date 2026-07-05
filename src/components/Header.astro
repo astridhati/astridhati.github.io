@@ -1,14 +1,17 @@
 ---
 import type { SiteConfig } from "../lib/types";
-import { assetPath } from "../lib/types";
+import { assetPath, categoryName } from "../lib/types";
 import type { Locale } from "../lib/types";
-import SocialIcon from "./SocialIcon.astro";
+import { getCategories } from "../lib/content";
 import {
+  categoryPath,
   getUi,
   localizedPath,
   navRoutes,
+  siteContactButton,
+  siteName,
+  siteNavLabel,
   stripLocalePrefix,
-  type NavKey,
 } from "../lib/i18n";
 
 interface Props {
@@ -19,14 +22,21 @@ interface Props {
 
 const { site, locale, currentPath = "" } = Astro.props;
 const strings = getUi(locale);
+const categories = getCategories();
 const pathWithoutLocale = stripLocalePrefix(currentPath);
-
-const navKeys: NavKey[] = ["about", "projects", "gallery", "contact"];
+const activeCategoryId = pathWithoutLocale.match(/^\/categorie\/([^/]+)\/?$/)?.[1] ?? "";
 
 function isActive(route: string): boolean {
   const normalized = route.endsWith("/") ? route : `${route}/`;
   if (normalized === "/") return pathWithoutLocale === "/";
+  if (normalized === navRoutes.gallery) {
+    return pathWithoutLocale === navRoutes.gallery;
+  }
   return pathWithoutLocale.startsWith(normalized);
+}
+
+function isCategoriesActive(): boolean {
+  return pathWithoutLocale.startsWith(navRoutes.categories);
 }
 
 const homeHref = localizedPath("/", locale);
@@ -38,29 +48,95 @@ const enHref = localizedPath(pathWithoutLocale, "en");
   <nav class="nav" aria-label={strings.nav.aria}>
     <div id="nav-menu" class="nav-menu">
       <div class="nav-links">
-        {
-          navKeys.map((key) => {
-            const href = localizedPath(navRoutes[key], locale);
-            return (
-              <a
-                href={href}
-                class:list={["nav-link", { "nav-link--active": isActive(navRoutes[key]) }]}
-                aria-current={isActive(navRoutes[key]) ? "page" : undefined}
-              >
-                {strings.nav[key]}
-              </a>
-            );
-          })
-        }
+        <a
+          href={localizedPath(navRoutes.about, locale)}
+          class:list={["nav-link", { "nav-link--active": isActive(navRoutes.about) }]}
+          aria-current={isActive(navRoutes.about) ? "page" : undefined}
+        >
+          {siteNavLabel(site, "about", locale)}
+        </a>
+
+        <div
+          class:list={[
+            "nav-dropdown",
+            "nav-accordion",
+            { "nav-dropdown--active": isCategoriesActive() },
+          ]}
+          data-nav-dropdown
+        >
+          <button
+            type="button"
+            class="nav-link nav-dropdown__toggle"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="nav-categories-menu"
+          >
+            {siteNavLabel(site, "categories", locale)}
+            <svg
+              class="nav-dropdown__chevron"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+          <ul
+            id="nav-categories-menu"
+            class="nav-dropdown__menu"
+            role="menu"
+            aria-label={strings.nav.categoriesMenu}
+          >
+            {
+              categories.map((category) => (
+                <li role="none">
+                  <a
+                    href={categoryPath(category.id, locale)}
+                    class:list={[
+                      "nav-dropdown__link",
+                      {
+                        "nav-dropdown__link--active": activeCategoryId === category.id,
+                      },
+                    ]}
+                    role="menuitem"
+                  >
+                    {categoryName(category, locale)}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <a
+          href={localizedPath(navRoutes.gallery, locale)}
+          class:list={["nav-link", { "nav-link--active": isActive(navRoutes.gallery) }]}
+          aria-current={isActive(navRoutes.gallery) ? "page" : undefined}
+        >
+          {siteNavLabel(site, "gallery", locale)}
+        </a>
+
+        <a
+          href={localizedPath(navRoutes.contact, locale)}
+          class:list={["nav-link", { "nav-link--active": isActive(navRoutes.contact) }]}
+          aria-current={isActive(navRoutes.contact) ? "page" : undefined}
+        >
+          {siteNavLabel(site, "contact", locale)}
+        </a>
       </div>
     </div>
     {
-      site.logo && (
-        <a href={homeHref} class="nav-logo" aria-label={strings.logoHome(site.name)}>
+      site.header.logo && (
+        <a href={homeHref} class="nav-logo" aria-label={strings.logoHome(siteName(site))}>
           <img
             class="nav-logo-image"
-            src={assetPath(site.logo)}
-            alt={site.name}
+            src={assetPath(site.header.logo)}
+            alt={siteName(site)}
             width="120"
             height="40"
           />
@@ -86,19 +162,9 @@ const enHref = localizedPath(pathWithoutLocale, "en");
           }
         </div>
       </div>
-      <div class="nav-actions" aria-label={strings.nav.social}>
-        {
-          site.social &&
-            Object.entries(site.social).map(([platform, url]) =>
-              url ? <SocialIcon platform={platform} url={url} /> : null,
-            )
-        }
-        {
-          site.email && (
-            <SocialIcon platform="email" url={`mailto:${site.email}`} external={false} />
-          )
-        }
-      </div>
+      <a href={localizedPath("/contatti/", locale)} class="contact-button nav-contact-button">
+        {siteContactButton(site, locale)}
+      </a>
       <button
         type="button"
         id="nav-toggle"
@@ -119,4 +185,5 @@ const enHref = localizedPath(pathWithoutLocale, "en");
 
 <script>
   import "../scripts/mobile-nav.ts";
+  import "../scripts/nav-dropdown.ts";
 </script>

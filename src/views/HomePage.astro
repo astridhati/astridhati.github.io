@@ -1,15 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
-import GalleryItem from "../components/GalleryItem.astro";
-import ProjectCard from "../components/ProjectCard.astro";
-import {
-  getFeaturedDrawings,
-  getFeaturedProjects,
-  getProjects,
-  getSite,
-} from "../lib/content";
-import { getUi, homeTitle, localizedPath, siteBio, siteTagline } from "../lib/i18n";
+import { getSite } from "../lib/content";
+import { homeTitle, siteBio, siteName, siteTagline, siteWelcome } from "../lib/i18n";
 import type { Locale } from "../lib/types";
 
 interface Props {
@@ -18,10 +11,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const site = getSite();
-const projects = getProjects();
-const featuredProjects = getFeaturedProjects(site);
-const featuredDrawings = getFeaturedDrawings(site);
-const strings = getUi(locale);
+const welcome = siteWelcome(site, locale);
 
 const title = homeTitle(site, locale);
 const description = siteBio(site, locale).slice(0, 160);
@@ -31,11 +21,11 @@ const canonical = locale === "en" ? `${siteUrl}/en/` : `${siteUrl}/`;
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: site.name,
+  name: siteName(site),
   description: siteBio(site, locale),
   url: canonical,
   jobTitle: siteTagline(site, locale),
-  sameAs: Object.values(site.social ?? {}).filter(Boolean),
+  sameAs: Object.values(site.footer.social ?? {}).filter(Boolean),
 };
 ---
 
@@ -43,73 +33,33 @@ const jsonLd = {
   locale={locale}
   title={title}
   description={description}
-  image={site.logo}
+  image={site.header.logo}
   canonical={canonical}
   jsonLd={jsonLd}
 >
   <Hero site={site} locale={locale} />
 
-  <section class="projects section" aria-labelledby="projects-title">
-    <div class="container stack stack--md">
-      <h2 id="projects-title" class="section-title">{strings.home.projects}</h2>
-      {
-        featuredProjects.length > 0 && (
-          <div class="projects-grid" role="list">
-            {featuredProjects.map((project) => (
-              <ProjectCard project={project} locale={locale} />
-            ))}
-          </div>
-        )
-      }
-      {
-        projects.length > 0 && (
-          <p class="section-cta">
-            <a href={localizedPath("/progetti/", locale)} class="contact-button">
-              {strings.home.seeAllProjects}
-            </a>
-          </p>
-        )
-      }
-    </div>
-  </section>
-
   {
-    featuredDrawings.length > 0 && (
-      <section class="gallery section" aria-labelledby="featured-title">
-        <div class="container stack stack--md">
-          <h2 id="featured-title" class="section-title">{strings.home.featured}</h2>
-          <div class="gallery-grid" role="list">
-            {featuredDrawings.map((drawing, index) => (
-              <GalleryItem drawing={drawing} locale={locale} index={index} />
-            ))}
-          </div>
-          <p class="section-cta">
-            <a href={localizedPath("/galleria/", locale)} class="contact-button">
-              {strings.home.seeAllGallery}
-            </a>
-          </p>
+    welcome && (
+      <section class="home-welcome section">
+        <div class="container">
+          <p class="home-welcome__text">{welcome}</p>
         </div>
       </section>
     )
   }
-
-  <section class="contact section" aria-labelledby="home-cta-title">
-    <div class="container stack stack--md">
-      <h2 id="home-cta-title" class="section-title">{strings.home.commissions}</h2>
-      <p class="contact-intro">{strings.home.commissionsIntro}</p>
-      <a href={localizedPath("/contatti/", locale)} class="contact-button">
-        {strings.home.contactMe}
-      </a>
-    </div>
-  </section>
 </Layout>
 
-<script>
-  import "../scripts/lightbox.ts";
-</script>
-
 <style lang="scss">
-  .section-cta {
+  .home-welcome {
     text-align: center;
+  }
+
+  .home-welcome__text {
+    max-width: 36rem;
+    margin: 0 auto;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
   }
 </style>

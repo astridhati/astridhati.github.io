@@ -45,7 +45,11 @@ function setupMobileNav() {
     }
   });
 
-  menu.querySelectorAll(".nav-link, .lang-switch__link").forEach((link) => {
+  menu.querySelectorAll(".nav-links > .nav-link").forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  menu.querySelectorAll(".nav-dropdown__link").forEach((link) => {
     link.addEventListener("click", closeMenu);
   });
 

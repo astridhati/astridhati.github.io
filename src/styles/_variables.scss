@@ -14,7 +14,7 @@ $teal: #3f6968;
 
   /* fonts */
   --font-display: "Myfont", cursive;
-  --font-body: "Montserrat", system-ui, sans-serif;
+  --font-body: "Myfont", cursive;
 
   /* spacing */
   --space-xs: 0.5rem;
@@ -26,6 +26,7 @@ $teal: #3f6968;
   /* layout */
   --max-width: 72rem;
   --header-height: 4rem;
+  --card-image-height: 20rem;
   --radius: 0.75rem;
   --transition: 0.2s ease;
 

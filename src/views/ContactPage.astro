@@ -3,7 +3,16 @@ import Layout from "../layouts/Layout.astro";
 import SocialIcon from "../components/SocialIcon.astro";
 import { getSite } from "../lib/content";
 import { mailtoLink } from "../lib/email";
-import { getUi, localizedPath } from "../lib/i18n";
+import {
+  getUi,
+  localizedPath,
+  siteContactEmailButton,
+  siteContactEmailPrefix,
+  siteContactIntro,
+  siteContactSocialHeading,
+  siteContactTitle,
+  siteName,
+} from "../lib/i18n";
 import type { Locale } from "../lib/types";
 
 interface Props {
@@ -15,36 +24,38 @@ const site = getSite();
 const strings = getUi(locale);
 const siteUrl = "https://astridhati.github.io";
 const canonical = `${siteUrl}${localizedPath("/contatti/", locale)}`;
+const pageTitle = siteContactTitle(site, locale);
 
-const title = strings.contact.pageTitle(site.name);
-const description = strings.contact.pageDescription(site.name);
+const title = strings.contact.pageTitle(siteName(site), pageTitle);
+const description = strings.contact.pageDescription(siteName(site));
 ---
 
 <Layout locale={locale} title={title} description={description} canonical={canonical}>
   <section class="contact section" aria-labelledby="contact-title">
     <div class="container stack stack--lg stack--pad-top">
-      <h1 id="contact-title" class="section-title">{strings.contact.title}</h1>
-      <p class="contact-intro">{strings.contact.intro}</p>
+      <h1 id="contact-title" class="section-title">{pageTitle}</h1>
+      <p class="contact-intro">{siteContactIntro(site, locale)}</p>
       {
-        site.email && (
+        site.footer.email && (
           <div class="contact-email stack stack--sm">
             <p class="contact-email-desktop">
-              {strings.contact.emailAtPrefix}{" "}
-              <strong>{site.email}</strong>
+              {siteContactEmailPrefix(site, locale)}{" "}
+              <strong>{site.footer.email}</strong>
             </p>
-            <a class="contact-button contact-email-mobile" href={mailtoLink(site.email)}>
-              {strings.contact.email}
+            <a class="contact-button contact-email-mobile" href={mailtoLink(site.footer.email)}>
+              {siteContactEmailButton(site, locale)}
             </a>
           </div>
         )
       }
       {
-        site.social && Object.keys(site.social).length > 0 && (
+        site.footer.social &&
+          Object.values(site.footer.social).some(Boolean) && (
           <div class="contact-social stack stack--sm">
-            <h2 class="contact-social-title">{strings.contact.social}</h2>
+            <h2 class="contact-social-title">{siteContactSocialHeading(site, locale)}</h2>
             <div class="nav-actions">
               {
-                Object.entries(site.social).map(([platform, url]) =>
+                Object.entries(site.footer.social).map(([platform, url]) =>
                   url ? <SocialIcon platform={platform} url={url} /> : null,
                 )
               }

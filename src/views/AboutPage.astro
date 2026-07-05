@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { getSite } from "../lib/content";
-import { getUi, localizedPath, siteBio, siteTagline } from "../lib/i18n";
+import { getUi, localizedPath, siteAboutTitle, siteBio, siteName, siteTagline } from "../lib/i18n";
 import type { Locale } from "../lib/types";
 
 interface Props {
@@ -13,15 +13,16 @@ const site = getSite();
 const strings = getUi(locale);
 const siteUrl = "https://astridhati.github.io";
 const canonical = `${siteUrl}${localizedPath("/chi-sono/", locale)}`;
+const pageTitle = siteAboutTitle(site, locale);
 
-const title = strings.about.pageTitle(site.name);
+const title = strings.about.pageTitle(siteName(site), pageTitle);
 const description = siteBio(site, locale).slice(0, 160);
 ---
 
 <Layout locale={locale} title={title} description={description} canonical={canonical}>
   <section class="about section" aria-labelledby="about-title">
     <div class="container stack stack--md stack--pad-top">
-      <h1 id="about-title" class="section-title">{strings.about.title}</h1>
+      <h1 id="about-title" class="section-title">{pageTitle}</h1>
       <p class="about-bio">{siteBio(site, locale)}</p>
       {siteTagline(site, locale) && (
         <p class="about-tagline">{siteTagline(site, locale)}</p>

@@ -6,7 +6,7 @@
   "description": "Pippi",
   "description_en": "Pippi",
   "grouped": "single",
-  "project": "libri",
+  "category": "libri",
   "image": "/images/drawings/libri/Pippi Calzelunghe.png",
   "cover": "/images/drawings/libri/Pippi Calzelunghe.png",
   "images": []

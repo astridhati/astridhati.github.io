@@ -8,10 +8,9 @@ Sito portfolio multi-pagina per illustrazioni e disegni. Costruito con [Astro](h
 
 | URL | Contenuto |
 |-----|-----------|
-| `/` | Home, hero, carousel progetti |
-| `/progetti/` | Elenco progetti |
-| `/progetti/{id}/` | Dettaglio progetto + galleria opere |
-| `/galleria/` | Altri lavori (disegni senza progetto) |
+| `/` | Home, hero, welcome text |
+| `/galleria/` | Galleria completa |
+| `/galleria/?c={id}` | Galleria filtrata per categoria |
 | `/chi-sono/` | Bio |
 | `/contatti/` | Email e social |
 | `/admin/` | Pannello admin (solo con login GitHub) |
@@ -21,7 +20,7 @@ Sito portfolio multi-pagina per illustrazioni e disegni. Costruito con [Astro](h
 ```
 ├── content/
 │   ├── site.json              # Impostazioni sito
-│   ├── projects/*.json        # Un file per progetto
+│   ├── categories/*.json      # Un file per categoria
 │   └── drawings/*.json        # Un file per disegno/gruppo
 ├── public/
 │   ├── images/                # Immagini statiche (drawings, logo, hero)
@@ -58,7 +57,7 @@ npm run preview  # Anteprima build locale
 
 1. Vai su https://astridhati.github.io/admin/
 2. Accedi con GitHub
-3. Modifica testi, progetti, disegni; carica immagini
+3. Modifica testi, categorie, disegni; carica immagini
 4. Salva → commit automatico → il sito si ricostruisce in ~1–2 min
 
 Setup iniziale OAuth: vedi [docs/ADMIN_SETUP.md](docs/ADMIN_SETUP.md).
@@ -66,7 +65,7 @@ Setup iniziale OAuth: vedi [docs/ADMIN_SETUP.md](docs/ADMIN_SETUP.md).
 ### Via file (sviluppatori)
 
 - **Sito:** modifica `content/site.json`
-- **Progetto:** aggiungi `content/projects/{id}.json`
+- **Categoria:** aggiungi `content/categories/{id}.json`
 - **Disegno singolo:** aggiungi `content/drawings/{slug}.json` con `"grouped": "single"`
 - **Gruppo carousel:** `"grouped": "multiple"`, `cover`, `images[]`
 - **Immagini:** salva in `public/images/drawings/…`

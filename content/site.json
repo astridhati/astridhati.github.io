@@ -11,10 +11,23 @@
   "social": {
     "instagram": "https://instagram.com/",
     "behance": "",
-    "pinterest": ""
+    "pinterest": "",
+    "tiktok": "",
+    "twitter": "",
+    "facebook": "",
+    "linkedin": "",
+    "youtube": ""
   },
   "homepage": {
-    "featuredProjects": ["attivismo", "fumetti", "libri"],
-    "featuredDrawings": ["angry-females", "cani", "pippi"]
+    "featuredProjects": [
+      "attivismo",
+      "fumetti",
+      "libri"
+    ],
+    "featuredDrawings": [
+      "progetto-birra",
+      "siamo-moltitudine",
+      "angry-females"
+    ]
   }
 }

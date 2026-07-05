@@ -9,7 +9,13 @@ import {
   drawingTitle,
 } from "../lib/types";
 import type { Drawing, Locale } from "../lib/types";
-import { getUi, localizedPath } from "../lib/i18n";
+import {
+  getUi,
+  localizedPath,
+  siteCategoriesEmpty,
+  siteCategoriesWorksLabel,
+  siteName,
+} from "../lib/i18n";
 
 interface Props {
   locale: Locale;
@@ -22,8 +28,8 @@ const strings = getUi(locale);
 const siteUrl = "https://astridhati.github.io";
 const canonical = `${siteUrl}${localizedPath(`/galleria/${drawing.id}/`, locale)}`;
 
-const title = drawingSeoTitle(drawing, site.name, locale);
-const description = drawingSeoDescription(drawing, site.name, locale);
+const title = drawingSeoTitle(drawing, siteName(site), locale);
+const description = drawingSeoDescription(drawing, siteName(site), locale);
 const name = drawingTitle(drawing, locale);
 const intro = drawingDescription(drawing, locale);
 const images = drawing.images ?? [];
@@ -53,7 +59,7 @@ const jsonLd = {
       </header>
 
       <div class="stack stack--md">
-        <h2 class="category-works-title">{strings.categories.works}</h2>
+        <h2 class="category-works-title">{siteCategoriesWorksLabel(site, locale)}</h2>
         {
           images.length > 0 ? (
             <div class="drawing-group-grid" role="list">
@@ -88,7 +94,7 @@ const jsonLd = {
               }
             </div>
           ) : (
-            <p class="gallery-empty">{strings.categories.empty}</p>
+            <p class="gallery-empty">{siteCategoriesEmpty(site, locale)}</p>
           )
         }
       </div>

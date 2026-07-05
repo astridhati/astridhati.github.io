@@ -9,7 +9,12 @@ import {
   categorySeoTitle,
 } from "../lib/types";
 import type { Category, Locale } from "../lib/types";
-import { getUi, localizedPath } from "../lib/i18n";
+import {
+  localizedPath,
+  siteCategoriesEmpty,
+  siteCategoriesWorksLabel,
+  siteName,
+} from "../lib/i18n";
 
 interface Props {
   locale: Locale;
@@ -19,12 +24,11 @@ interface Props {
 const { locale, category } = Astro.props;
 const site = getSite();
 const drawings = getDrawingsByCategory(category.id);
-const strings = getUi(locale);
 const siteUrl = "https://astridhati.github.io";
 const canonical = `${siteUrl}${localizedPath(`/categorie/${category.id}/`, locale)}`;
 
-const title = categorySeoTitle(category, site.name, locale);
-const description = categorySeoDescription(category, site.name, locale);
+const title = categorySeoTitle(category, siteName(site), locale);
+const description = categorySeoDescription(category, siteName(site), locale);
 const name = categoryName(category, locale);
 const intro = categoryDescription(category, locale);
 
@@ -53,11 +57,11 @@ const jsonLd = {
       </header>
 
       <div class="stack stack--md">
-        <h2 class="category-works-title">{strings.categories.works}</h2>
+        <h2 class="category-works-title">{siteCategoriesWorksLabel(site, locale)}</h2>
         <GalleryGrid
           drawings={drawings}
           locale={locale}
-          emptyMessage={strings.categories.empty}
+          emptyMessage={siteCategoriesEmpty(site, locale)}
         />
       </div>
     </div>

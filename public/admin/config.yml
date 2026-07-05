@@ -17,21 +17,87 @@ collections:
   - name: site
     label: Impostazioni sito
     files:
-      - name: site
-        label: Sito
-        file: content/site.json
+      - name: identity
+        label: Chi sono
+        file: content/site/identity.json
         fields:
           - { label: Nome, name: name, widget: string }
           - { label: Tagline (IT), name: tagline, widget: string }
           - { label: Tagline (EN), name: tagline_en, widget: string, required: false }
           - { label: Bio (IT), name: bio, widget: text }
           - { label: Bio (EN), name: bio_en, widget: text, required: false }
-          - { label: Testo benvenuto homepage (IT), name: welcome, widget: text, hint: "Testo sotto l'hero, senza titolo" }
-          - { label: Welcome text homepage (EN), name: welcome_en, widget: text, required: false }
-          - { label: Email, name: email, widget: string, required: false }
-          - { label: Sfondo hero, name: heroBackground, widget: image, required: false }
+          - { label: Titolo pagina (IT), name: title, widget: string }
+          - { label: Page title (EN), name: title_en, widget: string, required: false }
+
+      - name: header
+        label: Header
+        file: content/site/header.json
+        fields:
           - { label: Logo, name: logo, widget: image, required: false }
-          - { label: Icona Instagram, name: instagramIcon, widget: image, required: false, hint: "Icona nel menu e in Contatti (consigliato 32×32 px, sfondo trasparente)" }
+          - { label: Pulsante Contattami (IT), name: contactButton, widget: string }
+          - { label: Contact button (EN), name: contactButton_en, widget: string, required: false }
+          - label: Menu navigazione
+            name: nav
+            widget: object
+            fields:
+              - { label: Chi sono (IT), name: about, widget: string }
+              - { label: About (EN), name: about_en, widget: string, required: false }
+              - { label: Categorie (IT), name: categories, widget: string }
+              - { label: Categories (EN), name: categories_en, widget: string, required: false }
+              - { label: Galleria (IT), name: gallery, widget: string }
+              - { label: Gallery (EN), name: gallery_en, widget: string, required: false }
+              - { label: Contatti (IT), name: contact, widget: string }
+              - { label: Contact (EN), name: contact_en, widget: string, required: false }
+
+      - name: home
+        label: Homepage
+        file: content/site/home.json
+        fields:
+          - { label: Sfondo hero, name: heroBackground, widget: image, required: false }
+          - { label: Testo benvenuto (IT), name: welcome, widget: text, hint: "Testo sotto l'hero, senza titolo" }
+          - { label: Welcome text (EN), name: welcome_en, widget: text, required: false }
+
+      - name: pages-gallery
+        label: "Pagina: Galleria"
+        file: content/site/pages-gallery.json
+        fields:
+          - { label: Titolo (IT), name: title, widget: string }
+          - { label: Title (EN), name: title_en, widget: string, required: false }
+          - { label: Intro (IT), name: intro, widget: text }
+          - { label: Intro (EN), name: intro_en, widget: text, required: false }
+          - { label: Messaggio vuoto (IT), name: empty, widget: string }
+          - { label: Empty message (EN), name: empty_en, widget: string, required: false }
+
+      - name: pages-contact
+        label: "Pagina: Contatti"
+        file: content/site/pages-contact.json
+        fields:
+          - { label: Titolo (IT), name: title, widget: string }
+          - { label: Title (EN), name: title_en, widget: string, required: false }
+          - { label: Intro (IT), name: intro, widget: text }
+          - { label: Intro (EN), name: intro_en, widget: text, required: false }
+          - { label: Prefisso email (IT), name: emailPrefix, widget: string }
+          - { label: Email prefix (EN), name: emailPrefix_en, widget: string, required: false }
+          - { label: Pulsante email (IT), name: emailButton, widget: string }
+          - { label: Email button (EN), name: emailButton_en, widget: string, required: false }
+          - { label: Titolo social (IT), name: socialHeading, widget: string }
+          - { label: Social heading (EN), name: socialHeading_en, widget: string, required: false }
+
+      - name: pages-categories
+        label: "Pagina: Categorie"
+        file: content/site/pages-categories.json
+        fields:
+          - { label: Etichetta opere (IT), name: worksLabel, widget: string }
+          - { label: Works label (EN), name: worksLabel_en, widget: string, required: false }
+          - { label: Messaggio vuoto (IT), name: empty, widget: string }
+          - { label: Empty message (EN), name: empty_en, widget: string, required: false }
+
+      - name: footer
+        label: Footer
+        file: content/site/footer.json
+        fields:
+          - { label: Email, name: email, widget: string, required: false }
+          - { label: Icona Instagram, name: instagramIcon, widget: image, required: false, hint: "Icona social (consigliato 32×32 px, sfondo trasparente)" }
           - label: Social
             name: social
             widget: object
@@ -57,10 +123,15 @@ collections:
     extension: json
     format: json
     fields:
-      - { label: ID (slug cartella), name: id, widget: string, hint: "Es. attivismo — nome cartella in images/drawings/" }
+      - label: ID (slug cartella)
+        name: id
+        widget: string
+        hint: "Es. attivismo — solo lettere minuscole, numeri e trattini, senza spazi"
+        pattern:
+          - '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          - 'Solo lettere minuscole, numeri e trattini — niente spazi.'
       - { label: Nome (IT), name: name, widget: string }
       - { label: Name (EN), name: name_en, widget: string, required: false }
-      - { label: Copertina, name: cover, widget: image, media_folder: /public/images/drawings, public_folder: /images/drawings }
       - { label: Anno, name: year, widget: string }
       - { label: Descrizione (IT), name: description, widget: text }
       - { label: Description (EN), name: description_en, widget: text, required: false }
@@ -82,7 +153,13 @@ collections:
     extension: json
     format: json
     fields:
-      - { label: ID (slug file), name: id, widget: string, hint: "Es. angry-females — usato per homepage e nome file" }
+      - label: ID (slug file)
+        name: id
+        widget: string
+        hint: "Es. angry-females — solo lettere minuscole, numeri e trattini, senza spazi"
+        pattern:
+          - '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          - 'Solo lettere minuscole, numeri e trattini — niente spazi.'
       - { label: Titolo (IT), name: title, widget: string }
       - { label: Title (EN), name: title_en, widget: string, required: false }
       - { label: Anno, name: year, widget: string }

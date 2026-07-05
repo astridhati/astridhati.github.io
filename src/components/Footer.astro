@@ -1,6 +1,7 @@
 ---
 import type { SiteConfig } from "../lib/types";
 import SocialIcon from "./SocialIcon.astro";
+import { siteName } from "../lib/i18n";
 
 interface Props {
   site: SiteConfig;
@@ -9,18 +10,18 @@ interface Props {
 const { site } = Astro.props;
 const year = new Date().getFullYear();
 const hasSocial =
-  site.social && Object.values(site.social).some((url) => Boolean(url));
+  site.footer.social && Object.values(site.footer.social).some((url) => Boolean(url));
 ---
 
 <footer class="site-footer">
   {
-    (hasSocial || site.email) && (
+    (hasSocial || site.footer.email) && (
       <div class="site-footer__contact">
         {
           hasSocial && (
             <div class="site-footer__social nav-actions" aria-label="Social">
               {
-                Object.entries(site.social).map(([platform, url]) =>
+                Object.entries(site.footer.social).map(([platform, url]) =>
                   url ? <SocialIcon platform={platform} url={url} /> : null,
                 )
               }
@@ -28,14 +29,14 @@ const hasSocial =
           )
         }
         {
-          site.email && (
-            <a class="site-footer__email" href={`mailto:${site.email}`}>
-              {site.email}
+          site.footer.email && (
+            <a class="site-footer__email" href={`mailto:${site.footer.email}`}>
+              {site.footer.email}
             </a>
           )
         }
       </div>
     )
   }
-  <p class="site-footer__copy">&copy; {year} {site.name}</p>
+  <p class="site-footer__copy">&copy; {year} {siteName(site)}</p>
 </footer>

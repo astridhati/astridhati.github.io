@@ -1,6 +1,24 @@
-import siteData from "../../content/site.json";
+import identity from "../../content/site/identity.json";
+import header from "../../content/site/header.json";
+import home from "../../content/site/home.json";
+import pagesGallery from "../../content/site/pages-gallery.json";
+import pagesContact from "../../content/site/pages-contact.json";
+import pagesCategories from "../../content/site/pages-categories.json";
+import footer from "../../content/site/footer.json";
 import type { Category, Drawing, SiteConfig } from "./types";
 import { drawingCategoryId } from "./types";
+
+const site: SiteConfig = {
+  identity,
+  header,
+  home,
+  pages: {
+    gallery: pagesGallery,
+    contact: pagesContact,
+    categories: pagesCategories,
+  },
+  footer,
+};
 
 const categoryModules = import.meta.glob<Category>(
   "../../content/categories/*.json",
@@ -13,7 +31,7 @@ const drawingModules = import.meta.glob<Drawing>(
 );
 
 export function getSite(): SiteConfig {
-  return siteData as SiteConfig;
+  return site;
 }
 
 export function getCategories(): Category[] {

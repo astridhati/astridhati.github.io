@@ -8,6 +8,9 @@ import {
   getUi,
   localizedPath,
   navRoutes,
+  siteContactButton,
+  siteName,
+  siteNavLabel,
   stripLocalePrefix,
 } from "../lib/i18n";
 
@@ -50,7 +53,7 @@ const enHref = localizedPath(pathWithoutLocale, "en");
           class:list={["nav-link", { "nav-link--active": isActive(navRoutes.about) }]}
           aria-current={isActive(navRoutes.about) ? "page" : undefined}
         >
-          {strings.nav.about}
+          {siteNavLabel(site, "about", locale)}
         </a>
 
         <div
@@ -68,7 +71,7 @@ const enHref = localizedPath(pathWithoutLocale, "en");
             aria-haspopup="true"
             aria-controls="nav-categories-menu"
           >
-            {strings.nav.categories}
+            {siteNavLabel(site, "categories", locale)}
             <svg
               class="nav-dropdown__chevron"
               xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +118,7 @@ const enHref = localizedPath(pathWithoutLocale, "en");
           class:list={["nav-link", { "nav-link--active": isActive(navRoutes.gallery) }]}
           aria-current={isActive(navRoutes.gallery) ? "page" : undefined}
         >
-          {strings.nav.gallery}
+          {siteNavLabel(site, "gallery", locale)}
         </a>
 
         <a
@@ -123,17 +126,17 @@ const enHref = localizedPath(pathWithoutLocale, "en");
           class:list={["nav-link", { "nav-link--active": isActive(navRoutes.contact) }]}
           aria-current={isActive(navRoutes.contact) ? "page" : undefined}
         >
-          {strings.nav.contact}
+          {siteNavLabel(site, "contact", locale)}
         </a>
       </div>
     </div>
     {
-      site.logo && (
-        <a href={homeHref} class="nav-logo" aria-label={strings.logoHome(site.name)}>
+      site.header.logo && (
+        <a href={homeHref} class="nav-logo" aria-label={strings.logoHome(siteName(site))}>
           <img
             class="nav-logo-image"
-            src={assetPath(site.logo)}
-            alt={site.name}
+            src={assetPath(site.header.logo)}
+            alt={siteName(site)}
             width="120"
             height="40"
           />
@@ -160,7 +163,7 @@ const enHref = localizedPath(pathWithoutLocale, "en");
         </div>
       </div>
       <a href={localizedPath("/contatti/", locale)} class="contact-button nav-contact-button">
-        {strings.home.contactMe}
+        {siteContactButton(site, locale)}
       </a>
       <button
         type="button"

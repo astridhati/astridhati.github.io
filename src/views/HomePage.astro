@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
 import { getSite } from "../lib/content";
-import { homeTitle, siteBio, siteTagline, siteWelcome } from "../lib/i18n";
+import { homeTitle, siteBio, siteName, siteTagline, siteWelcome } from "../lib/i18n";
 import type { Locale } from "../lib/types";
 
 interface Props {
@@ -21,11 +21,11 @@ const canonical = locale === "en" ? `${siteUrl}/en/` : `${siteUrl}/`;
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: site.name,
+  name: siteName(site),
   description: siteBio(site, locale),
   url: canonical,
   jobTitle: siteTagline(site, locale),
-  sameAs: Object.values(site.social ?? {}).filter(Boolean),
+  sameAs: Object.values(site.footer.social ?? {}).filter(Boolean),
 };
 ---
 
@@ -33,7 +33,7 @@ const jsonLd = {
   locale={locale}
   title={title}
   description={description}
-  image={site.logo}
+  image={site.header.logo}
   canonical={canonical}
   jsonLd={jsonLd}
 >

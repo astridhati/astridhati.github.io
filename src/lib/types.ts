@@ -1,23 +1,72 @@
 export interface SiteConfig {
-  name: string;
-  tagline: string;
-  tagline_en?: string;
-  bio: string;
-  bio_en?: string;
-  welcome: string;
-  welcome_en?: string;
-  email: string;
-  heroBackground: string;
-  logo: string;
-  instagramIcon?: string;
-  social: Record<string, string>;
+  identity: {
+    name: string;
+    tagline: string;
+    tagline_en?: string;
+    bio: string;
+    bio_en?: string;
+    title: string;
+    title_en?: string;
+  };
+  header: {
+    logo: string;
+    contactButton: string;
+    contactButton_en?: string;
+    nav: {
+      about: string;
+      about_en?: string;
+      categories: string;
+      categories_en?: string;
+      gallery: string;
+      gallery_en?: string;
+      contact: string;
+      contact_en?: string;
+    };
+  };
+  home: {
+    heroBackground: string;
+    welcome: string;
+    welcome_en?: string;
+  };
+  pages: {
+    gallery: {
+      title: string;
+      title_en?: string;
+      intro: string;
+      intro_en?: string;
+      empty: string;
+      empty_en?: string;
+    };
+    contact: {
+      title: string;
+      title_en?: string;
+      intro: string;
+      intro_en?: string;
+      emailPrefix: string;
+      emailPrefix_en?: string;
+      emailButton: string;
+      emailButton_en?: string;
+      socialHeading: string;
+      socialHeading_en?: string;
+    };
+    categories: {
+      worksLabel: string;
+      worksLabel_en?: string;
+      empty: string;
+      empty_en?: string;
+    };
+  };
+  footer: {
+    email: string;
+    instagramIcon?: string;
+    social: Record<string, string>;
+  };
 }
 
 export interface Category {
   id: string;
   name: string;
   name_en?: string;
-  cover: string;
   year: string;
   description: string;
   description_en?: string;

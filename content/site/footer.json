@@ -1,0 +1,9 @@
+{
+  "email": "test@test.com",
+  "instagramIcon": "images/instagram.png",
+  "social": {
+    "instagram": "https://instagram.com/",
+    "behance": "",
+    "pinterest": ""
+  }
+}

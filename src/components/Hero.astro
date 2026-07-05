@@ -11,7 +11,7 @@ interface Props {
 
 const { site, locale } = Astro.props;
 const strings = getUi(locale);
-const heroBackground = site.heroBackground?.trim();
+const heroBackground = site.home.heroBackground?.trim();
 ---
 
 <section

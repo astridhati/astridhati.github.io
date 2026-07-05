@@ -108,8 +108,32 @@ The workflow [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) r
 1. Visit **https://astridhati.github.io/admin/**
 2. Click **Sign in with GitHub** (OAuth).
 3. Approve access for the OAuth app.
-4. Edit content, upload images, click **Publish** / **Save** — each save creates a commit.
+4. Edit content, upload images, click **Save** — each save creates a commit in the repo.
 5. Wait 1–2 minutes for GitHub Actions to rebuild the public site.
+
+---
+
+## Saving many changes before publishing the site
+
+Sveltia is a **Git-based** CMS: every time you **Save** an entry, it creates **one commit** in the repository. That cannot be merged into a single commit from the admin UI — it is how Decap/Sveltia work under the hood.
+
+What you *can* control is **when the live site rebuilds**.
+
+The CMS is configured with `skip_ci: true`. That means:
+
+| Action | What happens |
+|--------|----------------|
+| **Save** (normal) | Content is committed to GitHub with `[skip ci]` — **no** site rebuild |
+| **Save and Publish** (arrow next to Save) | Commits **without** `[skip ci]` — triggers a rebuild |
+| **Publish Changes** (button in the admin header) | Triggers **one** rebuild for everything saved since the last publish |
+
+### Recommended workflow for Ale
+
+1. Add or edit as many progetti and disegni as you want — click **Save** on each one.
+2. When you are finished with the batch, click **Publish Changes** in the top bar of the admin.
+3. Wait 1–2 minutes for GitHub Actions to rebuild the site once.
+
+While editing, Sveltia also keeps a **local draft backup** in the browser if you navigate away before saving — but nothing goes to GitHub until you click Save.
 
 ---
 

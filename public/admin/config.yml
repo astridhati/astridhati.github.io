@@ -6,6 +6,7 @@ backend:
   base_url: https://sveltia-cms-auth.astridhati-92.workers.dev
   auth_methods:
     - oauth
+  skip_ci: true # saves commit without rebuilding; use Publish Changes when done
 
 media_folder: public/images/drawings
 public_folder: /images/drawings

@@ -101,10 +101,10 @@ Esempio “Altri lavori” (senza `project`):
 
 | Branch | Deploys to GitHub Pages? |
 |--------|--------------------------|
-| `main` | No — use for code development |
-| `feature/uploads` | Yes — Sveltia content saves + manual merge from `main` |
+| `main` | Yes — every push (code changes) |
+| `feature/uploads` | Only when Ale clicks **Publish Changes** in Sveltia (`Save` uses `[skip ci]`) |
 
-Ogni push su **`feature/uploads`** (o **Publish Changes** nell’admin) attiva GitHub Actions. Per portare modifiche al codice da `main` in produzione: `git merge main` su `feature/uploads` e push.
+Per portare codice da `main` anche sul branch contenuti: `git merge main` su `feature/uploads` (opzionale, per allineare i file prima del prossimo publish CMS).
 
 **Prima del primo deploy:** Settings → Pages → Source → **GitHub Actions**.
 

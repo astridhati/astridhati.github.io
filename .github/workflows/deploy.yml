@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - feature/uploads
+      - main
   repository_dispatch:
     types: [sveltia-cms-publish]
   workflow_dispatch:
@@ -23,6 +23,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Push → main; Sveltia "Publish Changes" → feature/uploads (CMS content)
+          ref: ${{ github.event_name == 'repository_dispatch' && 'feature/uploads' || github.ref }}
 
       - name: Setup Node
         uses: actions/setup-node@v4

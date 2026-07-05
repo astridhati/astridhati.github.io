@@ -96,12 +96,14 @@ Commit and push to `main` (the config file lives in the codebase; Sveltia writes
 
 ## Branch workflow (main vs feature/uploads)
 
-| Branch | Purpose |
-|--------|---------|
-| **`main`** | Code development (Astro templates, styles, CMS config). Pushes here do **not** deploy the live site. |
-| **`feature/uploads`** | All Sveltia saves (content JSON + images). Pushes here **do** deploy via GitHub Actions. |
+| Branch | Purpose | Deploys? |
+|--------|---------|----------|
+| **`main`** | Code development (Astro templates, styles, CMS config) | **Yes** — every push |
+| **`feature/uploads`** | All Sveltia saves (content JSON + images) | **Only** when Ale clicks **Publish Changes** in the admin (`skip_ci` saves do not deploy) |
 
-When you change site **code** on `main` and want it live, merge `main` into `feature/uploads`:
+Sveltia commits to `feature/uploads` with `[skip ci]` on normal **Save**. The live site rebuilds from that branch only when Ale clicks **Publish Changes** (triggers a `repository_dispatch` event).
+
+When you change site **code** on `main`, push to `main` — that deploys immediately. To keep the content branch aligned with the latest code (optional):
 
 ```bash
 git checkout feature/uploads
@@ -119,7 +121,7 @@ Ale’s admin saves always go to `feature/uploads` only.
 2. **Settings → Pages → Build and deployment**.
 3. Set **Source** to **GitHub Actions** (not “Deploy from a branch”).
 
-The workflow [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) runs on push to **`feature/uploads`** (CMS content) and when Ale clicks **Publish Changes** in the admin.
+The workflow [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) deploys on every push to **`main`**, and from **`feature/uploads`** when Ale clicks **Publish Changes** in the admin.
 
 ---
 

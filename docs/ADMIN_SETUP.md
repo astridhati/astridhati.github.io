@@ -83,13 +83,33 @@ Edit [`public/admin/config.yml`](../public/admin/config.yml) and set your Worker
 backend:
   name: github
   repo: astridhati/astridhati.github.io
-  branch: main
+  branch: feature/uploads
   base_url: https://YOUR-WORKER-URL.workers.dev
   auth_methods:
     - oauth
+  skip_ci: true
 ```
 
-Commit and push to `main`.
+Commit and push to `main` (the config file lives in the codebase; Sveltia writes **content** to `feature/uploads`).
+
+---
+
+## Branch workflow (main vs feature/uploads)
+
+| Branch | Purpose |
+|--------|---------|
+| **`main`** | Code development (Astro templates, styles, CMS config). Pushes here do **not** deploy the live site. |
+| **`feature/uploads`** | All Sveltia saves (content JSON + images). Pushes here **do** deploy via GitHub Actions. |
+
+When you change site **code** on `main` and want it live, merge `main` into `feature/uploads`:
+
+```bash
+git checkout feature/uploads
+git merge main
+git push origin feature/uploads
+```
+
+Ale’s admin saves always go to `feature/uploads` only.
 
 ---
 
@@ -99,7 +119,7 @@ Commit and push to `main`.
 2. **Settings → Pages → Build and deployment**.
 3. Set **Source** to **GitHub Actions** (not “Deploy from a branch”).
 
-The workflow [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) runs on every push to `main` or `feature/rework_into_astro` (temporary, while testing admin on the feature branch).
+The workflow [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) runs on push to **`feature/uploads`** (CMS content) and when Ale clicks **Publish Changes** in the admin.
 
 ---
 

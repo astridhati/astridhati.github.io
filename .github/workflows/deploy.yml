@@ -3,8 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
-      - feature/rework_into_astro # TEMP: remove after merge to main
+      - feature/uploads
   repository_dispatch:
     types: [sveltia-cms-publish]
   workflow_dispatch:

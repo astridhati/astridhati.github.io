@@ -99,7 +99,12 @@ Esempio “Altri lavori” (senza `project`):
 
 ## Deploy
 
-Ogni push su `main` attiva GitHub Actions che esegue `npm run build` e pubblica su GitHub Pages.
+| Branch | Deploys to GitHub Pages? |
+|--------|--------------------------|
+| `main` | No — use for code development |
+| `feature/uploads` | Yes — Sveltia content saves + manual merge from `main` |
+
+Ogni push su **`feature/uploads`** (o **Publish Changes** nell’admin) attiva GitHub Actions. Per portare modifiche al codice da `main` in produzione: `git merge main` su `feature/uploads` e push.
 
 **Prima del primo deploy:** Settings → Pages → Source → **GitHub Actions**.
 

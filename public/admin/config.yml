@@ -2,7 +2,7 @@
 backend:
   name: github
   repo: astridhati/astridhati.github.io
-  branch: feature/rework_into_astro # TEMP: switch back to main after merge
+  branch: feature/uploads
   base_url: https://sveltia-cms-auth.astridhati-92.workers.dev
   auth_methods:
     - oauth

@@ -1,0 +1,133 @@
+---
+import Layout from "../layouts/Layout.astro";
+import GalleryGrid from "../components/GalleryGrid.astro";
+import { getDrawingsByProject, getSite } from "../lib/content";
+import { getUi, localizedPath } from "../lib/i18n";
+import type { Locale, Project } from "../lib/types";
+import {
+  assetPath,
+  projectDescription,
+  projectName,
+  projectSeoDescription,
+  projectSeoTitle,
+} from "../lib/types";
+
+interface Props {
+  locale: Locale;
+  project: Project;
+}
+
+const { locale, project } = Astro.props;
+const site = getSite();
+const drawings = getDrawingsByProject(project.id);
+const strings = getUi(locale);
+const siteUrl = "https://astridhati.github.io";
+const canonical = `${siteUrl}${localizedPath(`/progetti/${project.id}/`, locale)}`;
+
+const title = projectSeoTitle(project, site.name, locale);
+const description = projectSeoDescription(project, site.name, locale);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: projectName(project, locale),
+  description: projectDescription(project, locale),
+  url: canonical,
+  author: {
+    "@type": "Person",
+    name: site.name,
+  },
+};
+---
+
+<Layout
+  locale={locale}
+  title={title}
+  description={description}
+  image={project.cover}
+  canonical={canonical}
+  jsonLd={jsonLd}
+>
+  <section class="projects section" aria-labelledby="project-title">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href={localizedPath("/progetti/", locale)}>{strings.projects.breadcrumb}</a>
+        <span aria-hidden="true"> / </span>
+        <span>{projectName(project, locale)}</span>
+      </nav>
+
+      <header class="project-header">
+        <div class="project-header-image">
+          <img
+            src={assetPath(project.cover)}
+            alt={projectName(project, locale)}
+            width="800"
+            height="500"
+            loading="eager"
+          />
+        </div>
+        <div class="project-header-body">
+          <h1 id="project-title" class="section-title">{projectName(project, locale)}</h1>
+          {project.year && <p class="project-card-year">{project.year}</p>}
+          {projectDescription(project, locale) && (
+            <p class="project-header-description">{projectDescription(project, locale)}</p>
+          )}
+        </div>
+      </header>
+
+      <h2 class="section-title section-title--sub">{strings.projects.works}</h2>
+      <GalleryGrid
+        drawings={drawings}
+        locale={locale}
+        emptyMessage={strings.gallery.emptyProject}
+      />
+    </div>
+  </section>
+</Layout>
+
+<style lang="scss">
+  @use "../styles/breakpoints" as *;
+
+  .breadcrumb {
+    margin-bottom: var(--space-md);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+
+    a {
+      color: var(--color-text);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .project-header {
+    display: grid;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+
+    @include from-md {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+  }
+
+  .project-header-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    object-fit: cover;
+  }
+
+  .project-header-description {
+    margin-top: var(--space-sm);
+    line-height: 1.6;
+  }
+
+  .section-title--sub {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-md);
+  }
+</style>

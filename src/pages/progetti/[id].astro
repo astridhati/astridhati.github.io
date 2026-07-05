@@ -1,8 +1,7 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import GalleryGrid from "../../components/GalleryGrid.astro";
-import { getDrawingsByProject, getProject, getProjectIds, getSite } from "../../lib/content";
-import { assetPath } from "../../lib/types";
+import ProjectDetailPage from "../../views/ProjectDetailPage.astro";
+import { getProject, getProjectIds } from "../../lib/content";
+import { localizedPath } from "../../lib/i18n";
 
 export function getStaticPaths() {
   return getProjectIds().map((id) => ({ params: { id } }));
@@ -14,115 +13,6 @@ const project = getProject(id!);
 if (!project) {
   return Astro.redirect("/progetti/");
 }
-
-const site = getSite();
-const drawings = getDrawingsByProject(project.id);
-
-const title = project.seoTitle ?? `${project.name} — ${site.name}`;
-const description =
-  project.seoDescription ??
-  project.description ??
-  `Progetto ${project.name} di ${site.name}.`;
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  name: project.name,
-  description: project.description,
-  url: `https://astridhati.github.io/progetti/${project.id}/`,
-  author: {
-    "@type": "Person",
-    name: site.name,
-  },
-};
 ---
 
-<Layout
-  title={title}
-  description={description}
-  image={project.cover}
-  canonical={`https://astridhati.github.io/progetti/${project.id}/`}
-  jsonLd={jsonLd}
->
-  <section class="projects section" aria-labelledby="project-title">
-    <div class="container">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/progetti/">Progetti</a>
-        <span aria-hidden="true"> / </span>
-        <span>{project.name}</span>
-      </nav>
-
-      <header class="project-header">
-        <div class="project-header-image">
-          <img
-            src={assetPath(project.cover)}
-            alt={project.name}
-            width="800"
-            height="500"
-            loading="eager"
-          />
-        </div>
-        <div class="project-header-body">
-          <h1 id="project-title" class="section-title">{project.name}</h1>
-          {project.year && <p class="project-card-year">{project.year}</p>}
-          {project.description && (
-            <p class="project-header-description">{project.description}</p>
-          )}
-        </div>
-      </header>
-
-      <h2 class="section-title section-title--sub">Opere</h2>
-      <GalleryGrid
-        drawings={drawings}
-        emptyMessage="Nessun disegno in questo progetto."
-      />
-    </div>
-  </section>
-</Layout>
-
-<style lang="scss">
-  @use "../../styles/breakpoints" as *;
-
-  .breadcrumb {
-    margin-bottom: var(--space-md);
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-
-    a {
-      color: var(--color-text);
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-
-  .project-header {
-    display: grid;
-    gap: var(--space-md);
-    margin-bottom: var(--space-lg);
-
-    @include from-md {
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-    }
-  }
-
-  .project-header-image img {
-    width: 100%;
-    height: auto;
-    border-radius: var(--radius);
-    object-fit: cover;
-  }
-
-  .project-header-description {
-    margin-top: var(--space-sm);
-    line-height: 1.6;
-  }
-
-  .section-title--sub {
-    font-size: 1.5rem;
-    margin-bottom: var(--space-md);
-  }
-</style>
+<ProjectDetailPage locale="it" project={project} />

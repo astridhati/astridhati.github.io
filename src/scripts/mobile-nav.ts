@@ -4,6 +4,8 @@ function setupMobileNav() {
 
   if (!toggle || !menu) return;
 
+  const labelOpen = toggle.dataset.labelOpen ?? "Open menu";
+  const labelClose = toggle.dataset.labelClose ?? "Close menu";
   let menuScrollPosition = 0;
 
   function closeMenu() {
@@ -12,7 +14,7 @@ function setupMobileNav() {
     menu.classList.remove("is-open");
     toggle.classList.remove("is-open");
     toggle.setAttribute("aria-expanded", "false");
-    toggle.setAttribute("aria-label", "Apri menu");
+    toggle.setAttribute("aria-label", labelOpen);
 
     if (wasOpen) {
       document.body.classList.remove("nav-open");
@@ -28,7 +30,7 @@ function setupMobileNav() {
     menu.classList.add("is-open");
     toggle.classList.add("is-open");
     toggle.setAttribute("aria-expanded", "true");
-    toggle.setAttribute("aria-label", "Chiudi menu");
+    toggle.setAttribute("aria-label", labelClose);
     document.body.classList.add("nav-open");
     document.body.style.position = "fixed";
     document.body.style.top = `-${menuScrollPosition}px`;
@@ -43,7 +45,7 @@ function setupMobileNav() {
     }
   });
 
-  menu.querySelectorAll(".nav-link").forEach((link) => {
+  menu.querySelectorAll(".nav-link, .lang-switch__link").forEach((link) => {
     link.addEventListener("click", closeMenu);
   });
 

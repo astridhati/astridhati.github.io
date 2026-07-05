@@ -127,7 +127,9 @@ The workflow [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) r
 - Files are stored in `public/images/drawings/` in the repo.
 - For **single** drawings: type “Singolo” + one image.
 - For **groups** (carousel): type “Gruppo”, cover + ordered image list.
-- Leave **Progetto** empty for “Altri lavori” (shown on `/galleria/`).
+- **Progetto** — dropdown list (not manual ID); leave empty for Altri lavori.
+- **Singolo / Gruppo** — only relevant fields are shown for each type.
+- **(EN) fields** — optional English copy for SEO and the English block on Chi sono.
 
 ### New project workflow
 

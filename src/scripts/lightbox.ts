@@ -9,6 +9,14 @@ let lightboxImages: string[] = [];
 let lightboxIndex = 0;
 let lightboxEntry: LightboxEntry | null = null;
 
+function lightboxImageLabel(index: number, total: number): string {
+  const n = index + 1;
+  if (document.documentElement.lang === "en") {
+    return `Image ${n} of ${total}`;
+  }
+  return `Immagine ${n} di ${total}`;
+}
+
 function renderLightboxDots() {
   const dotsContainer = document.getElementById("lightbox-dots");
   if (!dotsContainer) return;
@@ -20,7 +28,7 @@ function renderLightboxDots() {
     dot.type = "button";
     dot.className = "lightbox-dot";
     dot.setAttribute("role", "tab");
-    dot.setAttribute("aria-label", `Immagine ${index + 1} di ${lightboxImages.length}`);
+    dot.setAttribute("aria-label", lightboxImageLabel(index, lightboxImages.length));
     dot.addEventListener("click", () => showLightboxSlide(index));
     dotsContainer.appendChild(dot);
   });

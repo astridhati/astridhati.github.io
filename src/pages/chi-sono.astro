@@ -1,26 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { getSite } from "../lib/content";
-
-const site = getSite();
-const title = `Chi sono — ${site.name}`;
-const description = site.bio.slice(0, 160);
+import AboutPage from "../views/AboutPage.astro";
 ---
 
-<Layout title={title} description={description}>
-  <section class="about section" aria-labelledby="about-title">
-    <div class="container">
-      <h1 id="about-title" class="section-title">Chi sono</h1>
-      <p class="about-bio">{site.bio}</p>
-      {site.tagline && <p class="about-tagline">{site.tagline}</p>}
-    </div>
-  </section>
-</Layout>
-
-<style>
-  .about-tagline {
-    margin-top: var(--space-md);
-    font-size: 1.125rem;
-    color: var(--color-text-muted);
-  }
-</style>
+<AboutPage locale="it" />

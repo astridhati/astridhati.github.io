@@ -1,31 +1,5 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import GalleryGrid from "../../components/GalleryGrid.astro";
-import { getSite, getUnassignedDrawings } from "../../lib/content";
-
-const site = getSite();
-const drawings = getUnassignedDrawings();
-
-const title = `Galleria — ${site.name}`;
-const description = `Galleria di illustrazioni e disegni di ${site.name}. Altri lavori e opere non assegnate a un progetto.`;
+import GalleryPage from "../../views/GalleryPage.astro";
 ---
 
-<Layout title={title} description={description}>
-  <section class="gallery section" aria-labelledby="gallery-title">
-    <div class="container">
-      <h1 id="gallery-title" class="section-title">Galleria</h1>
-      <p class="gallery-intro">Altri lavori — opere singole e collezioni non assegnate a un progetto.</p>
-      <GalleryGrid
-        drawings={drawings}
-        emptyMessage="Nessun lavoro al momento."
-      />
-    </div>
-  </section>
-</Layout>
-
-<style>
-  .gallery-intro {
-    margin-bottom: var(--space-md);
-    color: var(--color-text-muted);
-  }
-</style>
+<GalleryPage locale="it" />

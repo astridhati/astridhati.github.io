@@ -1,4 +1,4 @@
-# Replace YOUR-CLOUDFLARE-WORKER after deploy (see docs/ADMIN_SETUP.md)
+# Sveltia CMS — see docs/ADMIN_SETUP.md
 backend:
   name: github
   repo: astridhati/astridhati.github.io
@@ -21,8 +21,10 @@ collections:
         file: content/site.json
         fields:
           - { label: Nome, name: name, widget: string }
-          - { label: Tagline, name: tagline, widget: string }
-          - { label: Bio, name: bio, widget: text }
+          - { label: Tagline (IT), name: tagline, widget: string }
+          - { label: Tagline (EN), name: tagline_en, widget: string, required: false }
+          - { label: Bio (IT), name: bio, widget: text }
+          - { label: Bio (EN), name: bio_en, widget: text, required: false }
           - { label: Email, name: email, widget: string, required: false }
           - { label: Sfondo hero, name: heroBackground, widget: image, required: false, media_folder: public/images, public_folder: /images }
           - { label: Logo, name: logo, widget: image, required: false, media_folder: public/images, public_folder: /images }
@@ -42,52 +44,71 @@ collections:
 
   - name: projects
     label: Progetti
+    label_singular: Progetto
     folder: content/projects
     create: true
     slug: "{{id}}"
     identifier_field: id
+    summary: "{{name}}"
     extension: json
     format: json
     fields:
-      - { label: ID (slug cartella), name: id, widget: string, hint: "Es. attivismo — deve corrispondere alla cartella in images/drawings/" }
-      - { label: Nome, name: name, widget: string }
+      - { label: ID (slug cartella), name: id, widget: string, hint: "Es. attivismo — nome cartella in images/drawings/" }
+      - { label: Nome (IT), name: name, widget: string }
+      - { label: Name (EN), name: name_en, widget: string, required: false }
       - { label: Copertina, name: cover, widget: image }
       - { label: Anno, name: year, widget: string }
-      - { label: Descrizione, name: description, widget: text }
-      - { label: Titolo SEO, name: seoTitle, widget: string, required: false }
-      - { label: Descrizione SEO, name: seoDescription, widget: text, required: false }
+      - { label: Descrizione (IT), name: description, widget: text }
+      - { label: Description (EN), name: description_en, widget: text, required: false }
+      - { label: Titolo SEO (IT), name: seoTitle, widget: string, required: false }
+      - { label: SEO title (EN), name: seoTitle_en, widget: string, required: false }
+      - { label: Descrizione SEO (IT), name: seoDescription, widget: text, required: false }
+      - { label: SEO description (EN), name: seoDescription_en, widget: text, required: false }
 
   - name: drawings
     label: Disegni
+    label_singular: Disegno
     folder: content/drawings
     create: true
     slug: "{{title}}"
+    summary: "{{title}}"
     extension: json
     format: json
     fields:
-      - { label: Titolo, name: title, widget: string }
+      - { label: Titolo (IT), name: title, widget: string }
+      - { label: Title (EN), name: title_en, widget: string, required: false }
       - { label: Anno, name: year, widget: string }
-      - { label: Descrizione, name: description, widget: text, required: false }
+      - { label: Descrizione (IT), name: description, widget: text, required: false }
+      - { label: Description (EN), name: description_en, widget: text, required: false }
       - label: Tipo
         name: grouped
         widget: select
-        options:
-          - { label: Singolo, value: single }
-          - { label: Gruppo (carousel), value: multiple }
         default: single
-      - { label: Progetto (ID), name: project, widget: string, required: false, hint: "Lascia vuoto per Altri lavori" }
+        options:
+          - { label: Singolo — una immagine, value: single }
+          - { label: Gruppo — carousel in galleria, value: multiple }
+      - label: Progetto
+        name: project
+        widget: relation
+        collection: projects
+        value_field: id
+        display_fields: [name]
+        search_fields: [name, id]
+        required: false
+        hint: "Lascia vuoto per Altri lavori (galleria senza progetto)"
       - label: Immagine
         name: image
         widget: image
         required: false
+        hint: "Solo per disegni singoli"
         condition:
           field: grouped
           value: single
-      - { label: Slug gruppo, name: group, widget: string, required: false, condition: { field: grouped, value: multiple } }
       - label: Copertina
         name: cover
         widget: image
         required: false
+        hint: "Anteprima in galleria"
         condition:
           field: grouped
           value: multiple
@@ -95,6 +116,7 @@ collections:
         name: images
         widget: list
         required: false
+        hint: "Ordine = ordine nel carousel"
         condition:
           field: grouped
           value: multiple

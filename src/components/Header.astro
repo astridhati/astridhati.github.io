@@ -1,48 +1,62 @@
 ---
 import type { SiteConfig } from "../lib/types";
 import { assetPath } from "../lib/types";
+import type { Locale } from "../lib/types";
 import SocialIcon from "./SocialIcon.astro";
+import {
+  getUi,
+  localizedPath,
+  navRoutes,
+  stripLocalePrefix,
+  switchLocalePath,
+  type NavKey,
+} from "../lib/i18n";
 
 interface Props {
   site: SiteConfig;
+  locale: Locale;
   currentPath?: string;
 }
 
-const { site, currentPath = "" } = Astro.props;
+const { site, locale, currentPath = "" } = Astro.props;
+const strings = getUi(locale);
+const pathWithoutLocale = stripLocalePrefix(currentPath);
 
-const navLinks = [
-  { href: "/chi-sono/", label: "Chi sono" },
-  { href: "/progetti/", label: "Progetti" },
-  { href: "/galleria/", label: "Galleria" },
-  { href: "/contatti/", label: "Contatti" },
-];
+const navKeys: NavKey[] = ["about", "projects", "gallery", "contact"];
 
-function isActive(href: string): boolean {
-  if (href === "/") return currentPath === "/";
-  return currentPath.startsWith(href);
+function isActive(route: string): boolean {
+  const normalized = route.endsWith("/") ? route : `${route}/`;
+  if (normalized === "/") return pathWithoutLocale === "/";
+  return pathWithoutLocale.startsWith(normalized);
 }
+
+const homeHref = localizedPath("/", locale);
+const switchHref = switchLocalePath(currentPath);
 ---
 
 <header class="site-header">
-  <nav class="nav" aria-label="Navigazione principale">
+  <nav class="nav" aria-label={strings.nav.aria}>
     <div id="nav-menu" class="nav-menu">
       <div class="nav-links">
         {
-          navLinks.map((link) => (
-            <a
-              href={link.href}
-              class:list={["nav-link", { "nav-link--active": isActive(link.href) }]}
-              aria-current={isActive(link.href) ? "page" : undefined}
-            >
-              {link.label}
-            </a>
-          ))
+          navKeys.map((key) => {
+            const href = localizedPath(navRoutes[key], locale);
+            return (
+              <a
+                href={href}
+                class:list={["nav-link", { "nav-link--active": isActive(navRoutes[key]) }]}
+                aria-current={isActive(navRoutes[key]) ? "page" : undefined}
+              >
+                {strings.nav[key]}
+              </a>
+            );
+          })
         }
       </div>
     </div>
     {
       site.logo && (
-        <a href="/" class="nav-logo" aria-label={`${site.name} — torna all'inizio`}>
+        <a href={homeHref} class="nav-logo" aria-label={strings.logoHome(site.name)}>
           <img
             class="nav-logo-image"
             src={assetPath(site.logo)}
@@ -54,7 +68,24 @@ function isActive(href: string): boolean {
       )
     }
     <div class="nav-controls">
-      <div class="nav-actions" aria-label="Social e contatti">
+      <div class="lang-switch" role="group" aria-label={strings.lang.label}>
+        {
+          locale === "it" ? (
+            <span class="lang-switch__current" aria-current="true">IT</span>
+          ) : (
+            <a href={switchHref} class="lang-switch__link" hreflang="it" lang="it">IT</a>
+          )
+        }
+        <span class="lang-switch__sep" aria-hidden="true">/</span>
+        {
+          locale === "en" ? (
+            <span class="lang-switch__current" aria-current="true">EN</span>
+          ) : (
+            <a href={switchHref} class="lang-switch__link" hreflang="en" lang="en">EN</a>
+          )
+        }
+      </div>
+      <div class="nav-actions" aria-label={strings.nav.social}>
         {
           site.social &&
             Object.entries(site.social).map(([platform, url]) =>
@@ -73,7 +104,9 @@ function isActive(href: string): boolean {
         class="nav-toggle"
         aria-expanded="false"
         aria-controls="nav-menu"
-        aria-label="Apri menu"
+        aria-label={strings.mobileNav.open}
+        data-label-open={strings.mobileNav.open}
+        data-label-close={strings.mobileNav.close}
       >
         <span class="nav-toggle-bar" aria-hidden="true"></span>
         <span class="nav-toggle-bar" aria-hidden="true"></span>

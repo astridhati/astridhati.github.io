@@ -1,22 +1,32 @@
 ---
 import type { SiteConfig } from "../lib/types";
 import { assetPath } from "../lib/types";
+import type { Locale } from "../lib/types";
+import { siteTagline, getUi } from "../lib/i18n";
 
 interface Props {
   site: SiteConfig;
+  locale: Locale;
 }
 
-const { site } = Astro.props;
+const { site, locale } = Astro.props;
+const strings = getUi(locale);
 const heroStyle = site.heroBackground
   ? `background-image: url("${assetPath(site.heroBackground)}")`
   : undefined;
+const tagline = siteTagline(site, locale);
 ---
 
-<section id="hero" class:list={["hero", { "hero--has-background": !!site.heroBackground }]} aria-label="Introduzione" style={heroStyle}>
+<section
+  id="hero"
+  class:list={["hero", { "hero--has-background": !!site.heroBackground }]}
+  aria-label={strings.hero.aria}
+  style={heroStyle}
+>
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-content container">
     <h1 class="hero-title">{site.name}</h1>
-    {site.tagline && <p class="hero-tagline">{site.tagline}</p>}
+    {tagline && <p class="hero-tagline">{tagline}</p>}
   </div>
 </section>
 

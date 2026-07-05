@@ -1,0 +1,107 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import ProjectsCarousel from "../components/ProjectsCarousel.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { getSite, getProjects } from "../lib/content";
+import { getUi, homeTitle, localizedPath, siteBio, siteTagline } from "../lib/i18n";
+import type { Locale } from "../lib/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const site = getSite();
+const projects = getProjects();
+const featuredProjects = projects.slice(0, 6);
+const strings = getUi(locale);
+
+const title = homeTitle(site, locale);
+const description = siteBio(site, locale).slice(0, 160);
+const siteUrl = "https://astridhati.github.io";
+const canonical = locale === "en" ? `${siteUrl}/en/` : `${siteUrl}/`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  description: siteBio(site, locale),
+  url: canonical,
+  jobTitle: siteTagline(site, locale),
+  sameAs: Object.values(site.social ?? {}).filter(Boolean),
+};
+---
+
+<Layout
+  locale={locale}
+  title={title}
+  description={description}
+  image={site.logo}
+  canonical={canonical}
+  jsonLd={jsonLd}
+>
+  <Hero site={site} locale={locale} />
+
+  <section class="projects section" aria-labelledby="projects-title">
+    <div class="container">
+      <h2 id="projects-title" class="section-title">{strings.home.projects}</h2>
+      <ProjectsCarousel projects={projects} locale={locale} />
+      {projects.length > 0 && (
+        <p class="section-cta">
+          <a href={localizedPath("/progetti/", locale)} class="contact-button">
+            {strings.home.seeAllProjects}
+          </a>
+        </p>
+      )}
+    </div>
+  </section>
+
+  {
+    featuredProjects.length > 0 && (
+      <section class="section" aria-labelledby="featured-title">
+        <div class="container">
+          <h2 id="featured-title" class="section-title">{strings.home.featured}</h2>
+          <div class="projects-grid" role="list">
+            {featuredProjects.map((project) => (
+              <ProjectCard project={project} locale={locale} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="contact section" aria-labelledby="home-cta-title">
+    <div class="container">
+      <h2 id="home-cta-title" class="section-title">{strings.home.commissions}</h2>
+      <p class="contact-intro">{strings.home.commissionsIntro}</p>
+      <a href={localizedPath("/contatti/", locale)} class="contact-button">
+        {strings.home.contactMe}
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style lang="scss">
+  @use "../styles/breakpoints" as *;
+
+  .section-cta {
+    text-align: center;
+    margin-top: var(--space-md);
+  }
+
+  .projects-grid {
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: 1fr;
+
+    @include from-sm {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include from-lg {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

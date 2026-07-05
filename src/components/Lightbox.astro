@@ -1,15 +1,25 @@
+---
+import type { UiStrings } from "../lib/i18n";
+
+interface Props {
+  labels: UiStrings["lightbox"];
+}
+
+const { labels } = Astro.props;
+---
+
 <dialog id="lightbox" class="lightbox" aria-labelledby="lightbox-title">
-  <button type="button" class="lightbox-close" aria-label="Chiudi">&times;</button>
+  <button type="button" class="lightbox-close" aria-label={labels.close}>&times;</button>
   <figure class="lightbox-figure">
     <div class="lightbox-carousel">
-      <button type="button" class="lightbox-nav lightbox-nav--prev" aria-label="Immagine precedente" hidden>
+      <button type="button" class="lightbox-nav lightbox-nav--prev" aria-label={labels.prev} hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <div class="lightbox-stage">
         <img id="lightbox-image" class="lightbox-image" src="" alt="" />
-        <div id="lightbox-dots" class="lightbox-dots" role="tablist" aria-label="Immagini del gruppo" hidden></div>
+        <div id="lightbox-dots" class="lightbox-dots" role="tablist" aria-label={labels.dots} hidden></div>
       </div>
-      <button type="button" class="lightbox-nav lightbox-nav--next" aria-label="Immagine successiva" hidden>
+      <button type="button" class="lightbox-nav lightbox-nav--next" aria-label={labels.next} hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>

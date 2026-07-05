@@ -1,63 +1,43 @@
 ---
 import type { Project } from "../lib/types";
-import { assetPath } from "../lib/types";
+import type { Locale } from "../lib/types";
+import { assetPath, projectDescription, projectName } from "../lib/types";
+import { getUi, localizedPath } from "../lib/i18n";
 
 interface Props {
   project: Project;
-  asLink?: boolean;
+  locale: Locale;
 }
 
-const { project, asLink = true } = Astro.props;
+const { project, locale } = Astro.props;
+const strings = getUi(locale);
+const name = projectName(project, locale);
 ---
 
-{
-  asLink ? (
-    <a
-      href={`/progetti/${project.id}/`}
-      class="project-card"
-      role="listitem"
-      aria-label={`Apri progetto ${project.name}`}
-    >
-      <div class="project-card-image-wrap">
-        <img
-          class="project-card-image"
-          src={assetPath(project.cover)}
-          alt={project.name}
-          loading="lazy"
-          width="600"
-          height="400"
-        />
-      </div>
-      <div class="project-card-body">
-        <h3 class="project-card-title">{project.name}</h3>
-        {project.year && <p class="project-card-year">{project.year}</p>}
-        {project.description && (
-          <p class="project-card-description">{project.description}</p>
-        )}
-      </div>
-    </a>
-  ) : (
-    <article class="project-card" role="listitem">
-      <div class="project-card-image-wrap">
-        <img
-          class="project-card-image"
-          src={assetPath(project.cover)}
-          alt={project.name}
-          loading="lazy"
-          width="600"
-          height="400"
-        />
-      </div>
-      <div class="project-card-body">
-        <h3 class="project-card-title">{project.name}</h3>
-        {project.year && <p class="project-card-year">{project.year}</p>}
-        {project.description && (
-          <p class="project-card-description">{project.description}</p>
-        )}
-      </div>
-    </article>
-  )
-}
+<a
+  href={localizedPath(`/progetti/${project.id}/`, locale)}
+  class="project-card"
+  role="listitem"
+  aria-label={strings.projects.openProject(name)}
+>
+  <div class="project-card-image-wrap">
+    <img
+      class="project-card-image"
+      src={assetPath(project.cover)}
+      alt={name}
+      loading="lazy"
+      width="600"
+      height="400"
+    />
+  </div>
+  <div class="project-card-body">
+    <h3 class="project-card-title">{name}</h3>
+    {project.year && <p class="project-card-year">{project.year}</p>}
+    {projectDescription(project, locale) && (
+      <p class="project-card-description">{projectDescription(project, locale)}</p>
+    )}
+  </div>
+</a>
 
 <style>
   a.project-card {

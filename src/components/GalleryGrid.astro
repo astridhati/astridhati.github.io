@@ -1,13 +1,15 @@
 ---
 import type { Drawing } from "../lib/types";
+import type { Locale } from "../lib/types";
 import GalleryItem from "./GalleryItem.astro";
 
 interface Props {
   drawings: Drawing[];
+  locale: Locale;
   emptyMessage?: string;
 }
 
-const { drawings, emptyMessage = "Nessun lavoro al momento." } = Astro.props;
+const { drawings, locale, emptyMessage } = Astro.props;
 ---
 
 <div class="gallery-grid" role="list">
@@ -16,7 +18,7 @@ const { drawings, emptyMessage = "Nessun lavoro al momento." } = Astro.props;
       <p class="gallery-empty">{emptyMessage}</p>
     ) : (
       drawings.map((drawing, index) => (
-        <GalleryItem drawing={drawing} index={index} />
+        <GalleryItem drawing={drawing} locale={locale} index={index} />
       ))
     )
   }

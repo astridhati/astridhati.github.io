@@ -1,27 +1,35 @@
 ---
 interface Props {
+  locale: "it" | "en";
   title: string;
   description: string;
   image?: string;
-  canonical?: string;
+  canonical: string;
+  itUrl: string;
+  enUrl: string;
   type?: string;
 }
 
-const { title, description, image, canonical, type = "website" } = Astro.props;
+const { title, description, image, canonical, itUrl, enUrl, type = "website" } = Astro.props;
 const site = Astro.site?.href ?? "https://astridhati.github.io";
-const canonicalUrl = canonical ?? new URL(Astro.url.pathname, site).href;
 const ogImage = image ? new URL(image.startsWith("/") ? image : `/${image}`, site).href : undefined;
+const ogLocale = Astro.props.locale === "en" ? "en_US" : "it_IT";
+const ogLocaleAlternate = Astro.props.locale === "en" ? "it_IT" : "en_US";
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
-<link rel="canonical" href={canonicalUrl} />
+<link rel="canonical" href={canonical} />
+<link rel="alternate" hreflang="it" href={itUrl} />
+<link rel="alternate" hreflang="en" href={enUrl} />
+<link rel="alternate" hreflang="x-default" href={itUrl} />
 
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content={type} />
-<meta property="og:url" content={canonicalUrl} />
-<meta property="og:locale" content="it_IT" />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={ogLocale} />
+<meta property="og:locale:alternate" content={ogLocaleAlternate} />
 {ogImage && <meta property="og:image" content={ogImage} />}
 
 <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />

@@ -68,7 +68,7 @@ Setup iniziale OAuth: vedi [docs/ADMIN_SETUP.md](docs/ADMIN_SETUP.md).
 - **Sito:** modifica `content/site.json`
 - **Progetto:** aggiungi `content/projects/{id}.json`
 - **Disegno singolo:** aggiungi `content/drawings/{slug}.json` con `"grouped": "single"`
-- **Gruppo carousel:** `"grouped": "multiple"`, `cover`, `images[]`, opzionale `group`
+- **Gruppo carousel:** `"grouped": "multiple"`, `cover`, `images[]`
 - **Immagini:** salva in `public/images/drawings/…`
 
 Esempio disegno singolo in progetto:

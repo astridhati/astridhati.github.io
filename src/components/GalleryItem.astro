@@ -1,19 +1,24 @@
 ---
 import type { Drawing } from "../lib/types";
-import { assetPath, getEntryThumbnail } from "../lib/types";
+import type { Locale } from "../lib/types";
+import { assetPath, drawingDescription, drawingTitle, getEntryThumbnail } from "../lib/types";
+import { getUi } from "../lib/i18n";
 
 interface Props {
   drawing: Drawing;
+  locale: Locale;
   index?: number;
 }
 
-const { drawing, index = 0 } = Astro.props;
+const { drawing, locale, index = 0 } = Astro.props;
+const strings = getUi(locale);
 const isGroup = drawing.grouped === "multiple";
 const thumbnail = getEntryThumbnail(drawing);
+const title = drawingTitle(drawing, locale);
 const images = isGroup ? (drawing.images ?? []) : [drawing.image ?? ""];
 const lightboxData = JSON.stringify({
-  title: drawing.title,
-  description: drawing.description ?? "",
+  title,
+  description: drawingDescription(drawing, locale),
   year: drawing.year ?? "",
   images: images.map((img) => assetPath(img)),
 });
@@ -23,14 +28,14 @@ const lightboxData = JSON.stringify({
   type="button"
   class="gallery-item"
   role="listitem"
-  aria-label={isGroup ? `Apri gruppo ${drawing.title}` : `Apri ${drawing.title}`}
+  aria-label={isGroup ? strings.gallery.openGroup(title) : strings.gallery.openItem(title)}
   data-lightbox={lightboxData}
 >
   <div class="gallery-item-media">
     <img
       class="gallery-item-image"
       src={assetPath(thumbnail)}
-      alt={drawing.description || drawing.title}
+      alt={drawingDescription(drawing, locale) || title}
       loading={index >= 3 ? "lazy" : "eager"}
       width="400"
       height="400"
@@ -44,7 +49,7 @@ const lightboxData = JSON.stringify({
     }
   </div>
   <div class="gallery-item-info">
-    <h3 class="gallery-item-title">{drawing.title}</h3>
+    <h3 class="gallery-item-title">{title}</h3>
     {drawing.year && <p class="gallery-item-year">{drawing.year}</p>}
   </div>
 </button>

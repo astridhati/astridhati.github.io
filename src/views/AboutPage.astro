@@ -1,0 +1,39 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getSite } from "../lib/content";
+import { getUi, localizedPath, siteBio, siteTagline } from "../lib/i18n";
+import type { Locale } from "../lib/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const site = getSite();
+const strings = getUi(locale);
+const siteUrl = "https://astridhati.github.io";
+const canonical = `${siteUrl}${localizedPath("/chi-sono/", locale)}`;
+
+const title = strings.about.pageTitle(site.name);
+const description = siteBio(site, locale).slice(0, 160);
+---
+
+<Layout locale={locale} title={title} description={description} canonical={canonical}>
+  <section class="about section" aria-labelledby="about-title">
+    <div class="container">
+      <h1 id="about-title" class="section-title">{strings.about.title}</h1>
+      <p class="about-bio">{siteBio(site, locale)}</p>
+      {siteTagline(site, locale) && (
+        <p class="about-tagline">{siteTagline(site, locale)}</p>
+      )}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .about-tagline {
+    margin-top: var(--space-md);
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+  }
+</style>

@@ -5,8 +5,11 @@ import Footer from "../components/Footer.astro";
 import Lightbox from "../components/Lightbox.astro";
 import SEO from "../components/SEO.astro";
 import { getSite } from "../lib/content";
+import { getUi, localizedPath, stripLocalePrefix } from "../lib/i18n";
+import type { Locale } from "../lib/types";
 
 interface Props {
+  locale?: Locale;
   title: string;
   description: string;
   image?: string;
@@ -15,13 +18,19 @@ interface Props {
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, image, canonical, type, jsonLd } = Astro.props;
+const { locale = "it", title, description, image, canonical, type, jsonLd } = Astro.props;
 const site = getSite();
 const currentPath = Astro.url.pathname;
+const strings = getUi(locale);
+const siteBase = Astro.site?.href ?? "https://astridhati.github.io/";
+const pathWithoutLocale = stripLocalePrefix(currentPath);
+const itUrl = new URL(localizedPath(pathWithoutLocale, "it"), siteBase).href;
+const enUrl = new URL(localizedPath(pathWithoutLocale, "en"), siteBase).href;
+const canonicalUrl = canonical ?? new URL(currentPath, siteBase).href;
 ---
 
 <!doctype html>
-<html lang="it">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,7 +40,16 @@ const currentPath = Astro.url.pathname;
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
-    <SEO title={title} description={description} image={image} canonical={canonical} type={type} />
+    <SEO
+      locale={locale}
+      title={title}
+      description={description}
+      image={image}
+      canonical={canonicalUrl}
+      itUrl={itUrl}
+      enUrl={enUrl}
+      type={type}
+    />
     {
       jsonLd && (
         <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -39,11 +57,11 @@ const currentPath = Astro.url.pathname;
     }
   </head>
   <body>
-    <Header site={site} currentPath={currentPath} />
+    <Header site={site} locale={locale} currentPath={currentPath} />
     <main>
       <slot />
     </main>
     <Footer name={site.name} />
-    <Lightbox />
+    <Lightbox labels={strings.lightbox} />
   </body>
 </html>

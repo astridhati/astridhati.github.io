@@ -1,0 +1,17 @@
+---
+import ProjectDetailPage from "../../../views/ProjectDetailPage.astro";
+import { getProject, getProjectIds } from "../../../lib/content";
+
+export function getStaticPaths() {
+  return getProjectIds().map((id) => ({ params: { id } }));
+}
+
+const { id } = Astro.params;
+const project = getProject(id!);
+
+if (!project) {
+  return Astro.redirect("/en/progetti/");
+}
+---
+
+<ProjectDetailPage locale="en" project={project} />

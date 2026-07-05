@@ -1,11 +1,15 @@
 {
   "name": "Ale",
   "tagline": "Illustratrice & artista",
+  "tagline_en": "",
   "bio": "Creo disegni e illustrazioni che raccontano storie attraverso linee, colori e dettagli. Ogni opera nasce da osservazione, immaginazione e molta pazienza. Benvenuti nel mio mondo.",
+  "bio_en": "",
   "email": "test@test.com",
-  "heroBackground": "images/hero-background.svg",
+  "heroBackground": "images/Volpe gif.gif",
   "logo": "images/logo.png",
   "social": {
-    "instagram": "https://instagram.com/"
+    "instagram": "https://instagram.com/",
+    "behance": "",
+    "pinterest": ""
   }
 }

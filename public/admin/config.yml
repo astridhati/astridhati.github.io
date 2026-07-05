@@ -8,8 +8,20 @@ backend:
     - oauth
   skip_ci: true # saves commit without rebuilding; use Publish Changes when done
 
-media_folder: public/images/drawings
-public_folder: /images/drawings
+media_folder: public/images
+public_folder: /images
+
+asset_collections:
+  - name: site
+    label: Immagini sito
+    icon: web
+    media_folder: /public/images
+    public_folder: /images
+  - name: drawings
+    label: Disegni
+    icon: palette
+    media_folder: /public/images/drawings
+    public_folder: /images/drawings
 
 locale: it
 
@@ -27,9 +39,9 @@ collections:
           - { label: Bio (IT), name: bio, widget: text }
           - { label: Bio (EN), name: bio_en, widget: text, required: false }
           - { label: Email, name: email, widget: string, required: false }
-          - { label: Sfondo hero, name: heroBackground, widget: image, required: false, media_folder: public/images, public_folder: /images }
-          - { label: Logo, name: logo, widget: image, required: false, media_folder: public/images, public_folder: /images }
-          - { label: Icona Instagram, name: instagramIcon, widget: image, required: false, media_folder: public/images, public_folder: /images, hint: "Icona nel menu e in Contatti (consigliato 32×32 px, sfondo trasparente)" }
+          - { label: Sfondo hero, name: heroBackground, widget: image, required: false }
+          - { label: Logo, name: logo, widget: image, required: false }
+          - { label: Icona Instagram, name: instagramIcon, widget: image, required: false, hint: "Icona nel menu e in Contatti (consigliato 32×32 px, sfondo trasparente)" }
           - label: Social
             name: social
             widget: object
@@ -81,6 +93,8 @@ collections:
     label: Progetti
     label_singular: Progetto
     folder: content/projects
+    media_folder: /public/images/drawings
+    public_folder: /images/drawings
     create: true
     slug: "{{id}}"
     identifier_field: id
@@ -104,6 +118,8 @@ collections:
     label: Disegni
     label_singular: Disegno
     folder: content/drawings
+    media_folder: /public/images/drawings
+    public_folder: /images/drawings
     create: true
     slug: "{{id}}"
     identifier_field: id

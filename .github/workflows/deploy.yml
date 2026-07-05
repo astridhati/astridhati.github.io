@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/uploads
   repository_dispatch:
     types: [sveltia-cms-publish]
   workflow_dispatch:

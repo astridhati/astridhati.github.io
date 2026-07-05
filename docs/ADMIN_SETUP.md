@@ -99,7 +99,7 @@ Commit and push to `main` (the config file lives in the codebase; Sveltia writes
 | Branch | Purpose | Deploys? |
 |--------|---------|----------|
 | **`main`** | Code development (Astro templates, styles, CMS config) | **Yes** — every push |
-| **`feature/uploads`** | All Sveltia saves (content JSON + images) | **Only** when Ale clicks **Publish Changes** in the admin (`skip_ci` saves do not deploy) |
+| **`feature/uploads`** | All Sveltia saves (content JSON + images) | **Yes** — when Ale clicks **Save and Publish**, or **Publish Changes** |
 
 Sveltia commits to `feature/uploads` with `[skip ci]` on normal **Save**. The live site rebuilds from that branch only when Ale clicks **Publish Changes** (triggers a `repository_dispatch` event).
 
@@ -121,7 +121,7 @@ Ale’s admin saves always go to `feature/uploads` only.
 2. **Settings → Pages → Build and deployment**.
 3. Set **Source** to **GitHub Actions** (not “Deploy from a branch”).
 
-The workflow [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) deploys on every push to **`main`**, and from **`feature/uploads`** when Ale clicks **Publish Changes** in the admin.
+The workflow [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) deploys on every push to **`main`**, and on **`feature/uploads`** when Ale uses **Save and Publish** or clicks **Publish Changes** in the admin (normal **Save** uses `[skip ci]` and does not deploy).
 
 ---
 
@@ -170,7 +170,8 @@ While editing, Sveltia also keeps a **local draft backup** in the browser if you
 ### Images
 
 - Upload via the media library in admin.
-- Files are stored in `public/images/drawings/` in the repo.
+- **Asset Library** shows all images under `public/images/` (logo, hero, icons, drawings, etc.). Use the folder list to jump to **Immagini sito** or **Disegni**.
+- Drawing and project uploads still go to `public/images/drawings/`.
 - For **single** drawings: type “Singolo” + one image.
 - For **groups** (carousel): type “Gruppo”, cover + ordered image list.
 - **Progetto** — dropdown list (not manual ID); leave empty for Altri lavori.

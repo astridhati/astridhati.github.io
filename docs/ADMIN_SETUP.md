@@ -170,8 +170,7 @@ While editing, Sveltia also keeps a **local draft backup** in the browser if you
 ### Images
 
 - Upload via the media library in admin.
-- **Asset Library** shows all images under `public/images/` (logo, hero, icons, drawings, etc.). Use the folder list to jump to **Immagini sito** or **Disegni**.
-- Drawing and project uploads still go to `public/images/drawings/`.
+- **Asset Library** shows **Global Assets** (logo, hero, icons in `public/images/`) and **Disegni** (gallery artwork in `public/images/drawings/`). Progetti does not have its own asset folder — project covers upload into Disegni.
 - For **single** drawings: type “Singolo” + one image.
 - For **groups** (carousel): type “Gruppo”, cover + ordered image list.
 - **Progetto** — dropdown list (not manual ID); leave empty for Altri lavori.

@@ -35,7 +35,7 @@ const {
 const site = getSite();
 const strings = getUi(locale);
 const currentPath = Astro.url.pathname;
-const siteBase = Astro.site?.href ?? "https://astridhati.github.io/";
+const siteBase = Astro.site?.href ?? "https://www.astridhati.com/";
 const pathWithoutLocale = stripLocalePrefix(currentPath);
 const itUrl = new URL(localizedPath(pathWithoutLocale, "it"), siteBase).href;
 const enUrl = new URL(localizedPath(pathWithoutLocale, "en"), siteBase).href;

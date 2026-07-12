@@ -25,7 +25,7 @@ const {
   noindex = false,
   siteName,
 } = Astro.props;
-const site = Astro.site?.href ?? "https://astridhati.github.io";
+const site = Astro.site?.href ?? "https://www.astridhati.com";
 const ogImage = image ? new URL(image.startsWith("/") ? image : `/${image}`, site).href : undefined;
 const ogLocale = Astro.props.locale === "en" ? "en_US" : "it_IT";
 const ogLocaleAlternate = Astro.props.locale === "en" ? "it_IT" : "en_US";

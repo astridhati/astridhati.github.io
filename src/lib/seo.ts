@@ -1,4 +1,4 @@
-const FALLBACK_SITE = "https://astridhati.github.io";
+const FALLBACK_SITE = "https://www.astridhati.com";
 
 export function getSiteUrl(siteHref?: string | URL): string {
   const href = siteHref?.toString() ?? FALLBACK_SITE;

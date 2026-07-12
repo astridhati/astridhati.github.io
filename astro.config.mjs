@@ -2,7 +2,7 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://astridhati.github.io",
+  site: "https://www.astridhati.com",
   base: "/",
   integrations: [
     sitemap({

@@ -37,6 +37,13 @@
   }
 }
 
+.site-footer__legal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.site-footer__byline,
 .site-footer__copy {
   margin: 0;
 }

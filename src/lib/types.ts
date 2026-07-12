@@ -70,10 +70,6 @@ export interface Category {
   year: string;
   description: string;
   description_en?: string;
-  seoTitle?: string;
-  seoTitle_en?: string;
-  seoDescription?: string;
-  seoDescription_en?: string;
 }
 
 export interface Drawing {
@@ -153,11 +149,6 @@ export function categorySeoTitle(
   siteName: string,
   locale: Locale = "it",
 ): string {
-  const custom =
-    locale === "en"
-      ? category.seoTitle_en ?? category.seoTitle
-      : category.seoTitle;
-  if (custom?.trim()) return custom.trim();
   return `${categoryName(category, locale)} — ${siteName}`;
 }
 
@@ -166,11 +157,6 @@ export function categorySeoDescription(
   siteName: string,
   locale: Locale = "it",
 ): string {
-  const custom =
-    locale === "en"
-      ? category.seoDescription_en ?? category.seoDescription
-      : category.seoDescription;
-  if (custom?.trim()) return custom.trim();
   const desc = categoryDescription(category, locale);
   if (desc) return desc;
   return locale === "en"

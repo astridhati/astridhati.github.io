@@ -8,6 +8,7 @@ interface LightboxEntry {
 let lightboxImages: string[] = [];
 let lightboxIndex = 0;
 let lightboxEntry: LightboxEntry | null = null;
+let previousFocus: HTMLElement | null = null;
 
 function lightboxImageLabel(index: number, total: number): string {
   const n = index + 1;
@@ -42,6 +43,12 @@ function updateLightboxDots() {
   });
 }
 
+function announceLightboxSlide() {
+  const status = document.getElementById("lightbox-status");
+  if (!status || lightboxImages.length === 0) return;
+  status.textContent = lightboxImageLabel(lightboxIndex, lightboxImages.length);
+}
+
 function showLightboxSlide(index: number) {
   const image = document.getElementById("lightbox-image") as HTMLImageElement | null;
   const dotsContainer = document.getElementById("lightbox-dots");
@@ -64,6 +71,8 @@ function showLightboxSlide(index: number) {
   if (hasMultiple) {
     updateLightboxDots();
   }
+
+  announceLightboxSlide();
 }
 
 function openLightbox(entry: LightboxEntry) {
@@ -74,6 +83,7 @@ function openLightbox(entry: LightboxEntry) {
 
   if (!dialog || !title || !description || !year) return;
 
+  previousFocus = document.activeElement as HTMLElement | null;
   lightboxEntry = entry;
   lightboxImages = entry.images;
   renderLightboxDots();
@@ -86,6 +96,7 @@ function openLightbox(entry: LightboxEntry) {
 
   showLightboxSlide(0);
   dialog.showModal();
+  dialog.querySelector<HTMLElement>(".lightbox-close")?.focus();
 }
 
 function setupLightbox() {
@@ -129,6 +140,11 @@ function setupLightbox() {
   dialog.addEventListener("cancel", (event) => {
     event.preventDefault();
     dialog.close();
+  });
+
+  dialog.addEventListener("close", () => {
+    previousFocus?.focus();
+    previousFocus = null;
   });
 
   document.querySelectorAll("[data-lightbox]").forEach((element) => {

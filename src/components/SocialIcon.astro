@@ -1,25 +1,16 @@
 ---
+import type { Locale } from "../lib/types";
+import { getUi, socialLabel } from "../lib/i18n";
+
 interface Props {
   platform: string;
   url: string;
+  locale?: Locale;
   external?: boolean;
 }
 
-const { platform, url, external = true } = Astro.props;
-
-const labels: Record<string, string> = {
-  instagram: "Instagram",
-  behance: "Behance",
-  twitter: "Twitter",
-  facebook: "Facebook",
-  pinterest: "Pinterest",
-  tiktok: "TikTok",
-  linkedin: "LinkedIn",
-  youtube: "YouTube",
-  email: "Invia un'email",
-};
-
-const label = labels[platform] ?? platform;
+const { platform, url, locale = "it", external = true } = Astro.props;
+const label = socialLabel(platform, locale);
 ---
 
 <a

@@ -17,6 +17,7 @@ import {
   siteCategoriesWorksLabel,
   siteName,
 } from "../lib/i18n";
+import { absoluteAssetUrl, getSiteUrl } from "../lib/seo";
 
 interface Props {
   locale: Locale;
@@ -26,7 +27,7 @@ interface Props {
 const { locale, drawing } = Astro.props;
 const site = getSite();
 const strings = getUi(locale);
-const siteUrl = "https://astridhati.github.io";
+const siteUrl = getSiteUrl(Astro.site?.href);
 const canonical = `${siteUrl}${localizedPath(`/galleria/${drawing.id}/`, locale)}`;
 
 const title = drawingSeoTitle(drawing, siteName(site), locale);
@@ -34,6 +35,7 @@ const description = drawingSeoDescription(drawing, siteName(site), locale);
 const name = drawingTitle(drawing, locale);
 const intro = drawingDescription(drawing, locale);
 const images = drawing.images ?? [];
+const ogImage = drawing.cover || images[0];
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -41,6 +43,7 @@ const jsonLd = {
   name,
   description: intro || description,
   url: canonical,
+  ...(ogImage && { image: absoluteAssetUrl(ogImage, siteUrl) }),
 };
 ---
 
@@ -48,6 +51,8 @@ const jsonLd = {
   locale={locale}
   title={title}
   description={description}
+  image={ogImage}
+  imageAlt={name}
   canonical={canonical}
   jsonLd={jsonLd}
 >

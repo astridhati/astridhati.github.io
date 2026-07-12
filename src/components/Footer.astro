@@ -1,13 +1,16 @@
 ---
 import type { SiteConfig } from "../lib/types";
+import type { Locale } from "../lib/types";
 import SocialIcon from "./SocialIcon.astro";
-import { siteName } from "../lib/i18n";
+import { getUi, siteName } from "../lib/i18n";
 
 interface Props {
   site: SiteConfig;
+  locale: Locale;
 }
 
-const { site } = Astro.props;
+const { site, locale } = Astro.props;
+const strings = getUi(locale);
 const year = new Date().getFullYear();
 const hasSocial =
   site.footer.social && Object.values(site.footer.social).some((url) => Boolean(url));
@@ -19,10 +22,10 @@ const hasSocial =
       <div class="site-footer__contact">
         {
           hasSocial && (
-            <div class="site-footer__social nav-actions" aria-label="Social">
+            <div class="site-footer__social nav-actions" aria-label={strings.footer.social}>
               {
                 Object.entries(site.footer.social).map(([platform, url]) =>
-                  url ? <SocialIcon platform={platform} url={url} /> : null,
+                  url ? <SocialIcon platform={platform} url={url} locale={locale} /> : null,
                 )
               }
             </div>
@@ -38,5 +41,10 @@ const hasSocial =
       </div>
     )
   }
-  <p class="site-footer__copy">&copy; {year} {siteName(site)}</p>
+  <div class="site-footer__legal">
+    <p class="site-footer__byline">{year} {siteName(site)}</p>
+    <p class="site-footer__copy">
+      &copy; {strings.footer.rightsReserved}
+    </p>
+  </div>
 </footer>

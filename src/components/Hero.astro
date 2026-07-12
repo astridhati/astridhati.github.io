@@ -3,7 +3,7 @@ import ProtectedMedia from "./ProtectedMedia.astro";
 import type { SiteConfig } from "../lib/types";
 import { assetPath } from "../lib/types";
 import type { Locale } from "../lib/types";
-import { getUi } from "../lib/i18n";
+import { getUi, homeTitle } from "../lib/i18n";
 
 interface Props {
   site: SiteConfig;
@@ -13,6 +13,7 @@ interface Props {
 const { site, locale } = Astro.props;
 const strings = getUi(locale);
 const heroBackground = site.home.heroBackground?.trim();
+const title = homeTitle(site, locale);
 ---
 
 <section
@@ -20,6 +21,7 @@ const heroBackground = site.home.heroBackground?.trim();
   class:list={["hero", { "hero--has-background": !!heroBackground }]}
   aria-label={strings.hero.aria}
 >
+  <h1 class="hero-title">{title}</h1>
   {
     heroBackground && (
       <ProtectedMedia

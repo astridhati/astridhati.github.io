@@ -83,6 +83,29 @@ export const ui = {
       open: "Apri menu",
       close: "Chiudi menu",
     },
+    skipToContent: "Vai al contenuto principale",
+    footer: {
+      social: "Reti sociali",
+      rightsReserved: "Tutti i diritti riservati",
+    },
+    social: {
+      instagram: "Instagram",
+      behance: "Behance",
+      twitter: "Twitter",
+      facebook: "Facebook",
+      pinterest: "Pinterest",
+      tiktok: "TikTok",
+      linkedin: "LinkedIn",
+      youtube: "YouTube",
+      email: "Invia un'email",
+    },
+    notFound: {
+      title: "Pagina non trovata",
+      description: "La pagina che stai cercando non esiste o è stata spostata.",
+      heading: "Pagina non trovata",
+      message: "La pagina che stai cercando non esiste o è stata spostata.",
+      home: "Torna alla home",
+    },
     logoHome: (name: string) => `${name} — torna all'inizio`,
   },
   en: {
@@ -119,6 +142,29 @@ export const ui = {
     mobileNav: {
       open: "Open menu",
       close: "Close menu",
+    },
+    skipToContent: "Skip to main content",
+    footer: {
+      social: "Social media",
+      rightsReserved: "All rights reserved",
+    },
+    social: {
+      instagram: "Instagram",
+      behance: "Behance",
+      twitter: "Twitter",
+      facebook: "Facebook",
+      pinterest: "Pinterest",
+      tiktok: "TikTok",
+      linkedin: "LinkedIn",
+      youtube: "YouTube",
+      email: "Send an email",
+    },
+    notFound: {
+      title: "Page not found",
+      description: "The page you are looking for does not exist or has been moved.",
+      heading: "Page not found",
+      message: "The page you are looking for does not exist or has been moved.",
+      home: "Back to home",
     },
     logoHome: (name: string) => `${name} — back to home`,
   },
@@ -210,4 +256,12 @@ export function siteCategoriesEmpty(site: SiteConfig, locale: Locale): string {
 
 export function homeTitle(site: SiteConfig, locale: Locale): string {
   return `${siteName(site)} — ${siteTagline(site, locale)}`;
+}
+
+export function socialLabel(
+  platform: string,
+  locale: Locale,
+): string {
+  const labels = ui[locale].social as Record<string, string>;
+  return labels[platform] ?? platform;
 }

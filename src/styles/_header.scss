@@ -47,6 +47,12 @@
   align-items: center;
   flex-shrink: 0;
   line-height: 0;
+  border-radius: var(--radius);
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
 
   @include from-md {
     grid-column: 2;
@@ -138,6 +144,11 @@
     color: var(--color-teal);
   }
 
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
   &--active {
     color: var(--color-teal);
     font-weight: 500;
@@ -194,6 +205,11 @@
     padding: 0.5rem 0;
     font-size: 1rem;
     letter-spacing: 0.06em;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 }
 
@@ -270,6 +286,11 @@
   &:hover {
     color: var(--color-teal);
     background: var(--color-bg-alt);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 
   @include below-md {

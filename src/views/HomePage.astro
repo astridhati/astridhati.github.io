@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
 import { getSite } from "../lib/content";
 import { homeTitle, siteBio, siteName, siteTagline, siteWelcome } from "../lib/i18n";
+import { absoluteAssetUrl, getSiteUrl, truncateDescription } from "../lib/seo";
 import type { Locale } from "../lib/types";
 
 interface Props {
@@ -14,8 +15,8 @@ const site = getSite();
 const welcome = siteWelcome(site, locale);
 
 const title = homeTitle(site, locale);
-const description = siteBio(site, locale).slice(0, 160);
-const siteUrl = "https://astridhati.github.io";
+const description = truncateDescription(siteBio(site, locale));
+const siteUrl = getSiteUrl(Astro.site?.href);
 const canonical = locale === "en" ? `${siteUrl}/en/` : `${siteUrl}/`;
 
 const jsonLd = {
@@ -25,6 +26,7 @@ const jsonLd = {
   description: siteBio(site, locale),
   url: canonical,
   jobTitle: siteTagline(site, locale),
+  image: absoluteAssetUrl(site.header.logo, siteUrl),
   sameAs: Object.values(site.footer.social ?? {}).filter(Boolean),
 };
 ---

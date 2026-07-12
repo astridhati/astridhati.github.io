@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import ProtectedMedia from "../components/ProtectedMedia.astro";
 import { getSite } from "../lib/content";
 import { getUi, localizedPath, siteAboutTitle, siteBio, siteName } from "../lib/i18n";
+import { absoluteAssetUrl, getSiteUrl, truncateDescription } from "../lib/seo";
 import { assetPath, type Locale } from "../lib/types";
 
 interface Props {
@@ -12,16 +13,40 @@ interface Props {
 const { locale } = Astro.props;
 const site = getSite();
 const strings = getUi(locale);
-const siteUrl = "https://astridhati.github.io";
+const siteUrl = getSiteUrl(Astro.site?.href);
 const canonical = `${siteUrl}${localizedPath("/chi-sono/", locale)}`;
 const pageTitle = siteAboutTitle(site, locale);
 const aboutImage = site.identity.image?.trim();
 
 const title = strings.about.pageTitle(siteName(site), pageTitle);
-const description = siteBio(site, locale).slice(0, 160);
+const description = truncateDescription(siteBio(site, locale));
+const ogImage = aboutImage ?? site.header.logo;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: title,
+  description: siteBio(site, locale),
+  url: canonical,
+  ...(aboutImage && { image: absoluteAssetUrl(aboutImage, siteUrl) }),
+  mainEntity: {
+    "@type": "Person",
+    name: siteName(site),
+    description: siteBio(site, locale),
+    ...(aboutImage && { image: absoluteAssetUrl(aboutImage, siteUrl) }),
+  },
+};
 ---
 
-<Layout locale={locale} title={title} description={description} canonical={canonical}>
+<Layout
+  locale={locale}
+  title={title}
+  description={description}
+  image={ogImage}
+  imageAlt={siteName(site)}
+  canonical={canonical}
+  jsonLd={jsonLd}
+>
   <section class="about section" aria-labelledby="about-title">
     <div class="container stack stack--md stack--pad-top">
       <h1 id="about-title" class="section-title">{pageTitle}</h1>

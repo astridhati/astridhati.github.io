@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro";
 import Lightbox from "../components/Lightbox.astro";
 import SEO from "../components/SEO.astro";
 import { getSite } from "../lib/content";
-import { getUi, localizedPath, stripLocalePrefix } from "../lib/i18n";
+import { getUi, localizedPath, siteName, stripLocalePrefix } from "../lib/i18n";
 import type { Locale } from "../lib/types";
 
 interface Props {
@@ -13,20 +13,35 @@ interface Props {
   title: string;
   description: string;
   image?: string;
+  imageAlt?: string;
   canonical?: string;
   type?: string;
+  noindex?: boolean;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { locale = "it", title, description, image, canonical, type, jsonLd } = Astro.props;
+const {
+  locale = "it",
+  title,
+  description,
+  image,
+  imageAlt,
+  canonical,
+  type,
+  noindex,
+  jsonLd,
+} = Astro.props;
 const site = getSite();
-const currentPath = Astro.url.pathname;
 const strings = getUi(locale);
+const currentPath = Astro.url.pathname;
 const siteBase = Astro.site?.href ?? "https://astridhati.github.io/";
 const pathWithoutLocale = stripLocalePrefix(currentPath);
 const itUrl = new URL(localizedPath(pathWithoutLocale, "it"), siteBase).href;
 const enUrl = new URL(localizedPath(pathWithoutLocale, "en"), siteBase).href;
 const canonicalUrl = canonical ?? new URL(currentPath, siteBase).href;
+const seoImage = image ?? site.header.logo;
+const seoImageAlt = imageAlt ?? siteName(site);
+const name = siteName(site);
 ---
 
 <!doctype html>
@@ -34,6 +49,7 @@ const canonicalUrl = canonical ?? new URL(currentPath, siteBase).href;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -51,11 +67,14 @@ const canonicalUrl = canonical ?? new URL(currentPath, siteBase).href;
       locale={locale}
       title={title}
       description={description}
-      image={image}
+      image={seoImage}
+      imageAlt={seoImageAlt}
       canonical={canonicalUrl}
       itUrl={itUrl}
       enUrl={enUrl}
       type={type}
+      noindex={noindex}
+      siteName={name}
     />
     {
       jsonLd && (
@@ -64,11 +83,12 @@ const canonicalUrl = canonical ?? new URL(currentPath, siteBase).href;
     }
   </head>
   <body>
+    <a class="skip-link" href="#main-content">{strings.skipToContent}</a>
     <Header site={site} locale={locale} currentPath={currentPath} />
-    <main class="page">
+    <main id="main-content" class="page">
       <slot />
     </main>
-    <Footer site={site} />
+    <Footer site={site} locale={locale} />
     <Lightbox labels={strings.lightbox} />
   </body>
 </html>

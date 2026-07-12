@@ -13,6 +13,7 @@ import {
   siteContactTitle,
   siteName,
 } from "../lib/i18n";
+import { getSiteUrl } from "../lib/seo";
 import type { Locale } from "../lib/types";
 
 interface Props {
@@ -22,15 +23,34 @@ interface Props {
 const { locale } = Astro.props;
 const site = getSite();
 const strings = getUi(locale);
-const siteUrl = "https://astridhati.github.io";
+const siteUrl = getSiteUrl(Astro.site?.href);
 const canonical = `${siteUrl}${localizedPath("/contatti/", locale)}`;
 const pageTitle = siteContactTitle(site, locale);
 
 const title = strings.contact.pageTitle(siteName(site), pageTitle);
 const description = strings.contact.pageDescription(siteName(site));
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: title,
+  description,
+  url: canonical,
+  isPartOf: {
+    "@type": "WebSite",
+    name: siteName(site),
+    url: siteUrl,
+  },
+};
 ---
 
-<Layout locale={locale} title={title} description={description} canonical={canonical}>
+<Layout
+  locale={locale}
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+>
   <section class="contact section" aria-labelledby="contact-title">
     <div class="container stack stack--lg stack--pad-top">
       <h1 id="contact-title" class="section-title">{pageTitle}</h1>
@@ -56,7 +76,7 @@ const description = strings.contact.pageDescription(siteName(site));
             <div class="nav-actions">
               {
                 Object.entries(site.footer.social).map(([platform, url]) =>
-                  url ? <SocialIcon platform={platform} url={url} /> : null,
+                  url ? <SocialIcon platform={platform} url={url} locale={locale} /> : null,
                 )
               }
             </div>

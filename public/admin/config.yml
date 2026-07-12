@@ -133,12 +133,8 @@ collections:
       - { label: Nome (IT), name: name, widget: string }
       - { label: Name (EN), name: name_en, widget: string, required: false }
       - { label: Anno, name: year, widget: string }
-      - { label: Descrizione (IT), name: description, widget: text }
-      - { label: Description (EN), name: description_en, widget: text, required: false }
-      - { label: Titolo SEO (IT), name: seoTitle, widget: string, required: false }
-      - { label: SEO title (EN), name: seoTitle_en, widget: string, required: false }
-      - { label: Descrizione SEO (IT), name: seoDescription, widget: text, required: false }
-      - { label: SEO description (EN), name: seoDescription_en, widget: text, required: false }
+      - { label: Descrizione (IT), name: description, widget: text, hint: "Mostrata nella pagina categoria e usata per SEO" }
+      - { label: Description (EN), name: description_en, widget: text, required: false, hint: "Shown on the category page and used for SEO" }
 
   - name: drawings
     label: Disegni

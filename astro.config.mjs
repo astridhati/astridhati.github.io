@@ -4,7 +4,18 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://astridhati.github.io",
   base: "/",
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale: "it",
+        locales: {
+          it: "it-IT",
+          en: "en-US",
+        },
+      },
+      filter: (page) => !page.includes("/admin/") && !page.includes("/404"),
+    }),
+  ],
   vite: {
     css: {
       preprocessorOptions: {

@@ -15,6 +15,7 @@ import {
   siteCategoriesWorksLabel,
   siteName,
 } from "../lib/i18n";
+import { absoluteAssetUrl, getSiteUrl, truncateDescription } from "../lib/seo";
 
 interface Props {
   locale: Locale;
@@ -24,11 +25,13 @@ interface Props {
 const { locale, category } = Astro.props;
 const site = getSite();
 const drawings = getDrawingsByCategory(category.id);
-const siteUrl = "https://astridhati.github.io";
+const siteUrl = getSiteUrl(Astro.site?.href);
 const canonical = `${siteUrl}${localizedPath(`/categorie/${category.id}/`, locale)}`;
 
 const title = categorySeoTitle(category, siteName(site), locale);
-const description = categorySeoDescription(category, siteName(site), locale);
+const description = truncateDescription(
+  categorySeoDescription(category, siteName(site), locale),
+);
 const name = categoryName(category, locale);
 const intro = categoryDescription(category, locale);
 
@@ -38,6 +41,7 @@ const jsonLd = {
   name,
   description: intro || description,
   url: canonical,
+  image: absoluteAssetUrl(site.header.logo, siteUrl),
 };
 ---
 

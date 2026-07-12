@@ -97,22 +97,28 @@ function logoWebpPath(logoPath: string): string {
             aria-label={strings.nav.categoriesMenu}
           >
             {
-              categories.map((category) => (
+              categories.length > 0 ? (
+                categories.map((category) => (
+                  <li role="none">
+                    <a
+                      href={categoryPath(category.id, locale)}
+                      class:list={[
+                        "nav-dropdown__link",
+                        {
+                          "nav-dropdown__link--active": activeCategoryId === category.id,
+                        },
+                      ]}
+                      role="menuitem"
+                    >
+                      {categoryName(category, locale)}
+                    </a>
+                  </li>
+                ))
+              ) : (
                 <li role="none">
-                  <a
-                    href={categoryPath(category.id, locale)}
-                    class:list={[
-                      "nav-dropdown__link",
-                      {
-                        "nav-dropdown__link--active": activeCategoryId === category.id,
-                      },
-                    ]}
-                    role="menuitem"
-                  >
-                    {categoryName(category, locale)}
-                  </a>
+                  <span class="nav-dropdown__empty">{strings.nav.categoriesEmpty}</span>
                 </li>
-              ))
+              )
             }
           </ul>
         </div>

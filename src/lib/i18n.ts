@@ -52,6 +52,7 @@ export const ui = {
     nav: {
       aria: "Navigazione principale",
       categoriesMenu: "Categorie opere",
+      categoriesEmpty: "Nessuna categoria al momento",
     },
     lang: {
       label: "Cambia lingua",
@@ -112,6 +113,7 @@ export const ui = {
     nav: {
       aria: "Main navigation",
       categoriesMenu: "Work categories",
+      categoriesEmpty: "No categories yet",
     },
     lang: {
       label: "Change language",

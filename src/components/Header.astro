@@ -42,6 +42,10 @@ function isCategoriesActive(): boolean {
 const homeHref = localizedPath("/", locale);
 const itHref = localizedPath(pathWithoutLocale, "it");
 const enHref = localizedPath(pathWithoutLocale, "en");
+
+function logoWebpPath(logoPath: string): string {
+  return logoPath.replace(/\.png$/i, ".webp");
+}
 ---
 
 <header class="site-header">
@@ -133,13 +137,19 @@ const enHref = localizedPath(pathWithoutLocale, "en");
     {
       site.header.logo && (
         <a href={homeHref} class="nav-logo" aria-label={strings.logoHome(siteName(site))}>
-          <img
-            class="nav-logo-image"
-            src={assetPath(site.header.logo)}
-            alt={siteName(site)}
-            width="120"
-            height="40"
-          />
+          <picture>
+            <source srcset={assetPath(logoWebpPath(site.header.logo))} type="image/webp" />
+            <img
+              class="nav-logo-image"
+              src={assetPath(site.header.logo)}
+              alt={siteName(site)}
+              width="120"
+              height="40"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
         </a>
       )
     }

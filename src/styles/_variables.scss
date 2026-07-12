@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "breakpoints" as *;
 
 $pink: #df6486;
 $mint: #95c0c0;
@@ -15,6 +16,15 @@ $teal: #3f6968;
   /* fonts */
   --font-display: "Myfont", cursive;
   --font-body: "Montserrat", sans-serif;
+  --font-size-root: 15px;
+
+  @include from-md {
+    --font-size-root: 16px;
+  }
+
+  @include from-lg {
+    --font-size-root: 17px;
+  }
 
   /* spacing */
   --space-xs: 0.5rem;

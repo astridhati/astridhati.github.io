@@ -1,5 +1,6 @@
 ---
 import type { UiStrings } from "../lib/i18n";
+import ProtectedMedia from "./ProtectedMedia.astro";
 
 interface Props {
   labels: UiStrings["lightbox"];
@@ -16,7 +17,12 @@ const { labels } = Astro.props;
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <div class="lightbox-stage">
-        <img id="lightbox-image" class="lightbox-image" src="" alt="" />
+        <ProtectedMedia
+          id="lightbox-image"
+          class="lightbox-image"
+          src=""
+          alt=""
+        />
         <div id="lightbox-dots" class="lightbox-dots" role="tablist" aria-label={labels.dots} hidden></div>
       </div>
       <button type="button" class="lightbox-nav lightbox-nav--next" aria-label={labels.next} hidden>

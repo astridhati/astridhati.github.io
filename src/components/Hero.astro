@@ -1,4 +1,5 @@
 ---
+import ProtectedMedia from "./ProtectedMedia.astro";
 import type { SiteConfig } from "../lib/types";
 import { assetPath } from "../lib/types";
 import type { Locale } from "../lib/types";
@@ -21,12 +22,12 @@ const heroBackground = site.home.heroBackground?.trim();
 >
   {
     heroBackground && (
-      <img
+      <ProtectedMedia
         src={assetPath(heroBackground)}
         alt=""
         class="hero-image"
-        width="1024"
-        height="576"
+        width={1024}
+        height={576}
         loading="eager"
         decoding="async"
       />

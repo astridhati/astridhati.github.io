@@ -37,6 +37,13 @@
   }
 }
 
+.hero--has-background .protected-media {
+  width: 100%;
+  max-width: 1024px;
+  max-height: 100%;
+  margin-inline: auto;
+}
+
 .hero-image {
   display: block;
   width: 100%;

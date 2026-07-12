@@ -29,14 +29,19 @@
 .contact-button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   align-self: center;
   width: fit-content;
   max-width: 100%;
   gap: var(--space-xs);
   padding: 0.75rem 1.5rem;
+  font-family: var(--font-display);
   font-size: 0.9375rem;
   font-weight: 400;
+  line-height: 1;
   letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
   color: var(--color-bg);
   background: var(--color-pink);
   border-radius: var(--radius);
@@ -49,9 +54,10 @@
 }
 
 .contact-button.nav-contact-button {
-  padding: 5px 10px;
+  padding: 0.4375rem 0.875rem;
+  padding-left: calc(0.875rem + 0.08em);
   font-size: 0.75rem;
-  line-height: 1.2;
+  letter-spacing: 0.08em;
   border-radius: 999px;
   white-space: nowrap;
 }

@@ -1,8 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ProtectedMedia from "../components/ProtectedMedia.astro";
 import { getSite } from "../lib/content";
-import { getUi, localizedPath, siteAboutTitle, siteBio, siteName, siteTagline } from "../lib/i18n";
-import type { Locale } from "../lib/types";
+import { getUi, localizedPath, siteAboutTitle, siteBio, siteName } from "../lib/i18n";
+import { assetPath, type Locale } from "../lib/types";
 
 interface Props {
   locale: Locale;
@@ -14,6 +15,7 @@ const strings = getUi(locale);
 const siteUrl = "https://astridhati.github.io";
 const canonical = `${siteUrl}${localizedPath("/chi-sono/", locale)}`;
 const pageTitle = siteAboutTitle(site, locale);
+const aboutImage = site.identity.image?.trim();
 
 const title = strings.about.pageTitle(siteName(site), pageTitle);
 const description = siteBio(site, locale).slice(0, 160);
@@ -23,10 +25,28 @@ const description = siteBio(site, locale).slice(0, 160);
   <section class="about section" aria-labelledby="about-title">
     <div class="container stack stack--md stack--pad-top">
       <h1 id="about-title" class="section-title">{pageTitle}</h1>
-      <p class="about-bio">{siteBio(site, locale)}</p>
-      {siteTagline(site, locale) && (
-        <p class="about-tagline">{siteTagline(site, locale)}</p>
-      )}
+      <div class="about-layout">
+        <div class="about-content">
+          <p class="about-bio">{siteBio(site, locale)}</p>
+        </div>
+        <figure
+          class:list={["about-portrait", { "about-portrait--placeholder": !aboutImage }]}
+        >
+          {
+            aboutImage && (
+              <ProtectedMedia
+                src={assetPath(aboutImage)}
+                alt={siteName(site)}
+                class="about-portrait-image"
+                width={400}
+                height={500}
+                loading="lazy"
+                decoding="async"
+              />
+            )
+          }
+        </figure>
+      </div>
     </div>
   </section>
 </Layout>

@@ -2,8 +2,9 @@
   flex-shrink: 0;
   margin-top: 36px;
   padding: var(--space-md);
-  text-align: center;
+  font-family: var(--font-display);
   font-size: 0.875rem;
+  text-align: center;
   color: var(--color-text-muted);
   border-top: 1px solid var(--color-border);
 }

@@ -4,18 +4,70 @@
   background: var(--color-bg);
 }
 
+.about-layout {
+  display: grid;
+  gap: var(--space-md) var(--space-lg);
+  align-items: start;
+
+  @include from-md {
+    grid-template-columns: 1fr min(18rem, 38%);
+  }
+
+  @include from-lg {
+    grid-template-columns: 1fr min(20rem, 36%);
+  }
+}
+
+.about-content {
+  min-width: 0;
+}
+
 .about-bio {
-  max-width: 42rem;
   font-size: 1rem;
   color: var(--color-text-muted);
   margin: 0;
+  white-space: pre-line;
+  text-align: justify;
+
+  @include from-md {
+    max-width: 32rem;
+  }
 
   @include from-xl {
     font-size: 1rem;
   }
 }
 
-.about-tagline {
-  font-size: 1.125rem;
-  color: var(--color-text-muted);
+.about-portrait {
+  margin: 0;
+  width: 100%;
+  max-width: 18rem;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius);
+  overflow: hidden;
+
+  @include below-md {
+    margin-inline: auto;
+  }
+
+  @include from-md {
+    max-width: none;
+    justify-self: end;
+  }
+}
+
+.about-portrait--placeholder {
+  background: var(--color-accent-mint);
+}
+
+.about-portrait .protected-media {
+  height: 100%;
+}
+
+.about-portrait-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }

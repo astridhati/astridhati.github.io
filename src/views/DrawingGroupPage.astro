@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ProtectedMedia from "../components/ProtectedMedia.astro";
 import { getSite } from "../lib/content";
 import {
   assetPath,
@@ -80,13 +81,13 @@ const jsonLd = {
                       aria-label={strings.gallery.openItem(`${name} — ${index + 1}`)}
                       data-lightbox={lightboxData}
                     >
-                      <img
+                      <ProtectedMedia
                         class="drawing-group-image"
                         src={assetPath(image)}
                         alt={`${name} — ${index + 1}`}
                         loading={index >= 2 ? "lazy" : "eager"}
-                        width="800"
-                        height="1000"
+                        width={800}
+                        height={1000}
                       />
                     </button>
                   );

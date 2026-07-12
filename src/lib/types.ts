@@ -7,6 +7,7 @@ export interface SiteConfig {
     bio_en?: string;
     title: string;
     title_en?: string;
+    image?: string;
   };
   header: {
     logo: string;
@@ -58,7 +59,6 @@ export interface SiteConfig {
   };
   footer: {
     email: string;
-    instagramIcon?: string;
     social: Record<string, string>;
   };
 }

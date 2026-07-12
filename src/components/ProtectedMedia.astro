@@ -1,0 +1,29 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  id?: string;
+  loading?: "lazy" | "eager";
+  width?: number | string;
+  height?: number | string;
+  decoding?: "async" | "sync" | "auto";
+}
+
+const { src, alt, class: className, id, loading, width, height, decoding } = Astro.props;
+---
+
+<div class="protected-media">
+  <img
+    id={id}
+    class:list={["protected-media__image", className]}
+    src={src}
+    alt={alt}
+    draggable="false"
+    loading={loading}
+    width={width}
+    height={height}
+    decoding={decoding}
+  />
+  <span class="protected-media__shield" aria-hidden="true"></span>
+</div>

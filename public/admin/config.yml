@@ -28,6 +28,7 @@ collections:
           - { label: Bio (EN), name: bio_en, widget: text, required: false }
           - { label: Titolo pagina (IT), name: title, widget: string }
           - { label: Page title (EN), name: title_en, widget: string, required: false }
+          - { label: Foto, name: image, widget: image, required: false }
 
       - name: header
         label: Header
@@ -97,7 +98,6 @@ collections:
         file: content/site/footer.json
         fields:
           - { label: Email, name: email, widget: string, required: false }
-          - { label: Icona Instagram, name: instagramIcon, widget: image, required: false, hint: "Icona social (consigliato 32×32 px, sfondo trasparente)" }
           - label: Social
             name: social
             widget: object

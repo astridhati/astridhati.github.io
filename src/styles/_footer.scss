@@ -40,7 +40,11 @@
 .site-footer__legal {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0;
+}
+
+.site-footer__symbol {
+  font-family: var(--font-body);
 }
 
 .site-footer__byline,

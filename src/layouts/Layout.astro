@@ -6,6 +6,7 @@ import Lightbox from "../components/Lightbox.astro";
 import SEO from "../components/SEO.astro";
 import { getSite } from "../lib/content";
 import { getUi, localizedPath, siteName, stripLocalePrefix } from "../lib/i18n";
+import { assetPath } from "../lib/types";
 import type { Locale } from "../lib/types";
 
 interface Props {
@@ -42,6 +43,9 @@ const canonicalUrl = canonical ?? new URL(currentPath, siteBase).href;
 const seoImage = image ?? site.header.logo;
 const seoImageAlt = imageAlt ?? siteName(site);
 const name = siteName(site);
+const logoWebp = site.header.logo ? assetPath(site.header.logo.replace(/\.png$/i, ".webp")) : undefined;
+const faviconPath = site.header.logo ? assetPath(site.header.logo) : "/favicon.svg";
+const faviconType = site.header.logo ? "image/png" : "image/svg+xml";
 ---
 
 <!doctype html>
@@ -49,18 +53,18 @@ const name = siteName(site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="icon" href={faviconPath} type={faviconType} />
+    {site.header.logo && <link rel="apple-touch-icon" href={faviconPath} />}
+    {
+      logoWebp && (
+        <link rel="preload" href={logoWebp} as="image" type="image/webp" />
+      )
+    }
     <link
       rel="preload"
-      href="/fonts/Myfont-Regular.ttf"
+      href="/fonts/Myfont-Regular.woff2"
       as="font"
-      type="font/ttf"
+      type="font/woff2"
       crossorigin
     />
     <SEO

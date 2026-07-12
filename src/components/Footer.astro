@@ -42,9 +42,9 @@ const hasSocial =
     )
   }
   <div class="site-footer__legal">
-    <p class="site-footer__byline">{year} {siteName(site)}</p>
-    <p class="site-footer__copy">
-      &copy; {strings.footer.rightsReserved}
+    <p class="site-footer__byline">
+      <span class="site-footer__symbol">&copy;</span> {year} {siteName(site)}
     </p>
+    <p class="site-footer__copy">{strings.footer.rightsReserved}</p>
   </div>
 </footer>

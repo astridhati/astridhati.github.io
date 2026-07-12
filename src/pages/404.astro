@@ -25,9 +25,13 @@ const canonical = `${siteUrl}${Astro.url.pathname}`;
     <div class="container stack stack--md stack--pad-top">
       <h1 id="not-found-title" class="section-title">{strings.notFound.heading}</h1>
       <p>{strings.notFound.message}</p>
-      <p>
-        <a href={homeHref}>{strings.notFound.home}</a>
-      </p>
+      <a href={homeHref} class="contact-button not-found__home">{strings.notFound.home}</a>
     </div>
   </section>
 </Layout>
+
+<style lang="scss">
+  .not-found__home {
+    align-self: flex-start;
+  }
+</style>

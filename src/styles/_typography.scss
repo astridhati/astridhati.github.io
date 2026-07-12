@@ -16,8 +16,7 @@
     height: 2rem;
     margin-top: 0.375rem;
     margin-right: 1rem;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath fill='%23eece49' d='M60 8 72 46 112 46 80 70 92 110 60 86 28 110 40 70 8 46 48 46z'/%3E%3C/svg%3E")
-      no-repeat left center / contain;
+    background: url("/images/star.png") no-repeat left center / contain;
   }
 
   @include sm-only {

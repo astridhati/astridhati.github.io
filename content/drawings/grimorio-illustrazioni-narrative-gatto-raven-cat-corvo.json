@@ -1,0 +1,17 @@
+{
+  "id": "grimorio-illustrazioni-narrative-gatto-raven-cat-corvo",
+  "title": "Grimorio",
+  "title_en": "Grimoire",
+  "year": "2026",
+  "description": "Una serie di tre illustrazioni narrative senza testo, in cui un gatto nero e un corvo interagiscono richiamando l'immaginario della stregoneria. Progetto personale, in cui sono le immagini a raccontare la storia senza bisogno di parole.",
+  "description_en": "A series of three wordless narrative illustrations following a black cat and a raven, their interactions drawing on witchcraft folklore. Personal project, letting the images carry the story without any text.",
+  "grouped": "multiple",
+  "category": "",
+  "image": "",
+  "cover": "/images/drawings/Untitled_Artwork 8.jpg",
+  "images": [
+    "/images/drawings/Untitled_Artwork 8.jpg",
+    "/images/drawings/Untitled_Artwork 9.jpg",
+    "/images/drawings/Untitled_Artwork 10.jpg"
+  ]
+}

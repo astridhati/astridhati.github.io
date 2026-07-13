@@ -13,6 +13,70 @@ let lightboxEntry: LightboxEntry | null = null;
 let previousFocus: HTMLElement | null = null;
 let lightboxHasCaption = false;
 let lightboxScrollPosition = 0;
+let lightboxResizeHandler: (() => void) | null = null;
+
+const LIGHTBOX_MAX_VW = 0.95;
+const LIGHTBOX_MAX_VH = 0.95;
+
+function clearLightboxSize() {
+  const figure = document.querySelector(".lightbox-figure") as HTMLElement | null;
+  figure?.style.removeProperty("--lightbox-w");
+  figure?.style.removeProperty("--lightbox-h");
+}
+
+function fitLightboxToImage(image: HTMLImageElement) {
+  const figure = document.querySelector(".lightbox-figure") as HTMLElement | null;
+  if (!figure) return;
+
+  const { naturalWidth, naturalHeight } = image;
+  if (!naturalWidth || !naturalHeight) return;
+
+  const maxW = window.innerWidth * LIGHTBOX_MAX_VW;
+  const maxH = window.innerHeight * LIGHTBOX_MAX_VH;
+  const scale = Math.min(maxW / naturalWidth, maxH / naturalHeight, 1);
+
+  figure.style.setProperty("--lightbox-w", `${Math.round(naturalWidth * scale)}px`);
+  figure.style.setProperty("--lightbox-h", `${Math.round(naturalHeight * scale)}px`);
+}
+
+function normalizeImageSrc(src: string): string {
+  try {
+    return new URL(src, window.location.href).href;
+  } catch {
+    return src;
+  }
+}
+
+function fitLightboxToImageWhenReady(image: HTMLImageElement, intendedSrc: string) {
+  const expectedSrc = normalizeImageSrc(intendedSrc);
+
+  const applyFit = () => {
+    const currentSrc = normalizeImageSrc(image.currentSrc || image.src);
+    if (currentSrc !== expectedSrc || !image.naturalWidth) return;
+    fitLightboxToImage(image);
+  };
+
+  image.addEventListener("load", applyFit, { once: true });
+  void image.decode().then(applyFit).catch(applyFit);
+  requestAnimationFrame(applyFit);
+}
+
+function attachLightboxResizeHandler() {
+  detachLightboxResizeHandler();
+  lightboxResizeHandler = () => {
+    const image = document.getElementById("lightbox-image") as HTMLImageElement | null;
+    if (image?.naturalWidth) {
+      fitLightboxToImage(image);
+    }
+  };
+  window.addEventListener("resize", lightboxResizeHandler);
+}
+
+function detachLightboxResizeHandler() {
+  if (!lightboxResizeHandler) return;
+  window.removeEventListener("resize", lightboxResizeHandler);
+  lightboxResizeHandler = null;
+}
 
 function lockPageScroll() {
   lightboxScrollPosition = window.scrollY;
@@ -120,8 +184,10 @@ function showLightboxSlide(index: number) {
   lightboxIndex =
     ((index % lightboxImages.length) + lightboxImages.length) % lightboxImages.length;
 
-  image.src = lightboxImages[lightboxIndex];
+  const nextSrc = lightboxImages[lightboxIndex];
+  image.src = nextSrc;
   image.alt = lightboxEntry.description || lightboxEntry.title;
+  fitLightboxToImageWhenReady(image, nextSrc);
 
   const hasMultiple = lightboxImages.length > 1;
   if (prevBtn) prevBtn.hidden = !hasMultiple;
@@ -176,8 +242,14 @@ function openLightbox(entry: LightboxEntry) {
   resetLightboxFlip();
   const startIndex = entry.startIndex ?? 0;
   showLightboxSlide(startIndex);
-  lockPageScroll();
-  dialog.showModal();
+
+  const isAlreadyOpen = dialog.open;
+  if (!isAlreadyOpen) {
+    lockPageScroll();
+    dialog.showModal();
+    attachLightboxResizeHandler();
+  }
+
   dialog.querySelector<HTMLElement>(".lightbox-close")?.focus();
 }
 
@@ -218,6 +290,8 @@ function setupLightbox() {
   });
 
   dialog.addEventListener("close", () => {
+    detachLightboxResizeHandler();
+    clearLightboxSize();
     unlockPageScroll();
     resetLightboxFlip();
     previousFocus?.focus();

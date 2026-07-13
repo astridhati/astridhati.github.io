@@ -1,0 +1,16 @@
+{
+  "id": "paradiso-cani-fumetto-comic",
+  "title": "Il Paradiso dei cani",
+  "title_en": "Dog's Paradise",
+  "year": "2026",
+  "description": "Un fumetto di due tavole costruito interamente sul contrasto di due colori. Scene di vita quotidiana: cani, persone buone, piccoli momenti ordinari.\nProgetto personale con storia originale, non commissionato.",
+  "description_en": "A two-page comic built entirely around a two-color contrast. Everyday scenes: dogs, kind people, small ordinary moments.\nPersonal project with original story, uncommissioned.",
+  "grouped": "multiple",
+  "category": "fumetti-comics-fumetto-breve",
+  "image": "",
+  "cover": "/images/drawings/Untitled_Artwork 6.jpg",
+  "images": [
+    "/images/drawings/Untitled_Artwork 6.jpg",
+    "/images/drawings/Untitled_Artwork 7.jpg"
+  ]
+}

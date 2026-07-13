@@ -61,6 +61,9 @@ export const ui = {
     gallery: {
       openItem: (title: string) => `Apri ${title}`,
       viewGroup: (title: string) => `Vedi gruppo ${title}`,
+      filterAll: "Tutti",
+      filterAria: "Filtra per categoria",
+      filterEmpty: "Nessun lavoro in questa categoria.",
       pageTitle: (name: string, pageTitle: string) => `${pageTitle} — ${name}`,
       pageDescription: (name: string) =>
         `Galleria completa di illustrazioni e disegni di ${name}, per categoria e altri lavori.`,
@@ -122,6 +125,9 @@ export const ui = {
     gallery: {
       openItem: (title: string) => `Open ${title}`,
       viewGroup: (title: string) => `View group ${title}`,
+      filterAll: "All",
+      filterAria: "Filter by category",
+      filterEmpty: "No works in this category.",
       pageTitle: (name: string, pageTitle: string) => `${pageTitle} — ${name}`,
       pageDescription: (name: string) =>
         `Full gallery of illustrations and drawings by ${name}, by category and standalone works.`,
@@ -266,4 +272,23 @@ export function socialLabel(
 ): string {
   const labels = ui[locale].social as Record<string, string>;
   return labels[platform] ?? platform;
+}
+
+export function socialAriaLabel(platform: string, locale: Locale, external = true): string {
+  const name = socialLabel(platform, locale);
+
+  if (platform === "email") {
+    return name;
+  }
+
+  const visit =
+    locale === "it" ? `Visita il profilo su ${name}` : `Visit ${name} profile`;
+
+  if (!external) {
+    return visit;
+  }
+
+  return locale === "it"
+    ? `${visit} (si apre in una nuova scheda)`
+    : `${visit} (opens in a new tab)`;
 }

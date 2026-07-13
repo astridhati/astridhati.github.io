@@ -2,7 +2,13 @@
 import ProtectedMedia from "./ProtectedMedia.astro";
 import type { Drawing } from "../lib/types";
 import type { Locale } from "../lib/types";
-import { assetPath, drawingDescription, drawingTitle, getEntryThumbnail } from "../lib/types";
+import {
+  assetPath,
+  drawingCategoryId,
+  drawingDescription,
+  drawingTitle,
+  getEntryThumbnail,
+} from "../lib/types";
 import { drawingGroupPath, getUi } from "../lib/i18n";
 
 interface Props {
@@ -16,6 +22,7 @@ const strings = getUi(locale);
 const isGroup = drawing.grouped === "multiple";
 const thumbnail = getEntryThumbnail(drawing);
 const title = drawingTitle(drawing, locale);
+const categoryId = drawingCategoryId(drawing) || "";
 
 const lightboxData = JSON.stringify({
   title,
@@ -30,6 +37,7 @@ const lightboxData = JSON.stringify({
     <a
       href={drawingGroupPath(drawing.id, locale)}
       class="gallery-item"
+      data-category={categoryId}
       role="listitem"
       aria-label={strings.gallery.viewGroup(title)}
     >
@@ -48,6 +56,7 @@ const lightboxData = JSON.stringify({
     <button
       type="button"
       class="gallery-item"
+      data-category={categoryId}
       role="listitem"
       aria-label={strings.gallery.openItem(title)}
       data-lightbox={lightboxData}

@@ -1,7 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import GalleryFilters from "../components/GalleryFilters.astro";
 import GalleryGrid from "../components/GalleryGrid.astro";
-import { getGalleryDrawings, getSite } from "../lib/content";
+import {
+  getCategories,
+  getDrawingsByCategory,
+  getGalleryDrawings,
+  getSite,
+} from "../lib/content";
 import {
   getUi,
   localizedPath,
@@ -19,6 +25,10 @@ interface Props {
 
 const { locale } = Astro.props;
 const site = getSite();
+
+const categories = getCategories().filter(
+  (category) => getDrawingsByCategory(category.id).length > 0,
+);
 const drawings = getGalleryDrawings();
 const strings = getUi(locale);
 const siteUrl = getSiteUrl(Astro.site?.href);
@@ -50,14 +60,23 @@ const jsonLd = {
   jsonLd={jsonLd}
 >
   <section class="gallery section" aria-labelledby="gallery-title">
-    <div class="container stack stack--md stack--pad-top">
+    <div class="container stack stack--md stack--pad-top" data-gallery-browser>
       <h1 id="gallery-title" class="section-title">{pageTitle}</h1>
       <p class="gallery-intro">{siteGalleryIntro(site, locale)}</p>
+      {
+        categories.length > 0 && (
+          <GalleryFilters categories={categories} locale={locale} />
+        )
+      }
       <GalleryGrid
         drawings={drawings}
         locale={locale}
         emptyMessage={siteGalleryEmpty(site, locale)}
+        filterEmptyMessage={strings.gallery.filterEmpty}
       />
     </div>
   </section>
+  <script>
+    import "../scripts/gallery-filters.ts";
+  </script>
 </Layout>

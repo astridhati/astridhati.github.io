@@ -14,12 +14,17 @@
   gap: 0.5rem;
 }
 
+button.filter-chip {
+  text-decoration: none;
+}
+
 .filter-chip {
   padding: 0.5rem 1rem;
   font-family: var(--font-display);
   font-size: 0.875rem;
   font-weight: 400;
   letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--color-teal);
   background: var(--color-accent-pink-bg);
   border: none;
@@ -76,6 +81,11 @@
   color: inherit;
   transition: transform var(--transition), box-shadow var(--transition);
   border: 1px solid var(--color-border);
+
+  &[hidden],
+  &.gallery-item--hidden {
+    display: none;
+  }
 
   &:hover {
     transform: translateY(-2px);

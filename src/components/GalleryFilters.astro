@@ -1,0 +1,26 @@
+---
+import { getUi } from "../lib/i18n";
+import { categoryName } from "../lib/types";
+import type { Category, Locale } from "../lib/types";
+
+interface Props {
+  categories: Category[];
+  locale: Locale;
+}
+
+const { categories, locale } = Astro.props;
+const strings = getUi(locale);
+---
+
+<div class="gallery-filters" role="group" aria-label={strings.gallery.filterAria}>
+  <button type="button" class="filter-chip" data-filter="all">
+    {strings.gallery.filterAll}
+  </button>
+  {
+    categories.map((category) => (
+      <button type="button" class="filter-chip" data-filter={category.id}>
+        {categoryName(category, locale)}
+      </button>
+    ))
+  }
+</div>

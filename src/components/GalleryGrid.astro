@@ -7,9 +7,10 @@ interface Props {
   drawings: Drawing[];
   locale: Locale;
   emptyMessage?: string;
+  filterEmptyMessage?: string;
 }
 
-const { drawings, locale, emptyMessage } = Astro.props;
+const { drawings, locale, emptyMessage, filterEmptyMessage } = Astro.props;
 ---
 
 <div class="gallery-grid" role="list">
@@ -17,9 +18,16 @@ const { drawings, locale, emptyMessage } = Astro.props;
     drawings.length === 0 ? (
       <p class="gallery-empty">{emptyMessage}</p>
     ) : (
-      drawings.map((drawing, index) => (
-        <GalleryItem drawing={drawing} locale={locale} index={index} />
-      ))
+      <>
+        {drawings.map((drawing, index) => (
+          <GalleryItem drawing={drawing} locale={locale} index={index} />
+        ))}
+        {filterEmptyMessage && (
+          <p class="gallery-empty gallery-empty--filtered" hidden>
+            {filterEmptyMessage}
+          </p>
+        )}
+      </>
     )
   }
 </div>

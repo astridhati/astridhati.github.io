@@ -73,7 +73,7 @@ const jsonLd = {
           Object.values(site.footer.social).some(Boolean) && (
           <div class="contact-social stack stack--sm">
             <h2 class="contact-social-title">{siteContactSocialHeading(site, locale)}</h2>
-            <div class="nav-actions">
+            <div class="nav-actions" aria-label={strings.footer.social}>
               {
                 Object.entries(site.footer.social).map(([platform, url]) =>
                   url ? <SocialIcon platform={platform} url={url} locale={locale} /> : null,

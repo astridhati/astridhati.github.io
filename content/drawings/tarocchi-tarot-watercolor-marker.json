@@ -1,0 +1,16 @@
+{
+  "id": "tarocchi-tarot-watercolor-marker",
+  "title": "Tarocchi",
+  "title_en": "Tarots",
+  "year": "2026",
+  "description": "Due carte per tarocchi, tecnica mista (acquerello, marker, matite). Progetto personale incompleto: una prima esplorazione del linguaggio visivo, in attesa di decidere se sviluppare l'intero mazzo.",
+  "description_en": "Two tarot cards, mixed media (watercolor, marker, pencils). An incomplete personal project: a first exploration of the visual language before deciding whether to develop the full deck.",
+  "grouped": "multiple",
+  "category": "",
+  "image": "",
+  "cover": "/images/drawings/Untitled_Artwork copia.jpg",
+  "images": [
+    "/images/drawings/Untitled_Artwork 1 copia.jpg",
+    "/images/drawings/Untitled_Artwork copia.jpg"
+  ]
+}

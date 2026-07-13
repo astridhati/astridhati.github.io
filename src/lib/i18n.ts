@@ -82,6 +82,9 @@ export const ui = {
       next: "Immagine successiva",
       dots: "Immagini del gruppo",
       imageOf: (n: number, total: number) => `Immagine ${n} di ${total}`,
+      showDetails: "Mostra dettagli",
+      showImage: "Mostra immagine",
+      flipMe: "Girami!",
     },
     mobileNav: {
       open: "Apri menu",
@@ -146,6 +149,9 @@ export const ui = {
       next: "Next image",
       dots: "Group images",
       imageOf: (n: number, total: number) => `Image ${n} of ${total}`,
+      showDetails: "Show details",
+      showImage: "Show image",
+      flipMe: "Flip me!",
     },
     mobileNav: {
       open: "Open menu",

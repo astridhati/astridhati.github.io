@@ -11,6 +11,27 @@ let lightboxImages: string[] = [];
 let lightboxIndex = 0;
 let lightboxEntry: LightboxEntry | null = null;
 let previousFocus: HTMLElement | null = null;
+let lightboxHasCaption = false;
+
+function usesFlipCard(): boolean {
+  return lightboxHasCaption;
+}
+
+function isLightboxFlipBlocked(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return true;
+  return Boolean(
+    target.closest(".lightbox-close, .lightbox-nav, .lightbox-dot"),
+  );
+}
+
+function isLightboxFlipped(): boolean {
+  return document.getElementById("lightbox-flip-inner")?.classList.contains("is-flipped") ?? false;
+}
+
+function toggleLightboxFlip() {
+  if (!usesFlipCard()) return;
+  setLightboxFlipped(!isLightboxFlipped());
+}
 
 function lightboxImageLabel(index: number, total: number): string {
   const n = index + 1;
@@ -51,6 +72,24 @@ function announceLightboxSlide() {
   status.textContent = lightboxImageLabel(lightboxIndex, lightboxImages.length);
 }
 
+function setLightboxFlipped(flipped: boolean) {
+  const flipInner = document.getElementById("lightbox-flip-inner");
+  const flipBack = document.getElementById("lightbox-flip-back");
+  const flipToBack = document.querySelector(
+    ".lightbox-flip-trigger--to-back",
+  ) as HTMLButtonElement | null;
+
+  if (!flipInner) return;
+
+  flipInner.classList.toggle("is-flipped", flipped);
+  flipBack?.setAttribute("aria-hidden", flipped ? "false" : "true");
+  flipToBack?.toggleAttribute("hidden", flipped);
+}
+
+function resetLightboxFlip() {
+  setLightboxFlipped(false);
+}
+
 function showLightboxSlide(index: number) {
   const image = document.getElementById("lightbox-image") as HTMLImageElement | null;
   const dotsContainer = document.getElementById("lightbox-dots");
@@ -74,13 +113,17 @@ function showLightboxSlide(index: number) {
     updateLightboxDots();
   }
 
+  resetLightboxFlip();
   announceLightboxSlide();
 }
 
 function openLightbox(entry: LightboxEntry) {
   const dialog = document.getElementById("lightbox") as HTMLDialogElement | null;
   const figure = dialog?.querySelector(".lightbox-figure");
-  const caption = dialog?.querySelector(".lightbox-caption") as HTMLElement | null;
+  const flipBack = document.getElementById("lightbox-flip-back");
+  const flipToBack = document.querySelector(
+    ".lightbox-flip-trigger--to-back",
+  ) as HTMLButtonElement | null;
   const title = document.getElementById("lightbox-title");
   const description = document.getElementById("lightbox-description");
   const year = document.getElementById("lightbox-year");
@@ -93,7 +136,9 @@ function openLightbox(entry: LightboxEntry) {
   renderLightboxDots();
 
   const hideCaption = entry.hideCaption === true;
-  caption?.toggleAttribute("hidden", hideCaption);
+  lightboxHasCaption = !hideCaption;
+  flipBack?.toggleAttribute("hidden", hideCaption);
+  flipToBack?.toggleAttribute("hidden", hideCaption);
   figure?.classList.toggle("lightbox-figure--image-only", hideCaption);
 
   if (hideCaption) {
@@ -109,6 +154,7 @@ function openLightbox(entry: LightboxEntry) {
     year.hidden = !entry.year;
   }
 
+  resetLightboxFlip();
   const startIndex = entry.startIndex ?? 0;
   showLightboxSlide(startIndex);
   dialog.showModal();
@@ -122,21 +168,14 @@ function setupLightbox() {
   const closeBtn = dialog.querySelector(".lightbox-close");
   const prevBtn = dialog.querySelector(".lightbox-nav--prev");
   const nextBtn = dialog.querySelector(".lightbox-nav--next");
+  const figure = dialog.querySelector(".lightbox-figure") as HTMLElement | null;
 
   closeBtn?.addEventListener("click", () => dialog.close());
   prevBtn?.addEventListener("click", () => showLightboxSlide(lightboxIndex - 1));
   nextBtn?.addEventListener("click", () => showLightboxSlide(lightboxIndex + 1));
 
   dialog.addEventListener("click", (event) => {
-    const rect = dialog.getBoundingClientRect();
-    const mouseEvent = event as MouseEvent;
-    const clickedOutside =
-      mouseEvent.clientX < rect.left ||
-      mouseEvent.clientX > rect.right ||
-      mouseEvent.clientY < rect.top ||
-      mouseEvent.clientY > rect.bottom;
-
-    if (clickedOutside) {
+    if (event.target === dialog) {
       dialog.close();
     }
   });
@@ -159,44 +198,76 @@ function setupLightbox() {
   });
 
   dialog.addEventListener("close", () => {
+    resetLightboxFlip();
     previousFocus?.focus();
     previousFocus = null;
   });
 
-  const stage = dialog.querySelector(".lightbox-stage");
-  if (stage) {
-    let touchStartX = 0;
-    let touchStartY = 0;
+  if (figure) {
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+    let pointerMoved = false;
+    let activePointerId: number | null = null;
 
-    stage.addEventListener(
-      "touchstart",
-      (event) => {
-        const touch = event.changedTouches[0];
-        touchStartX = touch.screenX;
-        touchStartY = touch.screenY;
-      },
-      { passive: true },
-    );
+    figure.addEventListener("pointerdown", (event) => {
+      if (isLightboxFlipBlocked(event.target)) return;
+      if (event.pointerType === "mouse" && event.button !== 0) return;
 
-    stage.addEventListener(
-      "touchend",
-      (event) => {
-        if (lightboxImages.length <= 1) return;
+      activePointerId = event.pointerId;
+      pointerStartX = event.clientX;
+      pointerStartY = event.clientY;
+      pointerMoved = false;
+      figure.setPointerCapture(event.pointerId);
+    });
 
-        const touch = event.changedTouches[0];
-        const deltaX = touch.screenX - touchStartX;
-        const deltaY = touch.screenY - touchStartY;
+    figure.addEventListener("pointermove", (event) => {
+      if (event.pointerId !== activePointerId) return;
 
-        if (Math.abs(deltaX) < 50 || Math.abs(deltaY) > Math.abs(deltaX)) return;
+      const deltaX = Math.abs(event.clientX - pointerStartX);
+      const deltaY = Math.abs(event.clientY - pointerStartY);
+      if (deltaX > 8 || deltaY > 8) {
+        pointerMoved = true;
+      }
+    });
 
-        if (deltaX > 0) {
-          showLightboxSlide(lightboxIndex - 1);
-        } else {
-          showLightboxSlide(lightboxIndex + 1);
-        }
-      },
-      { passive: true },
-    );
+    figure.addEventListener("pointerup", (event) => {
+      if (event.pointerId !== activePointerId) return;
+
+      if (figure.hasPointerCapture(event.pointerId)) {
+        figure.releasePointerCapture(event.pointerId);
+      }
+
+      activePointerId = null;
+
+      if (isLightboxFlipBlocked(event.target)) return;
+
+      const deltaX = event.clientX - pointerStartX;
+      const deltaY = event.clientY - pointerStartY;
+
+      if (usesFlipCard() && !pointerMoved && Math.abs(deltaX) < 12 && Math.abs(deltaY) < 12) {
+        toggleLightboxFlip();
+        return;
+      }
+
+      if (isLightboxFlipped() || lightboxImages.length <= 1) return;
+      if (Math.abs(deltaX) < 50 || Math.abs(deltaY) > Math.abs(deltaX)) return;
+
+      if (deltaX > 0) {
+        showLightboxSlide(lightboxIndex - 1);
+      } else {
+        showLightboxSlide(lightboxIndex + 1);
+      }
+    });
+
+    figure.addEventListener("pointercancel", (event) => {
+      if (event.pointerId !== activePointerId) return;
+
+      if (figure.hasPointerCapture(event.pointerId)) {
+        figure.releasePointerCapture(event.pointerId);
+      }
+
+      activePointerId = null;
+    });
   }
 
   document.querySelectorAll("[data-lightbox]").forEach((element) => {

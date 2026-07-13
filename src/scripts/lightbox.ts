@@ -3,6 +3,8 @@ interface LightboxEntry {
   description: string;
   year: string;
   images: string[];
+  startIndex?: number;
+  hideCaption?: boolean;
 }
 
 let lightboxImages: string[] = [];
@@ -77,6 +79,8 @@ function showLightboxSlide(index: number) {
 
 function openLightbox(entry: LightboxEntry) {
   const dialog = document.getElementById("lightbox") as HTMLDialogElement | null;
+  const figure = dialog?.querySelector(".lightbox-figure");
+  const caption = dialog?.querySelector(".lightbox-caption") as HTMLElement | null;
   const title = document.getElementById("lightbox-title");
   const description = document.getElementById("lightbox-description");
   const year = document.getElementById("lightbox-year");
@@ -88,13 +92,25 @@ function openLightbox(entry: LightboxEntry) {
   lightboxImages = entry.images;
   renderLightboxDots();
 
-  title.textContent = entry.title;
-  description.textContent = entry.description || "";
-  description.hidden = !entry.description;
-  year.textContent = entry.year || "";
-  year.hidden = !entry.year;
+  const hideCaption = entry.hideCaption === true;
+  caption?.toggleAttribute("hidden", hideCaption);
+  figure?.classList.toggle("lightbox-figure--image-only", hideCaption);
 
-  showLightboxSlide(0);
+  if (hideCaption) {
+    dialog.removeAttribute("aria-labelledby");
+    dialog.setAttribute("aria-label", entry.description || entry.title);
+  } else {
+    dialog.setAttribute("aria-labelledby", "lightbox-title");
+    dialog.removeAttribute("aria-label");
+    title.textContent = entry.title;
+    description.textContent = entry.description || "";
+    description.hidden = !entry.description;
+    year.textContent = entry.year || "";
+    year.hidden = !entry.year;
+  }
+
+  const startIndex = entry.startIndex ?? 0;
+  showLightboxSlide(startIndex);
   dialog.showModal();
   dialog.querySelector<HTMLElement>(".lightbox-close")?.focus();
 }
@@ -146,6 +162,42 @@ function setupLightbox() {
     previousFocus?.focus();
     previousFocus = null;
   });
+
+  const stage = dialog.querySelector(".lightbox-stage");
+  if (stage) {
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    stage.addEventListener(
+      "touchstart",
+      (event) => {
+        const touch = event.changedTouches[0];
+        touchStartX = touch.screenX;
+        touchStartY = touch.screenY;
+      },
+      { passive: true },
+    );
+
+    stage.addEventListener(
+      "touchend",
+      (event) => {
+        if (lightboxImages.length <= 1) return;
+
+        const touch = event.changedTouches[0];
+        const deltaX = touch.screenX - touchStartX;
+        const deltaY = touch.screenY - touchStartY;
+
+        if (Math.abs(deltaX) < 50 || Math.abs(deltaY) > Math.abs(deltaX)) return;
+
+        if (deltaX > 0) {
+          showLightboxSlide(lightboxIndex - 1);
+        } else {
+          showLightboxSlide(lightboxIndex + 1);
+        }
+      },
+      { passive: true },
+    );
+  }
 
   document.querySelectorAll("[data-lightbox]").forEach((element) => {
     element.addEventListener("click", () => {

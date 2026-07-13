@@ -12,7 +12,6 @@ import type { Category, Locale } from "../lib/types";
 import {
   localizedPath,
   siteCategoriesEmpty,
-  siteCategoriesWorksLabel,
   siteName,
 } from "../lib/i18n";
 import { absoluteAssetUrl, getSiteUrl, truncateDescription } from "../lib/seo";
@@ -61,7 +60,7 @@ const jsonLd = {
       </header>
 
       <div class="stack stack--md">
-        <h2 class="category-works-title">{siteCategoriesWorksLabel(site, locale)}</h2>
+        <hr class="category-works-divider" aria-hidden="true" />
         <GalleryGrid
           drawings={drawings}
           locale={locale}

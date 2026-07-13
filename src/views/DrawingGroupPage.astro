@@ -14,7 +14,6 @@ import {
   getUi,
   localizedPath,
   siteCategoriesEmpty,
-  siteCategoriesWorksLabel,
   siteName,
 } from "../lib/i18n";
 import { absoluteAssetUrl, getSiteUrl } from "../lib/seo";
@@ -35,6 +34,7 @@ const description = drawingSeoDescription(drawing, siteName(site), locale);
 const name = drawingTitle(drawing, locale);
 const intro = drawingDescription(drawing, locale);
 const images = drawing.images ?? [];
+const lightboxImages = images.map((image) => assetPath(image));
 const ogImage = drawing.cover || images[0];
 
 const jsonLd = {
@@ -65,7 +65,7 @@ const jsonLd = {
       </header>
 
       <div class="stack stack--md">
-        <h2 class="category-works-title">{siteCategoriesWorksLabel(site, locale)}</h2>
+        <hr class="category-works-divider" aria-hidden="true" />
         {
           images.length > 0 ? (
             <div class="drawing-group-grid" role="list">
@@ -75,7 +75,9 @@ const jsonLd = {
                     title: name,
                     description: intro,
                     year: drawing.year ?? "",
-                    images: [assetPath(image)],
+                    images: lightboxImages,
+                    startIndex: index,
+                    hideCaption: true,
                   });
 
                   return (

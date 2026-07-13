@@ -60,6 +60,14 @@ function logoWebpPath(logoPath: string): string {
           {siteNavLabel(site, "about", locale)}
         </a>
 
+        <a
+          href={localizedPath(navRoutes.gallery, locale)}
+          class:list={["nav-link", { "nav-link--active": isActive(navRoutes.gallery) }]}
+          aria-current={isActive(navRoutes.gallery) ? "page" : undefined}
+        >
+          {siteNavLabel(site, "gallery", locale)}
+        </a>
+
         <div
           class:list={[
             "nav-dropdown",
@@ -122,14 +130,6 @@ function logoWebpPath(logoPath: string): string {
             }
           </ul>
         </div>
-
-        <a
-          href={localizedPath(navRoutes.gallery, locale)}
-          class:list={["nav-link", { "nav-link--active": isActive(navRoutes.gallery) }]}
-          aria-current={isActive(navRoutes.gallery) ? "page" : undefined}
-        >
-          {siteNavLabel(site, "gallery", locale)}
-        </a>
 
         <a
           href={localizedPath(navRoutes.contact, locale)}

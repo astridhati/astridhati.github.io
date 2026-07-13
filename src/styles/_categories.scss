@@ -18,13 +18,12 @@
   color: var(--color-text-muted);
 }
 
-.category-works-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: var(--color-teal);
-  text-align: center;
+.category-works-divider {
+  margin: 0 auto;
+  border: none;
+  width: 25%;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-teal) 35%, transparent);
 }
 
 .drawing-group-grid {

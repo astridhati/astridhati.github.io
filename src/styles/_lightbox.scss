@@ -1,5 +1,11 @@
 @use "breakpoints" as *;
 
+html.lightbox-open,
+body.lightbox-open {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 $lightbox-card-width: min(90vw, 42rem);
 $lightbox-card-height: 85vh;
 $lightbox-card-max-width: min(90vw, 56rem);

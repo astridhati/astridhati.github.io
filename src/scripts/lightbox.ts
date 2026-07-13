@@ -12,6 +12,25 @@ let lightboxIndex = 0;
 let lightboxEntry: LightboxEntry | null = null;
 let previousFocus: HTMLElement | null = null;
 let lightboxHasCaption = false;
+let lightboxScrollPosition = 0;
+
+function lockPageScroll() {
+  lightboxScrollPosition = window.scrollY;
+  document.documentElement.classList.add("lightbox-open");
+  document.body.classList.add("lightbox-open");
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${lightboxScrollPosition}px`;
+  document.body.style.width = "100%";
+}
+
+function unlockPageScroll() {
+  document.documentElement.classList.remove("lightbox-open");
+  document.body.classList.remove("lightbox-open");
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.width = "";
+  window.scrollTo(0, lightboxScrollPosition);
+}
 
 function usesFlipCard(): boolean {
   return lightboxHasCaption;
@@ -157,6 +176,7 @@ function openLightbox(entry: LightboxEntry) {
   resetLightboxFlip();
   const startIndex = entry.startIndex ?? 0;
   showLightboxSlide(startIndex);
+  lockPageScroll();
   dialog.showModal();
   dialog.querySelector<HTMLElement>(".lightbox-close")?.focus();
 }
@@ -198,6 +218,7 @@ function setupLightbox() {
   });
 
   dialog.addEventListener("close", () => {
+    unlockPageScroll();
     resetLightboxFlip();
     previousFocus?.focus();
     previousFocus = null;

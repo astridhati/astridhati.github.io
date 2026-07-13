@@ -1,0 +1,16 @@
+{
+  "id": "magazine-illustrazione-giornale-editoriale",
+  "title": "I cani di New York",
+  "title_en": "New York's dogs",
+  "year": "2026",
+  "description": "Un progetto personale che reimmagina una copertina di The New Yorker — non ufficiale, senza alcun legame con la rivista, realizzato puramente come esercizio di design.\nL'illustrazione utilizza una palette piatta di quattro colori (giallo, viola, rosso, blu), raffigurando una donna che attraversa sulle strisce pedonali con due cani, vista dall'alto.",
+  "description_en": "A personal project reimagining a The New Yorker cover — unofficial, unaffiliated with the magazine, made purely as a design exercise.\nThe illustration uses a flat four-color palette (yellow, purple, red, blue), depicting a woman crossing a crosswalk with two dogs, seen from a bird's-eye view.",
+  "grouped": "multiple",
+  "category": "progetti-prodotti-product-illustrazione",
+  "image": "",
+  "cover": "/images/drawings/mockup piccolo magazine.jpg",
+  "images": [
+    "/images/drawings/mockup piccolo magazine.jpg",
+    "/images/drawings/Untitled_Artwork 3.jpg"
+  ]
+}

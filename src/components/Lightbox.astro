@@ -12,53 +12,57 @@ const { labels } = Astro.props;
 <dialog id="lightbox" class="lightbox" aria-labelledby="lightbox-title">
   <button type="button" class="lightbox-close" aria-label={labels.close}>&times;</button>
   <p id="lightbox-status" class="sr-only" aria-live="polite" aria-atomic="true"></p>
-  <figure class="lightbox-figure">
-    <div class="lightbox-flip">
-      <div class="lightbox-flip-inner" id="lightbox-flip-inner">
-        <div class="lightbox-flip-front">
-          <div class="lightbox-carousel">
-            <button type="button" class="lightbox-nav lightbox-nav--prev" aria-label={labels.prev} hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <div class="lightbox-stage">
-              <ProtectedMedia
-                id="lightbox-image"
-                class="lightbox-image"
-                src=""
-                alt=""
-              />
-              <div id="lightbox-dots" class="lightbox-dots" role="tablist" aria-label={labels.dots} hidden></div>
+  <div class="lightbox-shell">
+    <figure class="lightbox-figure">
+      <div class="lightbox-flip">
+        <div class="lightbox-flip-inner" id="lightbox-flip-inner">
+          <div class="lightbox-flip-front">
+            <div class="lightbox-carousel">
+              <div class="lightbox-stage">
+                <ProtectedMedia
+                  id="lightbox-image"
+                  class="lightbox-image"
+                  src=""
+                  alt=""
+                />
+              </div>
             </div>
-            <button type="button" class="lightbox-nav lightbox-nav--next" aria-label={labels.next} hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+            <button
+              type="button"
+              class="lightbox-flip-trigger lightbox-flip-trigger--to-back"
+              aria-label={labels.showDetails}
+              hidden
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+              <span class="lightbox-flip-trigger__label">{labels.flipMe}</span>
             </button>
           </div>
-          <button
-            type="button"
-            class="lightbox-flip-trigger lightbox-flip-trigger--to-back"
-            aria-label={labels.showDetails}
-            hidden
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
-            <span class="lightbox-flip-trigger__label">{labels.flipMe}</span>
-          </button>
-        </div>
-        <div class="lightbox-flip-back" id="lightbox-flip-back" aria-hidden="true">
-          <figcaption class="lightbox-caption">
-            <h3 id="lightbox-title" class="lightbox-title"></h3>
-            <p id="lightbox-description" class="lightbox-description"></p>
-            <p id="lightbox-year" class="lightbox-year"></p>
-          </figcaption>
-          <button
-            type="button"
-            class="lightbox-flip-trigger lightbox-flip-trigger--to-front"
-            aria-label={labels.showImage}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
-            <span class="lightbox-flip-trigger__label">{labels.flipMe}</span>
-          </button>
+          <div class="lightbox-flip-back" id="lightbox-flip-back" aria-hidden="true">
+            <figcaption class="lightbox-caption">
+              <h3 id="lightbox-title" class="lightbox-title"></h3>
+              <p id="lightbox-description" class="lightbox-description"></p>
+              <p id="lightbox-year" class="lightbox-year"></p>
+            </figcaption>
+            <button
+              type="button"
+              class="lightbox-flip-trigger lightbox-flip-trigger--to-front"
+              aria-label={labels.showImage}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+              <span class="lightbox-flip-trigger__label">{labels.flipMe}</span>
+            </button>
+          </div>
         </div>
       </div>
+    </figure>
+    <div class="lightbox-controls" id="lightbox-controls" hidden>
+      <button type="button" class="lightbox-nav lightbox-nav--prev" aria-label={labels.prev}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div id="lightbox-dots" class="lightbox-dots" role="tablist" aria-label={labels.dots}></div>
+      <button type="button" class="lightbox-nav lightbox-nav--next" aria-label={labels.next}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
     </div>
-  </figure>
+  </div>
 </dialog>

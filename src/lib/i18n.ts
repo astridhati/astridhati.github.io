@@ -206,6 +206,10 @@ export function siteWelcome(site: SiteConfig, locale: Locale): string {
   return t(site.home.welcome, site.home.welcome_en, locale);
 }
 
+export function siteHomeGalleryButton(site: SiteConfig, locale: Locale): string {
+  return t(site.home.galleryButton, site.home.galleryButton_en, locale);
+}
+
 export function siteContactButton(site: SiteConfig, locale: Locale): string {
   return t(site.header.contactButton, site.header.contactButton_en, locale);
 }

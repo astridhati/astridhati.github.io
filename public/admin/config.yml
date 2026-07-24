@@ -57,6 +57,8 @@ collections:
           - { label: Sfondo hero, name: heroBackground, widget: image, required: false }
           - { label: Testo benvenuto (IT), name: welcome, widget: text, hint: "Testo sotto l'hero, senza titolo" }
           - { label: Welcome text (EN), name: welcome_en, widget: text, required: false }
+          - { label: Pulsante galleria (IT), name: galleryButton, widget: string, hint: "Pulsante sotto il testo di benvenuto, link alla galleria" }
+          - { label: Gallery button (EN), name: galleryButton_en, widget: string, required: false }
 
       - name: pages-gallery
         label: "Pagina: Galleria"

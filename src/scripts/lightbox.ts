@@ -17,6 +17,8 @@ let lightboxResizeHandler: (() => void) | null = null;
 
 const LIGHTBOX_MAX_VW = 0.95;
 const LIGHTBOX_MAX_VH = 0.95;
+/** Space reserved under the figure for prev / dots / next when a gallery has multiple images. */
+const LIGHTBOX_CONTROLS_RESERVE_PX = 56;
 
 function clearLightboxSize() {
   const figure = document.querySelector(".lightbox-figure") as HTMLElement | null;
@@ -31,8 +33,13 @@ function fitLightboxToImage(image: HTMLImageElement) {
   const { naturalWidth, naturalHeight } = image;
   if (!naturalWidth || !naturalHeight) return;
 
+  const controlsReserve =
+    lightboxImages.length > 1 ? LIGHTBOX_CONTROLS_RESERVE_PX : 0;
   const maxW = window.innerWidth * LIGHTBOX_MAX_VW;
-  const maxH = window.innerHeight * LIGHTBOX_MAX_VH;
+  const maxH = Math.max(
+    window.innerHeight * LIGHTBOX_MAX_VH - controlsReserve,
+    120,
+  );
   const scale = Math.min(maxW / naturalWidth, maxH / naturalHeight, 1);
 
   figure.style.setProperty("--lightbox-w", `${Math.round(naturalWidth * scale)}px`);
@@ -103,7 +110,7 @@ function usesFlipCard(): boolean {
 function isLightboxFlipBlocked(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) return true;
   return Boolean(
-    target.closest(".lightbox-close, .lightbox-nav, .lightbox-dot"),
+    target.closest(".lightbox-close, .lightbox-controls, .lightbox-flip-trigger"),
   );
 }
 
@@ -175,9 +182,7 @@ function resetLightboxFlip() {
 
 function showLightboxSlide(index: number) {
   const image = document.getElementById("lightbox-image") as HTMLImageElement | null;
-  const dotsContainer = document.getElementById("lightbox-dots");
-  const prevBtn = document.querySelector(".lightbox-nav--prev") as HTMLButtonElement | null;
-  const nextBtn = document.querySelector(".lightbox-nav--next") as HTMLButtonElement | null;
+  const controls = document.getElementById("lightbox-controls");
 
   if (!image || !lightboxEntry) return;
 
@@ -190,9 +195,7 @@ function showLightboxSlide(index: number) {
   fitLightboxToImageWhenReady(image, nextSrc);
 
   const hasMultiple = lightboxImages.length > 1;
-  if (prevBtn) prevBtn.hidden = !hasMultiple;
-  if (nextBtn) nextBtn.hidden = !hasMultiple;
-  if (dotsContainer) dotsContainer.hidden = !hasMultiple;
+  if (controls) controls.hidden = !hasMultiple;
 
   if (hasMultiple) {
     updateLightboxDots();
@@ -200,6 +203,20 @@ function showLightboxSlide(index: number) {
 
   resetLightboxFlip();
   announceLightboxSlide();
+}
+
+function navigateLightboxByImageHalf(clientX: number) {
+  if (lightboxImages.length <= 1 || isLightboxFlipped()) return;
+
+  const stage = document.querySelector(".lightbox-stage") as HTMLElement | null;
+  if (!stage) return;
+
+  const { left, width } = stage.getBoundingClientRect();
+  if (clientX < left + width / 2) {
+    showLightboxSlide(lightboxIndex - 1);
+  } else {
+    showLightboxSlide(lightboxIndex + 1);
+  }
 }
 
 function openLightbox(entry: LightboxEntry) {
@@ -265,6 +282,13 @@ function setupLightbox() {
   closeBtn?.addEventListener("click", () => dialog.close());
   prevBtn?.addEventListener("click", () => showLightboxSlide(lightboxIndex - 1));
   nextBtn?.addEventListener("click", () => showLightboxSlide(lightboxIndex + 1));
+
+  dialog.querySelectorAll(".lightbox-flip-trigger").forEach((trigger) => {
+    trigger.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleLightboxFlip();
+    });
+  });
 
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) {
@@ -338,9 +362,17 @@ function setupLightbox() {
 
       const deltaX = event.clientX - pointerStartX;
       const deltaY = event.clientY - pointerStartY;
+      const isTap = !pointerMoved && Math.abs(deltaX) < 12 && Math.abs(deltaY) < 12;
 
-      if (usesFlipCard() && !pointerMoved && Math.abs(deltaX) < 12 && Math.abs(deltaY) < 12) {
-        toggleLightboxFlip();
+      if (isTap) {
+        if (lightboxImages.length > 1 && !isLightboxFlipped()) {
+          navigateLightboxByImageHalf(event.clientX);
+          return;
+        }
+
+        if (usesFlipCard()) {
+          toggleLightboxFlip();
+        }
         return;
       }
 

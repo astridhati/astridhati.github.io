@@ -28,6 +28,8 @@ export interface SiteConfig {
     heroBackground: string;
     welcome: string;
     welcome_en?: string;
+    galleryButton: string;
+    galleryButton_en?: string;
   };
   pages: {
     gallery: {

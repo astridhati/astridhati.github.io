@@ -2,7 +2,16 @@
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
 import { getSite } from "../lib/content";
-import { homeTitle, siteBio, siteName, siteTagline, siteWelcome } from "../lib/i18n";
+import {
+  homeTitle,
+  localizedPath,
+  navRoutes,
+  siteBio,
+  siteHomeGalleryButton,
+  siteName,
+  siteTagline,
+  siteWelcome,
+} from "../lib/i18n";
 import { absoluteAssetUrl, getSiteUrl, truncateDescription } from "../lib/seo";
 import type { Locale } from "../lib/types";
 
@@ -13,6 +22,7 @@ interface Props {
 const { locale } = Astro.props;
 const site = getSite();
 const welcome = siteWelcome(site, locale);
+const galleryButton = siteHomeGalleryButton(site, locale);
 
 const title = homeTitle(site, locale);
 const description = truncateDescription(siteBio(site, locale));
@@ -42,10 +52,18 @@ const jsonLd = {
   <Hero site={site} locale={locale} />
 
   {
-    welcome && (
+    (welcome || galleryButton) && (
       <section class="home-welcome section">
         <div class="container">
-          <p class="home-welcome__text">{welcome}</p>
+          {welcome && <p class="home-welcome__text">{welcome}</p>}
+          {galleryButton && (
+            <a
+              href={localizedPath(navRoutes.gallery, locale)}
+              class="contact-button home-welcome__cta"
+            >
+              {galleryButton}
+            </a>
+          )}
         </div>
       </section>
     )
@@ -63,5 +81,15 @@ const jsonLd = {
     font-size: 1.125rem;
     line-height: 1.6;
     color: var(--color-text-muted);
+  }
+
+  .home-welcome__cta {
+    margin-top: 1.75rem;
+    padding: 0.9375rem 2.0625rem;
+    padding-left: calc(2.0625rem + 0.08em);
+    font-size: 1.40625rem;
+    letter-spacing: 0.08em;
+    border-radius: 999px;
+    white-space: nowrap;
   }
 </style>

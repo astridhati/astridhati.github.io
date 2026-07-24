@@ -1,5 +1,7 @@
 {
   "heroBackground": "images/Volpe.png",
   "welcome": "Benvenut* nel mio mondo! Ogni progetto ha la sua ricetta, ma gli ingredienti di base non cambiano mai: colori vibranti, forme semplici e un pizzico di ironia.",
-  "welcome_en": "Welcome to my world! Every project has its own recipe, but the base ingredients never change: vibrant colours, simple shapes, and a pinch of irony."
+  "welcome_en": "Welcome to my world! Every project has its own recipe, but the base ingredients never change: vibrant colours, simple shapes, and a pinch of irony.",
+  "galleryButton": "I miei lavori",
+  "galleryButton_en": "My works"
 }
